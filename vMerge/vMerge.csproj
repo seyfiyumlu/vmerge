@@ -1,0 +1,527 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <NuGetPackageImportStamp>44ebf281</NuGetPackageImportStamp>
+    <SccProjectName>%24/vMerge/Dev - Copy/vMerge</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <SccAuxPath>http://win-ohshcochgln:8080/tfs/defaultcollection</SccAuxPath>
+    <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3DB6C3B3-9DE8-496D-A545-1964D48F0E25}</ProjectGuid>
+    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>qbusSRL.vMerge</RootNamespace>
+    <AssemblyName>vMerge</AssemblyName>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\..\..\ExternalDependencies\mahapps-local\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.Resources">
+      <HintPath>..\..\..\ExternalDependencies\mahapps-local\MahApps.Metro.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.TeamFoundation.Client, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.TeamFoundation.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.TeamFoundation.VersionControl.Client, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.TeamFoundation.VersionControl.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.TeamFoundation.VersionControl.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\PrivateAssemblies\Microsoft.TeamFoundation.VersionControl.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.VersionControl.UIFeatures, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\PrivateAssemblies\Microsoft.TeamFoundation.VersionControl.UIFeatures.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TeamFoundation.WorkItemTracking.Client, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.TeamFoundation.WorkItemTracking.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.TeamFoundation.WorkItemTracking.Controls, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop" />
+    <Reference Include="Microsoft.VisualStudio.Services.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.11.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.12.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.UI.Internal, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\Microsoft.VisualStudio.Shell.UI.Internal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TeamFoundation, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.TeamFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TeamFoundation.Client, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.TeamFoundation.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TeamFoundation.VersionControl, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Microsoft.VisualStudio.TeamFoundation.VersionControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TeamFoundation.WorkItemTracking, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Microsoft.VisualStudio.TeamFoundation.WorkItemTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop" />
+    <Reference Include="Microsoft.VisualStudio.Shell.12.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.11.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.12.0" />
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>..\..\..\ExternalDependencies\winapicodepack-1.1-20131027\binaries\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>..\..\..\ExternalDependencies\winapicodepack-1.1-20131027\binaries\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.ShellExtensions">
+      <HintPath>..\..\..\ExternalDependencies\winapicodepack-1.1-20131027\binaries\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.0.13.1.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="EnvDTE">
+      <Guid>{80CC9F66-E7D8-4DDD-85B6-D9E6CD0E93E2}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="EnvDTE100">
+      <Guid>{26AD1324-4B7C-44BC-84F8-B86AED45729F}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="EnvDTE80">
+      <Guid>{1A31287A-4D7D-413E-8E32-3B374931BD89}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="EnvDTE90">
+      <Guid>{2CE2370E-D744-4936-A090-3FFFE667B0E1}</Guid>
+      <VersionMajor>9</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.VisualStudio.CommandBars">
+      <Guid>{1CBA492E-7263-47BB-87FE-639000619B15}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants\Settings.cs" />
+    <Compile Include="Constants\Tasks.cs" />
+    <Compile Include="Model\Implementation\ProfileProvider.cs" />
+    <Compile Include="Model\Implementation\ProfileSettings.cs" />
+    <Compile Include="Model\Implementation\TfsChange.cs" />
+    <Compile Include="Model\Implementation\TfsMergeConflict.cs" />
+    <Compile Include="Model\Implementation\TfsPendingChange.cs" />
+    <Compile Include="Model\Implementation\TfsTemporaryWorkspace.cs" />
+    <Compile Include="Model\Implementation\TfsWorkItem.cs" />
+    <Compile Include="Model\Interfaces\IProfileProvider.cs" />
+    <Compile Include="Model\Interfaces\IProfileSettings.cs" />
+    <Compile Include="Model\Interfaces\ITfsChange.cs" />
+    <Compile Include="Model\Interfaces\ITfsMergeConflict.cs" />
+    <Compile Include="Model\Interfaces\ITfsPendingChange.cs" />
+    <Compile Include="Model\Interfaces\ITfsTemporaryWorkspace.cs" />
+    <Compile Include="Model\Interfaces\ITfsUIInteractionProvider.cs" />
+    <Compile Include="Model\Interfaces\ITfsWorkItem.cs" />
+    <Compile Include="Model\Interfaces\IVMergeUIProvider.cs" />
+    <Compile Include="Options\WinFormOptionsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Options\WinFormOptionsPage.Designer.cs" />
+    <Compile Include="Options\WinFormProfilesPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Options\WinFormProfilesPage.Designer.cs" />
+    <Compile Include="StudioIntegration\Framework\GenGuids.cs" />
+    <Compile Include="StudioIntegration\Framework\PackageHandlers.cs" />
+    <Compile Include="StudioIntegration\Framework\vMergeUIProvider.cs" />
+    <Compile Include="StudioIntegration\Framework\VsTfsUIInteractionProvider.cs" />
+    <Compile Include="StudioIntegration\Helpers\ChangeContextMenuImageSourceAccordingToTheme.cs" />
+    <Compile Include="StudioIntegration\Helpers\MonitorOptionsPageVisibility.cs" />
+    <Compile Include="StudioIntegration\Options\vMergeOptionsPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudioIntegration\Options\vMergeProfilesPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StudioIntegration\ToolWindows\ToolWindowEvents.cs" />
+    <Compile Include="StudioIntegration\ToolWindows\vMergeMergeToolWindow.cs" />
+    <Compile Include="StudioIntegration\ToolWindows\vMergeWorkItemsToolWindow.cs" />
+    <Compile Include="StudioIntegration\ToolWindows\vMergeChangesetsToolWindow.cs" />
+    <Compile Include="ViewModel\BugReportViewModel.cs" />
+    <Compile Include="ViewModel\Configuration\ColumnConfigurationViewModel.cs" />
+    <Compile Include="ViewModel\Configuration\ConfigureColumnsAndSortOrderViewModel.cs" />
+    <Compile Include="ViewModel\Merge\CheckInSummaryViewModel.cs" />
+    <Compile Include="ViewModel\Merge\PrepareMergeViewModel.cs" />
+    <Compile Include="ViewModel\MultiLineString.cs" />
+    <Compile Include="ViewModel\Options\GeneralOptionsViewModel.cs" />
+    <Compile Include="ViewModel\Options\ProfilesViewModel.cs" />
+    <Compile Include="ViewModel\Profile\ProfileViewModelBase.cs" />
+    <Compile Include="ViewModel\Profile\SaveProfileAsViewModel.cs" />
+    <Compile Include="ViewModel\Profile\ViewProfileViewModel.cs" />
+    <Compile Include="ViewModel\TfsItemCache.cs" />
+    <Compile Include="ViewModel\TfsListBaseViewModel.cs" />
+    <Compile Include="ViewModel\ViewSelection\ViewSelectionViewModel.cs" />
+    <Compile Include="ViewModel\WorkItems\WorkItemPropertyAccessor.cs" />
+    <Compile Include="View\ChangesetWindow.xaml.cs">
+      <DependentUpon>ChangesetWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Implementation\TfsQuery.cs" />
+    <Compile Include="Model\Interfaces\ITfsQuery.cs" />
+    <Compile Include="ViewModel\Changesets\ChangesetViewModel.cs" />
+    <Compile Include="ViewModel\WorkItems\WorkItemViewModel.cs" />
+    <Compile Include="ViewModel\Wrappers\TfsWorkitemWrapper.cs" />
+    <Compile Include="View\Controls\CheckInSummaryControl.xaml.cs">
+      <DependentUpon>CheckInSummaryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\ShowProfileSettingsControl.xaml.cs">
+      <DependentUpon>ShowProfileSettingsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Converters\ChangesetHighlightToBrushConverter.cs" />
+    <Compile Include="View\Converters\LevelToMarginConverter.cs" />
+    <Compile Include="View\Converters\WorkItemHighlightToBrushConverter.cs" />
+    <Compile Include="View\Dialog\BugReportDialogWindow.xaml.cs">
+      <DependentUpon>BugReportDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialog\CheckInSummaryDialogWindow.xaml.cs">
+      <DependentUpon>CheckInSummaryDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialog\ConfigureColumnsAndSortOrderDialogWindow.xaml.cs">
+      <DependentUpon>ConfigureColumnsAndSortOrderDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialog\ConfigureColumnsDialogWindow.xaml.cs">
+      <DependentUpon>ConfigureColumnsDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialog\ModalMergeDialogWindow.xaml.cs">
+      <DependentUpon>ModalMergeDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialog\ViewProfileDialogWindow.xaml.cs">
+      <DependentUpon>ViewProfileDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DoNotStyleAttribute.cs" />
+    <Compile Include="View\Options\ProfilesView.xaml.cs">
+      <DependentUpon>ProfilesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PrepareMergeDialogWindow.xaml.cs">
+      <DependentUpon>PrepareMergeDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Options\GeneralOptionsView.xaml.cs">
+      <DependentUpon>GeneralOptionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialog\SaveProfileAsDialogWindow.xaml.cs">
+      <DependentUpon>SaveProfileAsDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StatusSplashPopup.xaml.cs">
+      <DependentUpon>StatusSplashPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ViewSelection\ViewSelectionUserControl.xaml.cs">
+      <DependentUpon>ViewSelectionUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WorkItemWindow.xaml.cs">
+      <DependentUpon>WorkItemWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Implementation\Settings.cs" />
+    <Compile Include="Model\Implementation\TfsBranch.cs" />
+    <Compile Include="Model\Implementation\TfsBridgeProvider.cs" />
+    <Compile Include="Model\Implementation\TfsChangeset.cs" />
+    <Compile Include="StudioIntegration\Framework\VsTfsConnectionInfoProvider.cs" />
+    <Compile Include="Model\Interfaces\ISettings.cs" />
+    <Compile Include="Model\Interfaces\ITfsBranch.cs" />
+    <Compile Include="Model\Interfaces\ITfsBridgeProvider.cs" />
+    <Compile Include="Model\Interfaces\ITfsChangeset.cs" />
+    <Compile Include="Model\Interfaces\ITfsConnectionInfoProvider.cs" />
+    <Compile Include="Model\Repository.cs" />
+    <Compile Include="ViewModel\Changesets\ChangesetPropertyAccessor.cs" />
+    <Compile Include="ViewModel\Wrappers\TfsChangesetWrapper.cs" />
+    <Compile Include="StudioIntegration\Framework\Guids.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="StudioIntegration\Framework\vMergePackage.versionize.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StudioIntegration\Framework\PkgCmdID.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Options\WinFormOptionsPage.resx" />
+    <EmbeddedResource Include="Options\WinFormProfilesPage.resx" />
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VSPackage.resx">
+      <MergeWithCTO>true</MergeWithCTO>
+      <ManifestResourceName>VSPackage</ManifestResourceName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FodyWeavers.xml" />
+    <Resource Include="Resources\Security_Shields_Complete_and_ok_16xLG.png" />
+    <Resource Include="Resources\Security_Shields_Critical_16xLG.png" />
+    <Resource Include="Resources\ViewChangesetDetails_13274.png" />
+    <Resource Include="Resources\ViewChangesetDetails_13274d.png" />
+    <Resource Include="Resources\HierarchyTracking_13282.png" />
+    <Resource Include="Resources\HierarchyTracking_13282d.png" />
+    <Resource Include="Resources\refresh_16xLG.png" />
+    <Resource Include="Resources\refresh_16xLGd.png" />
+    <Resource Include="Resources\SelectColumn_361.png" />
+    <Resource Include="Resources\SelectColumn_361d.png" />
+    <Resource Include="Resources\WorkItem_16xLG.png" />
+    <Resource Include="Resources\WorkItem_16xLGd.png" />
+    <Resource Include="Resources\vMerge_small_16.png" />
+    <Resource Include="Resources\vMerge_small_outline_sm.png" />
+    <Resource Include="Resources\vMerge_small.png" />
+    <Content Include="vMerge Image 200x200.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="vMerge_small.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="StudioIntegration\Framework\VsctGenerator\vMerge.vsctdef">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="StudioIntegration\Framework\VsctGenerator\vMerge.vsctTemplate" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <VSCTCompile Include="StudioIntegration\Framework\vMerge.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
+    </VSCTCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Package.ico" />
+    <Resource Include="StudioIntegration\Framework\VsctGenerator\commands.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ChangesetWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\CheckInSummaryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\ShowProfileSettingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialog\BugReportDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialog\CheckInSummaryDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialog\ConfigureColumnsAndSortOrderDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialog\ConfigureColumnsDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialog\ModalMergeDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialog\ViewProfileDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Options\ProfilesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PrepareMergeDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Options\GeneralOptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialog\SaveProfileAsDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StatusSplashPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ViewSelection\ViewSelectionUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WorkItemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="StudioIntegration\Menu\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{9d7ca5e3-232a-400a-a0fe-0750754c99a3}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <UseCodebase>true</UseCodebase>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <PropertyGroup>
+    <PreBuildEvent>echo $(VisualStudioVersion)</PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\Fody.1.23.2\build\Fody.targets" Condition="Exists('..\packages\Fody.1.23.2\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Fody.1.23.2\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.23.2\build\Fody.targets'))" />
+  </Target>
+  <Target AfterTargets="AfterBuild;NonWinFodyTarget" Name="CleanReferenceCopyLocalPaths">
+    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
