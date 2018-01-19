@@ -687,13 +687,17 @@ namespace alexbegh.vMerge.ViewModel.Changesets
 
         protected override void Refresh()
         {
+            SimpleLogger.Log(SimpleLogLevel.Info, "Reload called (Changeset)");
             base.Refresh();
             ItemsLoading.IsLoading = true;
             ItemsLoading.ProgressInfo = "Reloading projects, branches and changesets ... please wait";
             ResetChangesets();
             SetContent(new ObservableCollection<TfsChangesetWrapper>());
+            SimpleLogger.Log(SimpleLogLevel.Info, "Reload clear list (Changeset)");
             TfsItemCache.Clear();
+            SimpleLogger.Log(SimpleLogLevel.Info, "Reload call TFS Bridge (Changeset)");
             Repository.Instance.TfsBridgeProvider.Refresh();
+            SimpleLogger.Log(SimpleLogLevel.Info, "Reload finished (Changeset)");
         }
 
         void SelectMarkedItems()

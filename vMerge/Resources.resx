@@ -124,7 +124,7 @@
     <value>vMerge - Changesets</value>
   </data>
   <data name="Edition" xml:space="preserve">
-    <value>VS2013</value>
+    <value>VS2015</value>
   </data>
   <data name="MergeToolWindowTitle" xml:space="preserve">
     <value>vMerge - Merge</value>

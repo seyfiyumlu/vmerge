@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using alexbegh.Utility.Helpers.Logging;
 using Microsoft.VisualStudio.Shell;
 using alexbegh.vMerge.Options;
 
@@ -17,10 +18,18 @@ namespace alexbegh.vMerge.StudioIntegration.Options
         {
             get
             {
-                if (Page == null)
-                    Page = new WinFormProfilesPage();
+                try
+                {
+                    if (Page == null)
+                        Page = new WinFormProfilesPage();
 
-                return Page as IWin32Window;
+                    return Page as IWin32Window;
+                }
+                catch (Exception ex)
+                {
+                    SimpleLogger.Log(ex, false, false);
+                    throw;
+                }
             }
         }
 

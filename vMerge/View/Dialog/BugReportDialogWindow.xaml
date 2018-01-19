@@ -1,7 +1,7 @@
 ﻿<ui:DialogWindow x:Class="alexbegh.vMerge.View.Dialog.BugReportDialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.12.0"
+        xmlns:ui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
         Title="vMerge - Submit bug report" Height="500" Width="400">
     <ui:DialogWindow.Resources>
         <ResourceDictionary Source="..\..\MainResources.xaml" />

@@ -1,13 +1,14 @@
-﻿<ui:DialogWindow x:Class="alexbegh.vMerge.View.Dialog.ViewProfileDialogWindow"
+﻿<platformUi:DialogWindow x:Class="alexbegh.vMerge.View.Dialog.ViewProfileDialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.12.0"
+       
         xmlns:uc="clr-namespace:alexbegh.vMerge.View.Controls"
+        xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
         Title="vMerge - View Profile" Height="415" Width="532"
         ShowActivated="True" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" HasMaximizeButton="False">
-    <ui:DialogWindow.Resources>
+    <platformUi:DialogWindow.Resources>
         <ResourceDictionary Source="..\..\MainResources.xaml" />
-    </ui:DialogWindow.Resources>
+    </platformUi:DialogWindow.Resources>
     <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -42,4 +43,5 @@
             <Button IsDefault="True" Command="{Binding Path=OKCommand}" Margin="3">OK</Button>
         </StackPanel>
     </Grid>
-</ui:DialogWindow>
+</platformUi:DialogWindow>
+

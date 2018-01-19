@@ -53,6 +53,12 @@
             that was specified to run the ICommand
             </summary>
         </member>
+        <member name="P:alexbegh.Utility.Commands.EventHooker.ObjectWithAttachedCommand">
+            <summary>
+            The DependencyObject, that holds a binding to the actual
+            ICommand to execute
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.Commands.EventHooker.GetNewEventHandlerToRunCommand(System.Reflection.EventInfo)">
             <summary>
             Creates a Dynamic EventHandler that will be run the ICommand
@@ -65,12 +71,6 @@
         <member name="M:alexbegh.Utility.Commands.EventHooker.OnEventRaised(System.Object,System.EventArgs)">
             <summary>
             Runs the ICommand when the requested RoutedEvent fires
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Commands.EventHooker.ObjectWithAttachedCommand">
-            <summary>
-            The DependencyObject, that holds a binding to the actual
-            ICommand to execute
             </summary>
         </member>
         <member name="T:alexbegh.Utility.Commands.RelayCommand">
@@ -105,16 +105,16 @@
             <param name="parameter">The parameter</param>
             <returns>true if enabled</returns>
         </member>
+        <member name="E:alexbegh.Utility.Commands.RelayCommand.CanExecuteChanged">
+            <summary>
+            Event being called when CanExecute changed
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.Commands.RelayCommand.Execute(System.Object)">
             <summary>
             The Execute wrapper method
             </summary>
             <param name="parameter"></param>
-        </member>
-        <member name="E:alexbegh.Utility.Commands.RelayCommand.CanExecuteChanged">
-            <summary>
-            Event being called when CanExecute changed
-            </summary>
         </member>
         <member name="T:alexbegh.Utility.Helpers.Atomic.AtomicMutable`1">
             <summary>
@@ -236,6 +236,16 @@
             The instance of the converter (needed for supporting MarkupExtension)
             </summary>
         </member>
+        <member name="P:alexbegh.Utility.Helpers.Converters.BooleanToBrushConverter`1.BrushWhenTrue">
+            <summary>
+            The color when the bool is true
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.Converters.BooleanToBrushConverter`1.BrushWhenFalse">
+            <summary>
+            The color when the bool is false
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.Helpers.Converters.BooleanToBrushConverter`1.ProvideValue(System.IServiceProvider)">
             <summary>
             Provide the current instance (MarkupExtension)
@@ -262,16 +272,6 @@
             <param name="parameter">Not used</param>
             <param name="culture">Not used</param>
             <returns>true or false</returns>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.Converters.BooleanToBrushConverter`1.BrushWhenTrue">
-            <summary>
-            The color when the bool is true
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.Converters.BooleanToBrushConverter`1.BrushWhenFalse">
-            <summary>
-            The color when the bool is false
-            </summary>
         </member>
         <member name="T:alexbegh.Utility.Helpers.Converters.BooleanToFontWeightConverter">
             <summary>
@@ -739,12 +739,32 @@
             </summary>
             <typeparam name="Type">The wrapped type</typeparam>
         </member>
+        <member name="P:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Source">
+            <summary>
+            The source collection
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Filter">
+            <summary>
+            The Filter delegate
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Swap(`0,`0)">
             <summary>
             Swaps two items in the filtered list and applies the swap onto the original list
             </summary>
             <param name="item1">First item</param>
             <param name="item2">Second item</param>
+        </member>
+        <member name="E:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.CollectionChanged">
+            <summary>
+            Collection changed event
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Filtered">
+            <summary>
+            The filtered collection
+            </summary>
         </member>
         <member name="M:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.source_CollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
             <summary>
@@ -787,6 +807,13 @@
             </summary>
             <param name="index"></param>
         </member>
+        <member name="P:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Item(System.Int32)">
+            <summary>
+            Indexer
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
         <member name="M:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Add(`0)">
             <summary>
             Add
@@ -812,6 +839,16 @@
             <param name="array"></param>
             <param name="arrayIndex"></param>
         </member>
+        <member name="P:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Count">
+            <summary>
+            Count
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.IsReadOnly">
+            <summary>
+            IsReadOnly
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Remove(`0)">
             <summary>
             Remove
@@ -830,43 +867,6 @@
             GetEnumerator
             </summary>
             <returns></returns>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Source">
-            <summary>
-            The source collection
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Filter">
-            <summary>
-            The Filter delegate
-            </summary>
-        </member>
-        <member name="E:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.CollectionChanged">
-            <summary>
-            Collection changed event
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Filtered">
-            <summary>
-            The filtered collection
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Item(System.Int32)">
-            <summary>
-            Indexer
-            </summary>
-            <param name="index"></param>
-            <returns></returns>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.Count">
-            <summary>
-            Count
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.Collections.FilteredReadOnlyObservableCollection`1.IsReadOnly">
-            <summary>
-            IsReadOnly
-            </summary>
         </member>
         <member name="T:alexbegh.Utility.Helpers.Escaping.OnlyASCIICharacters">
             <summary>
@@ -931,6 +931,11 @@
             </summary>
             <returns>A sequence number</returns>
         </member>
+        <member name="P:alexbegh.Utility.Helpers.InOrderSetter.SetInOrder`1.Item">
+            <summary>
+            The contained item
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.Helpers.InOrderSetter.SetInOrder`1.SetItem(`0,System.Int64)">
             <summary>
             Set the item to "item", if counter is more current than the previous value
@@ -938,11 +943,6 @@
             <param name="item">The value to set</param>
             <param name="counter">The counter</param>
             <returns>true if value has been set, false otherwise</returns>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.InOrderSetter.SetInOrder`1.Item">
-            <summary>
-            The contained item
-            </summary>
         </member>
         <member name="T:alexbegh.Utility.Helpers.Logging.SimpleLogLevel">
             <summary>
@@ -979,6 +979,16 @@
             Initialize Logger, defaulting to calling assemblies' name
             </summary>
             <param name="logName"></param>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.Logging.SimpleLogger.LogFilePath">
+            <summary>
+            Path to log file
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.Logging.SimpleLogger.LogWriter">
+            <summary>
+            Stream writer to the log file
+            </summary>
         </member>
         <member name="M:alexbegh.Utility.Helpers.Logging.SimpleLogger.Checkpoint(System.String)">
             <summary>
@@ -1040,16 +1050,6 @@
             </summary>
             <returns>Log file contents</returns>
         </member>
-        <member name="P:alexbegh.Utility.Helpers.Logging.SimpleLogger.LogFilePath">
-            <summary>
-            Path to log file
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.Logging.SimpleLogger.LogWriter">
-            <summary>
-            Stream writer to the log file
-            </summary>
-        </member>
         <member name="T:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl">
             <summary>
             <para>This class helps implementing the INotifyPropertyChanged interface.</para>
@@ -1057,7 +1057,7 @@
             <list type="bullet">
             <item>Can be fed with dependent properties; when one property changes, the dependent properties' 
                   fire also (<see cref="M:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.AddDependency``1(System.String,System.String[])"/>, <see cref="M:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.AddDependencyGroup``1(System.String[])"/></item>
-            <item>Automatically checks for changed values in a generic Set method (<see cref="O:Set{T}"/>)</item>
+            <item>Automatically checks for changed values in a generic Set method (<see cref="O:Set{T}" />)</item>
             <item>Provides a <see cref="M:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.RaisePropertyChanged(System.String)"/> method which considers the dependent properties
                   and derives the caller properties' name automatically</item>
             </list>
@@ -1074,6 +1074,21 @@
             efficiently
             </summary>
             <param name="callerType">The callers (i.e. derived class) type</param>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.CallerType">
+            <summary>
+            The callers type
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.DependentProperties">
+            <summary>
+            The dependent property dictionary (type -> propertyName -> dependent properties)
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.SuppressNotificationsCounter">
+            <summary>
+            If >0, INotifyPropertyChanged events are being suppressed
+            </summary>
         </member>
         <member name="M:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.SuppressNotifications">
             <summary>
@@ -1129,32 +1144,17 @@
             <param name="additionalActions">The action to fire if the field changed its value</param>
             <param name="propertyName">The name of the wrapping property</param>
         </member>
+        <member name="E:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.PropertyChanged">
+            <summary>
+            The PropertyChanged event
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.RaisePropertyChanged(System.String)">
             <summary>
             Fires the property changed event; derives the callers' property name automatically
             and takes care of firing the events for dependent properties as well
             </summary>
             <param name="propertyName"></param>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.CallerType">
-            <summary>
-            The callers type
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.DependentProperties">
-            <summary>
-            The dependent property dictionary (type -> propertyName -> dependent properties)
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.SuppressNotificationsCounter">
-            <summary>
-            If >0, INotifyPropertyChanged events are being suppressed
-            </summary>
-        </member>
-        <member name="E:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl.PropertyChanged">
-            <summary>
-            The PropertyChanged event
-            </summary>
         </member>
         <member name="T:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedBinder">
             <summary>
@@ -1205,6 +1205,11 @@
             </summary>
             <param name="callerType">The type of the derived class</param>
         </member>
+        <member name="P:alexbegh.Utility.Helpers.ViewModel.BaseViewModel.CreatorSynchronizationContext">
+            <summary>
+            The active synchronization context in the constructor
+            </summary>
+        </member>
         <member name="F:alexbegh.Utility.Helpers.ViewModel.BaseViewModel._childViewModelsDictionary">
             <summary>
             Dictionary of child view models
@@ -1223,6 +1228,17 @@
         <member name="F:alexbegh.Utility.Helpers.ViewModel.BaseViewModel._links">
             <summary>
             List of WeakReference-linked listeners to change notification events
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.ViewModel.BaseViewModel.ChildViewModels">
+            <summary>
+            The child view models of this view model
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.ViewModel.BaseViewModel.Key">
+            <summary>
+            The key parameter of this view models (the key this view model is
+            referenced by as a child of its parent)
             </summary>
         </member>
         <member name="M:alexbegh.Utility.Helpers.ViewModel.BaseViewModel.SaveInternal(System.Object)">
@@ -1271,22 +1287,6 @@
             </summary>
             <param name="propertyName">The property</param>
         </member>
-        <member name="P:alexbegh.Utility.Helpers.ViewModel.BaseViewModel.CreatorSynchronizationContext">
-            <summary>
-            The active synchronization context in the constructor
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.ViewModel.BaseViewModel.ChildViewModels">
-            <summary>
-            The child view models of this view model
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.ViewModel.BaseViewModel.Key">
-            <summary>
-            The key parameter of this view models (the key this view model is
-            referenced by as a child of its parent)
-            </summary>
-        </member>
         <member name="P:alexbegh.Utility.Helpers.ViewModel.BaseViewModel.Item(System.String)">
             <summary>
             Provides easy access to existing children by key
@@ -1311,73 +1311,6 @@
         <member name="T:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel">
             <summary>
             ViewModel for MessageBoxView
-            </summary>
-        </member>
-        <member name="T:alexbegh.Utility.Managers.View.IViewModelIsFinishable">
-            <summary>
-            This interface states that a given viewmodel is finishable.
-            It requires an event "Finished" raised by the viewmodel
-            when done.
-            </summary>
-        </member>
-        <member name="M:alexbegh.Utility.Managers.View.IViewModelIsFinishable.RaiseFinished(System.Boolean)">
-            <summary>
-            Raise the finished event
-            </summary>
-            <param name="success">ViewModel finished successfully?</param>
-        </member>
-        <member name="E:alexbegh.Utility.Managers.View.IViewModelIsFinishable.Finished">
-            <summary>
-            The event raised when the viewmodel is in a finished state
-            </summary>
-        </member>
-        <member name="M:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.#ctor(System.String,System.String,alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.MessageBoxButtons)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="caption">The caption</param>
-            <param name="description">The description</param>
-            <param name="buttonSelection">The default button selection</param>
-        </member>
-        <member name="M:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.RaiseFinished(System.Boolean)">
-            <summary>
-            Raise ViewModelFinished event
-            </summary>
-            <param name="success">Finished successfully?</param>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.Caption">
-            <summary>
-            Message box caption
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.Description">
-            <summary>
-            Message box descriptive text
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.ToggleButtons">
-            <summary>
-            Buttons which are displayed as check boxes
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.ConfirmButtons">
-            <summary>
-            Buttons which close the message box upon clicking
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.OptionButtons">
-            <summary>
-            Buttons which are checked exclusively (displayed as radio buttons)
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.ButtonClickedCommand">
-            <summary>
-            A button has been clicked
-            </summary>
-        </member>
-        <member name="E:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.Finished">
-            <summary>
-            View model is finished
             </summary>
         </member>
         <member name="T:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.MessageBoxButtons">
@@ -1434,6 +1367,55 @@
         <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.MessageBoxButton.IsDefault">
             <summary>
             Button is a cancel button?
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.Caption">
+            <summary>
+            Message box caption
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.Description">
+            <summary>
+            Message box descriptive text
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.ToggleButtons">
+            <summary>
+            Buttons which are displayed as check boxes
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.ConfirmButtons">
+            <summary>
+            Buttons which close the message box upon clicking
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.OptionButtons">
+            <summary>
+            Buttons which are checked exclusively (displayed as radio buttons)
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.ButtonClickedCommand">
+            <summary>
+            A button has been clicked
+            </summary>
+        </member>
+        <member name="M:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.#ctor(System.String,System.String,alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.MessageBoxButtons)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="caption">The caption</param>
+            <param name="description">The description</param>
+            <param name="buttonSelection">The default button selection</param>
+        </member>
+        <member name="M:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.RaiseFinished(System.Boolean)">
+            <summary>
+            Raise ViewModelFinished event
+            </summary>
+            <param name="success">Finished successfully?</param>
+        </member>
+        <member name="E:alexbegh.Utility.Helpers.ViewModel.MessageBoxViewModel.Finished">
+            <summary>
+            View model is finished
             </summary>
         </member>
         <member name="T:alexbegh.Utility.Helpers.WeakReference.WeakReferenceList`1">
@@ -1606,9 +1588,51 @@
             This class encapsulates data for the BackgroundTaskManager class.
             </summary>
         </member>
+        <member name="T:alexbegh.Utility.Managers.Background.BackgroundTask.TrackProgressImpl">
+            <summary>
+            This internal class implements ITrackProgress using AtomicMutable.
+            It may be accessed by any thread.
+            </summary>
+        </member>
+        <member name="M:alexbegh.Utility.Managers.Background.BackgroundTask.TrackProgressImpl.GetCurrentProgress">
+            <summary>
+            Returns the current progress info (as an atomic operation)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:alexbegh.Utility.Managers.Background.BackgroundTask.TrackProgressImpl.Increment">
+            <summary>
+            Increments the CurrentProgress property
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTask.Cancelled">
+            <summary>
+            Cancel support
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTask.Task">
+            <summary>
+            The .NET task
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTask.Ctx">
+            <summary>
+            The synchronization context of the caller
+            </summary>
+        </member>
         <member name="F:alexbegh.Utility.Managers.Background.BackgroundTask._trackProgress">
             <summary>
             The progress Tracker (to be updated by the contained task)
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTask.TrackProgress">
+            <summary>
+            The progress tracker property
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTask.LoadingProgressViewModels">
+            <summary>
+            The progress indicator view model (may be null)
             </summary>
         </member>
         <member name="M:alexbegh.Utility.Managers.Background.BackgroundTask.#ctor(alexbegh.Utility.Managers.Background.BackgroundTaskManager,alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel,System.String,System.Threading.SynchronizationContext)">
@@ -1631,86 +1655,6 @@
             Posts an action back to the callers' synchronization context
             </summary>
             <param name="x"></param>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTask.Cancelled">
-            <summary>
-            Cancel support
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTask.Task">
-            <summary>
-            The .NET task
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTask.Ctx">
-            <summary>
-            The synchronization context of the caller
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTask.TrackProgress">
-            <summary>
-            The progress tracker property
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTask.LoadingProgressViewModels">
-            <summary>
-            The progress indicator view model (may be null)
-            </summary>
-        </member>
-        <member name="T:alexbegh.Utility.Managers.Background.BackgroundTask.TrackProgressImpl">
-            <summary>
-            This internal class implements ITrackProgress using AtomicMutable.
-            It may be accessed by any thread.
-            </summary>
-        </member>
-        <member name="T:alexbegh.Utility.Managers.Background.ITrackProgress">
-            <summary>
-            Public interface to get/set progress information from.
-            <see cref="T:alexbegh.Utility.Managers.Background.BackgroundTaskManager"/>, <see cref="T:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel"/>
-            </summary>
-        </member>
-        <member name="M:alexbegh.Utility.Managers.Background.ITrackProgress.HasChangedSinceLastGetForCurrentThread">
-            <summary>
-            Checks if the data has changed since the last call from this thread to <see cref="M:alexbegh.Utility.Managers.Background.ITrackProgress.GetCurrentProgress"/>
-            </summary>
-            <returns>true if changed</returns>
-        </member>
-        <member name="M:alexbegh.Utility.Managers.Background.ITrackProgress.GetCurrentProgress">
-            <summary>
-            Returns a (atomically taken) snapshot from the current progress
-            </summary>
-            <returns>The current progress</returns>
-        </member>
-        <member name="M:alexbegh.Utility.Managers.Background.ITrackProgress.Increment">
-            <summary>
-            Increments "CurrentProgress"
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.Background.ITrackProgress.MaxProgress">
-            <summary>
-            The maximum progress
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.Background.ITrackProgress.CurrentProgress">
-            <summary>
-            The current progress
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.Background.ITrackProgress.ProgressInfo">
-            <summary>
-            Progress info string
-            </summary>
-        </member>
-        <member name="M:alexbegh.Utility.Managers.Background.BackgroundTask.TrackProgressImpl.GetCurrentProgress">
-            <summary>
-            Returns the current progress info (as an atomic operation)
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:alexbegh.Utility.Managers.Background.BackgroundTask.TrackProgressImpl.Increment">
-            <summary>
-            Increments the CurrentProgress property
-            </summary>
         </member>
         <member name="T:alexbegh.Utility.Managers.Background.BackgroundTaskManager">
             <summary>
@@ -1776,6 +1720,11 @@
             True if cancel dialog is already running
             </summary>
         </member>
+        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTaskManager.Tasks">
+            <summary>
+            The currently active tasks
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.Managers.Background.BackgroundTaskManager.ProgressMonitorTask">
             <summary>
             Checks periodically if UI updates are requested.
@@ -1799,6 +1748,11 @@
             Returns the instance of the BackgroundTaskManager (if any)
             </summary>
             <returns>The instance</returns>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTaskManager.TaskFactory">
+            <summary>
+            Returns the internal task factory
+            </summary>
         </member>
         <member name="M:alexbegh.Utility.Managers.Background.BackgroundTaskManager.RegisterDiscardable(System.String)">
             <summary>
@@ -1901,14 +1855,42 @@
             Disposes of the object
             </summary>
         </member>
-        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTaskManager.Tasks">
+        <member name="T:alexbegh.Utility.Managers.Background.ITrackProgress">
             <summary>
-            The currently active tasks
+            Public interface to get/set progress information from.
+            <see cref="T:alexbegh.Utility.Managers.Background.BackgroundTaskManager"/>, <see cref="T:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel"/>
             </summary>
         </member>
-        <member name="P:alexbegh.Utility.Managers.Background.BackgroundTaskManager.TaskFactory">
+        <member name="P:alexbegh.Utility.Managers.Background.ITrackProgress.MaxProgress">
             <summary>
-            Returns the internal task factory
+            The maximum progress
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.Background.ITrackProgress.CurrentProgress">
+            <summary>
+            The current progress
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.Background.ITrackProgress.ProgressInfo">
+            <summary>
+            Progress info string
+            </summary>
+        </member>
+        <member name="M:alexbegh.Utility.Managers.Background.ITrackProgress.HasChangedSinceLastGetForCurrentThread">
+            <summary>
+            Checks if the data has changed since the last call from this thread to <see cref="M:alexbegh.Utility.Managers.Background.ITrackProgress.GetCurrentProgress"/>
+            </summary>
+            <returns>true if changed</returns>
+        </member>
+        <member name="M:alexbegh.Utility.Managers.Background.ITrackProgress.GetCurrentProgress">
+            <summary>
+            Returns a (atomically taken) snapshot from the current progress
+            </summary>
+            <returns>The current progress</returns>
+        </member>
+        <member name="M:alexbegh.Utility.Managers.Background.ITrackProgress.Increment">
+            <summary>
+            Increments "CurrentProgress"
             </summary>
         </member>
         <member name="T:alexbegh.Utility.Managers.Background.ProgressData">
@@ -1983,6 +1965,21 @@
             </summary>
             <param name="mode">The mode</param>
         </member>
+        <member name="P:alexbegh.Utility.Managers.Background.TrackProgressParameters.TrackProgressMode">
+            <summary>
+            Track progress mode
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.Background.TrackProgressParameters.TrackProgress">
+            <summary>
+            Track progress interface
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.Background.TrackProgressParameters.CancellationToken">
+            <summary>
+            Cancellation token
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.Managers.Background.TrackProgressParameters.GetMeasureParameters">
             <summary>
             Returns a deep copy of this instance with its TrackProgressMode set to "MeasureOnly"
@@ -2013,24 +2010,14 @@
             </summary>
             <returns>A cloned instance</returns>
         </member>
-        <member name="P:alexbegh.Utility.Managers.Background.TrackProgressParameters.TrackProgressMode">
-            <summary>
-            Track progress mode
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.Background.TrackProgressParameters.TrackProgress">
-            <summary>
-            Track progress interface
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.Background.TrackProgressParameters.CancellationToken">
-            <summary>
-            Cancellation token
-            </summary>
-        </member>
         <member name="T:alexbegh.Utility.Managers.View.ViewModelFinishedEventArgs">
             <summary>
              Arguments for the ViewModelFinished event
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.View.ViewModelFinishedEventArgs.Success">
+            <summary>
+            Successfully finished?
             </summary>
         </member>
         <member name="M:alexbegh.Utility.Managers.View.ViewModelFinishedEventArgs.#ctor(System.Boolean)">
@@ -2039,10 +2026,23 @@
             </summary>
             <param name="success">ViewModel finished successfully?</param>
         </member>
-        <member name="P:alexbegh.Utility.Managers.View.ViewModelFinishedEventArgs.Success">
+        <member name="T:alexbegh.Utility.Managers.View.IViewModelIsFinishable">
             <summary>
-            Successfully finished?
+            This interface states that a given viewmodel is finishable.
+            It requires an event "Finished" raised by the viewmodel
+            when done.
             </summary>
+        </member>
+        <member name="E:alexbegh.Utility.Managers.View.IViewModelIsFinishable.Finished">
+            <summary>
+            The event raised when the viewmodel is in a finished state
+            </summary>
+        </member>
+        <member name="M:alexbegh.Utility.Managers.View.IViewModelIsFinishable.RaiseFinished(System.Boolean)">
+            <summary>
+            Raise the finished event
+            </summary>
+            <param name="success">ViewModel finished successfully?</param>
         </member>
         <member name="T:alexbegh.Utility.Managers.View.AbstractView">
             <summary>
@@ -2061,23 +2061,6 @@
             <summary>
             true if the window has already been closed
             </summary>
-        </member>
-        <member name="M:alexbegh.Utility.Managers.View.AbstractView.CheckAttached">
-            <summary>
-            Make sure we are attached to the Finished event of the underlying
-            view/viewmodel.
-            </summary>
-        </member>
-        <member name="M:alexbegh.Utility.Managers.View.AbstractView.RaiseFinished(System.Object,System.EventArgs)">
-            <summary>
-            Raise the "Finished" event
-            </summary>
-        </member>
-        <member name="M:alexbegh.Utility.Managers.View.AbstractView.#ctor(System.Windows.Controls.ContentControl)">
-            <summary>
-            Constructs an instance
-            </summary>
-            <param name="view">The view to contain</param>
         </member>
         <member name="E:alexbegh.Utility.Managers.View.AbstractView._finished">
             <summary>
@@ -2101,6 +2084,23 @@
             supports IViewModelIsFinishable.
             </summary>
         </member>
+        <member name="M:alexbegh.Utility.Managers.View.AbstractView.CheckAttached">
+            <summary>
+            Make sure we are attached to the Finished event of the underlying
+            view/viewmodel.
+            </summary>
+        </member>
+        <member name="M:alexbegh.Utility.Managers.View.AbstractView.RaiseFinished(System.Object,System.EventArgs)">
+            <summary>
+            Raise the "Finished" event
+            </summary>
+        </member>
+        <member name="M:alexbegh.Utility.Managers.View.AbstractView.#ctor(System.Windows.Controls.ContentControl)">
+            <summary>
+            Constructs an instance
+            </summary>
+            <param name="view">The view to contain</param>
+        </member>
         <member name="T:alexbegh.Utility.Managers.View.AssociatedViewModelAttribute">
             <summary>
             This class is applied on a view implementing class.
@@ -2108,12 +2108,6 @@
             Additional parameters allow to state if the view wants to display
             as a modal dialog and more.
             </summary>
-        </member>
-        <member name="M:alexbegh.Utility.Managers.View.AssociatedViewModelAttribute.#ctor(System.Type)">
-            <summary>
-            Constructs an instance of this attribute.
-            </summary>
-            <param name="associatedViewModel">The ViewModel type this view applies to</param>
         </member>
         <member name="P:alexbegh.Utility.Managers.View.AssociatedViewModelAttribute.IsDefault">
             <summary>
@@ -2141,6 +2135,12 @@
             views for the same ViewModel)
             </summary>
         </member>
+        <member name="M:alexbegh.Utility.Managers.View.AssociatedViewModelAttribute.#ctor(System.Type)">
+            <summary>
+            Constructs an instance of this attribute.
+            </summary>
+            <param name="associatedViewModel">The ViewModel type this view applies to</param>
+        </member>
         <member name="T:alexbegh.Utility.Managers.View.ViewManager">
             <summary>
             The IoC manager wiring ViewModels and Views.
@@ -2148,6 +2148,36 @@
             [AssociatedViewModel(ViewModelType)] attribute set.
             Provides a way to create a matching view
             given an instance of a ViewModel.
+            </summary>
+        </member>
+        <member name="T:alexbegh.Utility.Managers.View.ViewManager.TargetView">
+            <summary>
+            This class bundles all information to a View class
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.View.ViewManager.TargetView.Assembly">
+            <summary>
+            The assembly the view is located in
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.View.ViewManager.TargetView.AssociatedViewModel">
+            <summary>
+            The AssociatedViewModelAttribute belonging to the view
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.View.ViewManager.TargetView.View">
+            <summary>
+            The View type
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.View.ViewManager.TargetView.ViewModel">
+            <summary>
+            The ViewModel type
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.Managers.View.ViewManager.TargetView.CustomCreateMethod">
+            <summary>
+            Provides advanced override behavior
             </summary>
         </member>
         <member name="F:alexbegh.Utility.Managers.View.ViewManager._viewModelToViewMappings">
@@ -2231,6 +2261,21 @@
             <param name="selected">The folder to start from, null otherwise</param>
             <returns>null if cancelled, folder name otherwise</returns>
         </member>
+        <member name="E:alexbegh.Utility.Managers.View.ViewManager.BeforeModalDialog">
+            <summary>
+            Called before a modal dialog is being displayed
+            </summary>
+        </member>
+        <member name="E:alexbegh.Utility.Managers.View.ViewManager.AfterModalDialog">
+            <summary>
+            Called after a modal dialog has been closed
+            </summary>
+        </member>
+        <member name="E:alexbegh.Utility.Managers.View.ViewManager.WindowCreated">
+            <summary>
+            Called when a new window has been created
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.Managers.View.ViewManager.RaiseBeforeModalDialog(System.Windows.Window)">
             <summary>
             Raises BeforeModalDialog
@@ -2248,51 +2293,6 @@
             Raises WindowCreated
             </summary>
             <param name="wnd">The window</param>
-        </member>
-        <member name="E:alexbegh.Utility.Managers.View.ViewManager.BeforeModalDialog">
-            <summary>
-            Called before a modal dialog is being displayed
-            </summary>
-        </member>
-        <member name="E:alexbegh.Utility.Managers.View.ViewManager.AfterModalDialog">
-            <summary>
-            Called after a modal dialog has been closed
-            </summary>
-        </member>
-        <member name="E:alexbegh.Utility.Managers.View.ViewManager.WindowCreated">
-            <summary>
-            Called when a new window has been created
-            </summary>
-        </member>
-        <member name="T:alexbegh.Utility.Managers.View.ViewManager.TargetView">
-            <summary>
-            This class bundles all information to a View class
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.View.ViewManager.TargetView.Assembly">
-            <summary>
-            The assembly the view is located in
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.View.ViewManager.TargetView.AssociatedViewModel">
-            <summary>
-            The AssociatedViewModelAttribute belonging to the view
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.View.ViewManager.TargetView.View">
-            <summary>
-            The View type
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.View.ViewManager.TargetView.ViewModel">
-            <summary>
-            The ViewModel type
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.Managers.View.ViewManager.TargetView.CustomCreateMethod">
-            <summary>
-            Provides advanced override behavior
-            </summary>
         </member>
         <member name="T:alexbegh.Utility.SerializationHelpers.BinaryStructSerializer">
             <summary>
@@ -2381,6 +2381,11 @@
             See also: <seealso cref="T:alexbegh.Utility.SerializationHelpers.RegisterForSerializationAttribute"/>, <seealso cref="T:alexbegh.Utility.SerializationHelpers.RegisterForSerializationExplicit"/>
             </summary>
         </member>
+        <member name="P:alexbegh.Utility.SerializationHelpers.Serializer.Serializers">
+            <summary>
+            The dictionary of already constructed serializers
+            </summary>
+        </member>
         <member name="F:alexbegh.Utility.SerializationHelpers.Serializer.Types">
             <summary>
             The list of known types
@@ -2458,11 +2463,6 @@
             <param name="assembly">The assembly to check</param>
             <returns>List of types</returns>
         </member>
-        <member name="P:alexbegh.Utility.SerializationHelpers.Serializer.Serializers">
-            <summary>
-            The dictionary of already constructed serializers
-            </summary>
-        </member>
         <member name="T:alexbegh.Utility.SerializationHelpers.ViewSettingsSerializer">
             <summary>
             Serializes a wpf window into a string and back
@@ -2489,6 +2489,11 @@
             Thanks!
             </summary>
         </member>
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.Control.CustomBoundColumn.ContentTemplate">
+            <summary>
+            The content template for this column
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.Control.CustomBoundColumn.GenerateElement(System.Windows.Controls.DataGridCell,System.Object)">
             <summary>
             WPF method. Generates an element
@@ -2504,11 +2509,6 @@
             <param name="cell">The cell</param>
             <param name="dataItem">The data item</param>
             <returns>A FrameworkElement</returns>
-        </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.Control.CustomBoundColumn.ContentTemplate">
-            <summary>
-            The content template for this column
-            </summary>
         </member>
         <member name="T:alexbegh.Utility.UserControls.FieldMapperGrid.Control.StripFieldExposerConverter">
             <summary>
@@ -2569,16 +2569,6 @@
             Dependency property: SelectedItemProperty
             </summary>
         </member>
-        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.Control.FieldMapperGridControl.#ctor">
-            <summary>
-            Constructs the control
-            </summary>  
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.Control.FieldMapperGridControl.InitializeComponent">
-            <summary>
-            InitializeComponent
-            </summary>
-        </member>
         <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.Control.FieldMapperGridControl.ItemTemplates">
             <summary>
             The backing property for ItemTemplate
@@ -2597,6 +2587,16 @@
         <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.Control.FieldMapperGridControl.SelectedItem">
             <summary>
             The backing property for ItemsSource
+            </summary>
+        </member>
+        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.Control.FieldMapperGridControl.#ctor">
+            <summary>
+            Constructs the control
+            </summary>  
+        </member>
+        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.Control.FieldMapperGridControl.InitializeComponent">
+            <summary>
+            InitializeComponent
             </summary>
         </member>
         <member name="T:alexbegh.Utility.UserControls.FieldMapperGrid.Control.PrivateFieldData">
@@ -2624,6 +2624,11 @@
             This converter transmogrifies the WPF binding
             </summary>
         </member>
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.Control.FieldMapperGridViewConverter.ResourceDictionary">
+            <summary>
+            The resource dictionary containing the DataTemplate for the list of items
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.Control.FieldMapperGridViewConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
             <summary>
             WPF converter to convert a FieldMapperGridViewModel DataContext to a ListView
@@ -2644,11 +2649,6 @@
             <param name="culture">Not used</param>
             <returns>nothing; throws exception</returns>
         </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.Control.FieldMapperGridViewConverter.ResourceDictionary">
-            <summary>
-            The resource dictionary containing the DataTemplate for the list of items
-            </summary>
-        </member>
         <member name="T:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1">
             <summary>
             This class exposes the access to a given field using an indexer implementation.
@@ -2657,22 +2657,30 @@
             </summary>
             <typeparam name="T_Item">The type to wrap/expose</typeparam>
         </member>
-        <member name="T:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldExposer">
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1.Accessor">
             <summary>
-            Interface for exposing a named set of fields
+            The data accessor
             </summary>
         </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldExposer.InnerItem">
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1.CachedValues">
             <summary>
-            The wrapped item
+            The cached values
             </summary>
         </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldExposer.Item(System.String)">
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1.InnerItem">
             <summary>
-            Access a contained field by name. Forwards to the field accessor.
+            The contained item
             </summary>
-            <param name="fieldName">The field to access</param>
-            <returns>Field value</returns>
+        </member>
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1.alexbegh#Utility#UserControls#FieldMapperGrid#IFieldExposer#InnerItem">
+            <summary>
+            The contained item as object
+            </summary>
+        </member>
+        <member name="E:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1.PropertyChanged">
+            <summary>
+            INotifyPropertyChanged
+            </summary>
         </member>
         <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1.#ctor(alexbegh.Utility.UserControls.FieldMapperGrid.IPropertyAccessor{`0},`0)">
             <summary>
@@ -2740,31 +2748,6 @@
              <param name="binder">See explanation in summary</param>
              <param name="value">See explanation in summary</param>
         </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1.Accessor">
-            <summary>
-            The data accessor
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1.CachedValues">
-            <summary>
-            The cached values
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1.InnerItem">
-            <summary>
-            The contained item
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1.alexbegh#Utility#UserControls#FieldMapperGrid#IFieldExposer#InnerItem">
-            <summary>
-            The contained item as object
-            </summary>
-        </member>
-        <member name="E:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1.PropertyChanged">
-            <summary>
-            INotifyPropertyChanged
-            </summary>
-        </member>
         <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldExposer`1.Item(System.String)">
             <summary>
             Access a contained field by name. Forwards to the field accessor.
@@ -2782,43 +2765,12 @@
             Constructs this instance
             </summary>
         </member>
-        <member name="F:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn._header">
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn.Parent">
             <summary>
             The column header
             </summary>
         </member>
-        <member name="F:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn._column">
-            <summary>
-            The column field (used as a parameter to the property accessor, <see cref="T:alexbegh.Utility.UserControls.FieldMapperGrid.IPropertyAccessor`1"/>
-            </summary>
-        </member>
-        <member name="F:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn._width">
-            <summary>
-            The column width
-            </summary>
-        </member>
-        <member name="F:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn._visible">
-            <summary>
-            Is this column selected?
-            </summary>
-        </member>
-        <member name="F:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn._type">
-            <summary>
-            The type of the column's content
-            </summary>
-        </member>
-        <member name="F:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn._internalProperties">
-            <summary>
-            Internal view-related properties
-            </summary>
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn.GetHashCode">
-            <summary>
-            Returns the has code; forwards to the header string
-            </summary>
-            <returns>The hash code</returns>
-        </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn.Parent">
+        <member name="F:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn._header">
             <summary>
             The column header
             </summary>
@@ -2828,9 +2780,19 @@
             The column header property
             </summary>
         </member>
+        <member name="F:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn._column">
+            <summary>
+            The column field (used as a parameter to the property accessor, <see cref="T:alexbegh.Utility.UserControls.FieldMapperGrid.IPropertyAccessor`1"/>
+            </summary>
+        </member>
         <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn.Column">
             <summary>
             The column field property
+            </summary>
+        </member>
+        <member name="F:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn._width">
+            <summary>
+            The column width
             </summary>
         </member>
         <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn.Width">
@@ -2838,9 +2800,19 @@
             The column width property
             </summary>
         </member>
+        <member name="F:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn._visible">
+            <summary>
+            Is this column selected?
+            </summary>
+        </member>
         <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn.Visible">
             <summary>
             The visible property
+            </summary>
+        </member>
+        <member name="F:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn._type">
+            <summary>
+            The type of the column's content
             </summary>
         </member>
         <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn.Type">
@@ -2853,10 +2825,21 @@
             Just used for serialization
             </summary>
         </member>
+        <member name="F:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn._internalProperties">
+            <summary>
+            Internal view-related properties
+            </summary>
+        </member>
         <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn.InternalProperties">
             <summary>
             Other view-related properties
             </summary>
+        </member>
+        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn.GetHashCode">
+            <summary>
+            Returns the has code; forwards to the header string
+            </summary>
+            <returns>The hash code</returns>
         </member>
         <member name="T:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1">
             <summary>
@@ -2865,90 +2848,6 @@
                &lt;ListView ItemsSource="{Binding Path=Elements}" View="{Binding Path=., Converter={StaticResource FieldMapperGridViewConverter}}" /&gt;
             </summary>
             <typeparam name="T_Item">The type of item to expose</typeparam>
-        </member>
-        <member name="T:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel">
-            <summary>
-            The publicly visible interface of <see cref="T:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1"/>
-            </summary>
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel.GetValueOf(System.Object,System.String)">
-            <summary>
-            Returns the value of a given item and column
-            </summary>
-            <param name="item">The item</param>
-            <param name="columnName">The column</param>
-            <returns>The value</returns>
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel.RaiseColumnSettingsChanged">
-            <summary>
-            Raises the "ColumnSettingsChanged" event
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel.Elements">
-            <summary>
-            The list of contained elements
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel.InternalSelectedElements">
-            <summary>
-            The internally selected elements
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel.Columns">
-            <summary>
-            The list of columns
-            </summary>
-        </member>
-        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel.MetaData">
-            <summary>
-            Meta data
-            </summary>
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.#ctor(alexbegh.Utility.UserControls.FieldMapperGrid.IPropertyAccessor{`0},System.Collections.ObjectModel.ObservableCollection{`0},System.Object)">
-            <summary>
-            Constructs a view model.
-            </summary>
-            <param name="dataAccessor">The data accessor for the T_Item type.</param>
-            <param name="source">The source collection.</param>
-            <param name="data">The initial data (usually an ObservableCollection of T_Item)</param>
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.SetContent(System.Collections.ObjectModel.ObservableCollection{`0})">
-            <summary>
-            Sets the content altogether
-            </summary>
-            <param name="source">The data to set</param>
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.SetColumns(System.Collections.ObjectModel.ObservableCollection{alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn})">
-            <summary>
-            Sets the columns of the grid
-            </summary>
-            <param name="columns">Columns to set</param>
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.Save">
-            <summary>
-            This method returns the internal data to serialize its status
-            </summary>
-            <returns>An object containing the internal state</returns>
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.GetValueOf(System.Object,System.String)">
-            <summary>
-            Returns the value of a given item and column
-            </summary>
-            <param name="item">The item</param>
-            <param name="columnName">The column</param>
-            <returns>The value</returns>
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.RaiseColumnSettingsChanged">
-            <summary>
-            Raises the "column settings changed" event
-            </summary>
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.Source_CollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
-            <summary>
-            Act when the source collection has been changed.
-            </summary>
-            <param name="sender">The sender of the event</param>
-            <param name="e">The kind of modification</param>
         </member>
         <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.Source">
             <summary>
@@ -2998,6 +2897,107 @@
         <member name="E:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.ColumnSettingsChanged">
             <summary>
             This event is raised when column settings have been changed
+            </summary>
+        </member>
+        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.#ctor(alexbegh.Utility.UserControls.FieldMapperGrid.IPropertyAccessor{`0},System.Collections.ObjectModel.ObservableCollection{`0},System.Object)">
+            <summary>
+            Constructs a view model.
+            </summary>
+            <param name="dataAccessor">The data accessor for the T_Item type.</param>
+            <param name="source">The source collection.</param>
+            <param name="data">The initial data (usually an ObservableCollection of T_Item)</param>
+        </member>
+        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.SetContent(System.Collections.ObjectModel.ObservableCollection{`0})">
+            <summary>
+            Sets the content altogether
+            </summary>
+            <param name="source">The data to set</param>
+        </member>
+        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.SetColumns(System.Collections.ObjectModel.ObservableCollection{alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridColumn})">
+            <summary>
+            Sets the columns of the grid
+            </summary>
+            <param name="columns">Columns to set</param>
+        </member>
+        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.Save">
+            <summary>
+            This method returns the internal data to serialize its status
+            </summary>
+            <returns>An object containing the internal state</returns>
+        </member>
+        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.GetValueOf(System.Object,System.String)">
+            <summary>
+            Returns the value of a given item and column
+            </summary>
+            <param name="item">The item</param>
+            <param name="columnName">The column</param>
+            <returns>The value</returns>
+        </member>
+        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.RaiseColumnSettingsChanged">
+            <summary>
+            Raises the "column settings changed" event
+            </summary>
+        </member>
+        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1.Source_CollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Act when the source collection has been changed.
+            </summary>
+            <param name="sender">The sender of the event</param>
+            <param name="e">The kind of modification</param>
+        </member>
+        <member name="T:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldExposer">
+            <summary>
+            Interface for exposing a named set of fields
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldExposer.InnerItem">
+            <summary>
+            The wrapped item
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldExposer.Item(System.String)">
+            <summary>
+            Access a contained field by name. Forwards to the field accessor.
+            </summary>
+            <param name="fieldName">The field to access</param>
+            <returns>Field value</returns>
+        </member>
+        <member name="T:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel">
+            <summary>
+            The publicly visible interface of <see cref="T:alexbegh.Utility.UserControls.FieldMapperGrid.FieldMapperGridViewModel`1" />
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel.Elements">
+            <summary>
+            The list of contained elements
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel.InternalSelectedElements">
+            <summary>
+            The internally selected elements
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel.Columns">
+            <summary>
+            The list of columns
+            </summary>
+        </member>
+        <member name="P:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel.MetaData">
+            <summary>
+            Meta data
+            </summary>
+        </member>
+        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel.GetValueOf(System.Object,System.String)">
+            <summary>
+            Returns the value of a given item and column
+            </summary>
+            <param name="item">The item</param>
+            <param name="columnName">The column</param>
+            <returns>The value</returns>
+        </member>
+        <member name="M:alexbegh.Utility.UserControls.FieldMapperGrid.IFieldMapperGridViewModel.RaiseColumnSettingsChanged">
+            <summary>
+            Raises the "ColumnSettingsChanged" event
             </summary>
         </member>
         <member name="T:alexbegh.Utility.UserControls.FieldMapperGrid.IPropertyAccessor`1">
@@ -3064,6 +3064,21 @@
             LoadingProgressControl
             </summary>
         </member>
+        <member name="T:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.ProgressStyle">
+            <summary>
+            The indicator style (big or small)
+            </summary>
+        </member>
+        <member name="F:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.ProgressStyle.SmallIndicator">
+            <summary>
+            Small indicator
+            </summary>
+        </member>
+        <member name="F:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.ProgressStyle.BigIndicator">
+            <summary>
+            Big indicator
+            </summary>
+        </member>
         <member name="F:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.IndicatorStyleProperty">
             <summary>
             Dependency property: Indicator style
@@ -3087,16 +3102,6 @@
         <member name="F:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.ProgressProperty">
             <summary>
             Dependency Property: Progress (<see cref="T:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel"/>
-            </summary>
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.#ctor">
-            <summary>
-            Creates the control
-            </summary>
-        </member>
-        <member name="M:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.InitializeComponent">
-            <summary>
-            InitializeComponent
             </summary>
         </member>
         <member name="P:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.IndicatorStyle">
@@ -3144,24 +3149,19 @@
             The backing property for Progress (<see cref="T:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel"/>
             </summary>
         </member>
+        <member name="M:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.#ctor">
+            <summary>
+            Creates the control
+            </summary>
+        </member>
         <member name="E:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.PropertyChanged">
             <summary>
             The PropertyChanged event
             </summary>
         </member>
-        <member name="T:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.ProgressStyle">
+        <member name="M:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.InitializeComponent">
             <summary>
-            The indicator style (big or small)
-            </summary>
-        </member>
-        <member name="F:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.ProgressStyle.SmallIndicator">
-            <summary>
-            Small indicator
-            </summary>
-        </member>
-        <member name="F:alexbegh.Utility.UserControls.LoadingProgress.Control.LoadingProgressControl.ProgressStyle.BigIndicator">
-            <summary>
-            Big indicator
+            InitializeComponent
             </summary>
         </member>
         <member name="T:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel">
@@ -3179,24 +3179,14 @@
             The backing field for IsLoading
             </summary>
         </member>
-        <member name="F:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel._maxProgress">
-            <summary>
-            The backing field for maximum progress
-            </summary>
-        </member>
-        <member name="F:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel._currentProgress">
-            <summary>
-            The backing field for the current progress
-            </summary>
-        </member>
-        <member name="F:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel._progressInfo">
-            <summary>
-            The backing field for the current progress info text
-            </summary>
-        </member>
         <member name="P:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel.IsLoading">
             <summary>
             The IsLoading property
+            </summary>
+        </member>
+        <member name="F:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel._maxProgress">
+            <summary>
+            The backing field for maximum progress
             </summary>
         </member>
         <member name="P:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel.MaxProgress">
@@ -3204,9 +3194,19 @@
             The maximum progress property
             </summary>
         </member>
+        <member name="F:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel._currentProgress">
+            <summary>
+            The backing field for the current progress
+            </summary>
+        </member>
         <member name="P:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel.CurrentProgress">
             <summary>
             The current progress property
+            </summary>
+        </member>
+        <member name="F:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel._progressInfo">
+            <summary>
+            The backing field for the current progress info text
             </summary>
         </member>
         <member name="P:alexbegh.Utility.UserControls.LoadingProgress.LoadingProgressViewModel.ProgressInfo">

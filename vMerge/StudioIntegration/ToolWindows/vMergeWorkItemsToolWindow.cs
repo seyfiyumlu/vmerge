@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.Shell;
 using System.Runtime.InteropServices;
+using alexbegh.Utility.Helpers.Logging;
 using alexbegh.vMerge.Model;
 using alexbegh.vMerge.ViewModel.Changesets;
 using alexbegh.vMerge.StudioIntegration.Framework;
+using qbusSRL.vMerge;
 
 namespace alexbegh.vMerge.StudioIntegration
 {
@@ -31,23 +33,42 @@ namespace alexbegh.vMerge.StudioIntegration
         {
             // Set the window title reading it from the resources.
             this.Caption = Resources.ChangesetToolWindowTitle;
-            // Set the image that will appear on the tab of the window frame
-            // when docked with an other window
-            // The resource ID correspond to the one defined in the resx file
-            // while the Index is the offset in the bitmap strip. Each image in
-            // the strip being 16x16.
-            this.BitmapResourceID = 301;
-            this.BitmapIndex = 1;
+            try
+            {
+                // Set the image that will appear on the tab of the window frame
+                // when docked with an other window
+                // The resource ID correspond to the one defined in the resx file
+                // while the Index is the offset in the bitmap strip. Each image in
+                // the strip being 16x16.
+                SimpleLogger.Checkpoint("vMergeWorkItemsToolWindow - Set Bitmap");
+                this.BitmapResourceID = 301;
+                this.BitmapIndex = 1;
+                SimpleLogger.Checkpoint("vMergeWorkItemsToolWindow - Set Bitmap finished");
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, false, false);
+            }
 
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on 
             // the object returned by the Content property.
-            var changesetViewModel = new ChangesetViewModel(vMergePackage.TfsItemCache);
-            var changesetWindow = Repository.Instance.ViewManager.CreateViewFor(changesetViewModel);
-            vMergePackage.ThemeWindow(changesetWindow.View);
+            try { 
+                SimpleLogger.Checkpoint("vMergeWorkItemsToolWindow - Set ViewModels");
+                var changesetViewModel = new ChangesetViewModel(vMergePackage.TfsItemCache);
+                var changesetWindow = Repository.Instance.ViewManager.CreateViewFor(changesetViewModel);
+                vMergePackage.ThemeWindow(changesetWindow.View);
 
-            //MahApps.Metro.ThemeManager.ChangeTheme(changesetWindow.View.Resources, vMergePackage.DefaultAccent, vMergePackage.DefaultTheme);
-            base.Content = changesetWindow.View;
+                //MahApps.Metro.ThemeManager.ChangeTheme(changesetWindow.View.Resources, vMergePackage.DefaultAccent, vMergePackage.DefaultTheme);
+                SimpleLogger.Checkpoint("vMergeWorkItemsToolWindow - Set Content");
+                base.Content = changesetWindow.View;
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, false, false);
+            }
+
+            
         }
     }
 }

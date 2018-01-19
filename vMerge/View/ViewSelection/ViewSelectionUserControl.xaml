@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <ResourceDictionary Source="..\..\MainResources.xaml" />
     </UserControl.Resources>
-    <Grid>
+    <Grid Background="#FFF1F1F1" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>

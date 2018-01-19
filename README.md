@@ -1,2 +1,8 @@
 # vmerge
-Merge vsix plugin for VS 2012 + 2013
+Merge vsix plugin for VS 2015
+
+# usage
+you should find the tool in the Tool toolbar of visual studio after installation
+
+# error reporting
+The plugin logs to folder C:\ProgramData\vMerge

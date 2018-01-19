@@ -19,6 +19,7 @@ namespace alexbegh.vMerge.Model
             if (_instance != null)
                 throw new InvalidOperationException("Already initialized!");
 
+
             _instance = new Repository(tfsConnectionInfoProvider, tfsUIInteractionProvider, vMergeUIProvider);
         }
 

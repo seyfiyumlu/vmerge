@@ -22,7 +22,7 @@
         <ResourceDictionary Source="..\MainResources.xaml" />
     </UserControl.Resources>
     <MetroControls:MetroContentControl>
-        <Grid>
+        <Grid Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
@@ -63,9 +63,9 @@
                         <Button Content="Focus Changeset view" Command="{Binding ShowChangesetViewCommand}" Margin="3" />
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="1">
-                    <ContentControl>
-                        <LoadingProgress:LoadingProgressControl Progress="{Binding Path=ItemsLoading}">
+                <Grid Grid.Row="1" Background="White">
+                    <ContentControl Background="White">
+                        <LoadingProgress:LoadingProgressControl Progress="{Binding Path=ItemsLoading}" Background="White">
                             <FieldMapperGrid:FieldMapperGridControl 
                     ItemsSource="{Binding Path=WorkItemList}" 
                     MinHeight="200"

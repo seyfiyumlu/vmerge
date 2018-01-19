@@ -1,7 +1,7 @@
 ﻿<ui:DialogWindow x:Class="alexbegh.vMerge.View.Dialog.ConfigureColumnsDialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.12.0"
+        xmlns:ui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
         Icon="/vMerge;component/Resources/vMerge_small_16.png"
         Background="{DynamicResource VsBrush.Window}"
         Foreground="{DynamicResource VsBrush.WindowText}"

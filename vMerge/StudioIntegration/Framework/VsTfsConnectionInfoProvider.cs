@@ -13,9 +13,45 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
         #region Constructor
         internal VsTfsConnectionInfoProvider()
         {
-            var dte = ServiceProvider.GlobalProvider.GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
-            TeamFoundationServerExt tfse = dte.GetObject("Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt") as TeamFoundationServerExt;
-            tfse.ProjectContextChanged += VsTfsProjectContextChanged;
+            try
+            {
+                var dte = ServiceProvider.GlobalProvider.GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+                var obj = dte.GetObject("Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt");
+                if (obj == null)
+                {
+                    SimpleLogger.Log(SimpleLogLevel.Error,
+                        "Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt is null");
+                }
+                else
+                {
+                    Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt tfse =
+                        obj as Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt;
+                    if (tfse != null)
+                    {
+                        tfse.ProjectContextChanged += VsTfsProjectContextChanged;
+                    }
+                    else
+                    {
+                        SimpleLogger.Log(SimpleLogLevel.Error,
+                            "Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt is " +
+                            obj.GetType().Namespace + "." + obj.GetType().Name + " from " +
+                            obj.GetType().AssemblyQualifiedName);
+                        try
+                        {
+                            ((Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt) obj)
+                                .ProjectContextChanged += VsTfsProjectContextChanged;
+                        }
+                        catch (Exception ex)
+                        {
+                            SimpleLogger.Log(ex, false, false);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true);
+            }
         }
         #endregion
 
@@ -29,18 +65,30 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
 
         private void ReloadProjectContextProperties()
         {
-            var dte = ServiceProvider.GlobalProvider.GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
-            TeamFoundationServerExt tfse = dte.GetObject("Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt") as TeamFoundationServerExt;
+            SimpleLogger.Log(SimpleLogLevel.Info, "ReloadProjectContextProperties");
+            try
+            {
+                var dte = ServiceProvider.GlobalProvider.GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+                TeamFoundationServerExt tfse = dte.GetObject("Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt") as TeamFoundationServerExt;
 
-            if (tfse.ActiveProjectContext != null
-                && tfse.ActiveProjectContext.DomainUri!=null
-                && !String.IsNullOrEmpty(tfse.ActiveProjectContext.ProjectName))
-            {
-                Uri = new Uri(tfse.ActiveProjectContext.DomainUri);
-                Project = Repository.Instance.TfsBridgeProvider.VersionControlServer.GetTeamProject(tfse.ActiveProjectContext.ProjectName);
+                if (tfse != null &&
+                    tfse.ActiveProjectContext != null
+                    && tfse.ActiveProjectContext.DomainUri!=null
+                    && !String.IsNullOrEmpty(tfse.ActiveProjectContext.ProjectName))
+                {
+                    Uri = new Uri(tfse.ActiveProjectContext.DomainUri);
+                    Project = Repository.Instance.TfsBridgeProvider.VersionControlServer.GetTeamProject(tfse.ActiveProjectContext.ProjectName);
+                }
+                else
+                {
+                    SimpleLogger.Log(SimpleLogLevel.Error, "Unable to load Project Context Properties");
+                    Uri = null;
+                    Project = null;
+                }
             }
-            else
+            catch (Exception ex)
             {
+                SimpleLogger.Log(ex, true);
                 Uri = null;
                 Project = null;
             }

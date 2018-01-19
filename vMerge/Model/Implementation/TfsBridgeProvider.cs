@@ -669,10 +669,12 @@ namespace alexbegh.vMerge.Model.Implementation
                     task.Cancelled.Token.ThrowIfCancellationRequested();
                     var tfsWis = TfsWorkItemStore;
                 });
+
         }
 
         public void Refresh()
         {
+            SimpleLogger.Log(SimpleLogLevel.Info, "TFS Bridge refresh start");
             Repository.Instance.BackgroundTaskManager.CancelAll();
             RootQuery = null;
             CompleteBranchList = null;
@@ -686,6 +688,7 @@ namespace alexbegh.vMerge.Model.Implementation
                     if (atp != null && VersionControlServer != null)
                         ActiveTeamProject = VersionControlServer.GetAllTeamProjects(true).Where(tp => tp.ArtifactUri == atp).First();
                 });
+            SimpleLogger.Log(SimpleLogLevel.Info, "TFS Bridge refresh finishG");
         }
         public TeamFoundationIdentity[] GetUsers()
         {

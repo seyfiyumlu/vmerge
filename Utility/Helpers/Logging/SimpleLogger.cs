@@ -287,19 +287,43 @@ namespace alexbegh.Utility.Helpers.Logging
             {
                 lock (_lock)
                 {
-                    Log(SimpleLogLevel.Error,
-                        "Exception '{0}' occurred, Stack trace:\n{1}",
-                        ex.Message,
-                        ex.StackTrace);
+					if (ex.InnerException != null)
+					{
+					    String formatStr = "Exception '{0}' occurred, Stack trace:\n{1}\r\n";
+					    Exception innerEx = ex.InnerException;
+					    while (innerEx!=null)
+					    {
+					        formatStr += "--- Inner Exception ---\r\n" + innerEx.GetType().Namespace + "." + innerEx.GetType().Name +
+					                     ": " + innerEx.Message + "\r\n" + innerEx.StackTrace + "\r\n"; 
+					        innerEx = innerEx.InnerException;
+                        }
+
+                        Log(SimpleLogLevel.Error,
+                            formatStr,
+							ex.Message,
+							ex.StackTrace);						
+					} else {
+						Log(SimpleLogLevel.Error,
+                            "Exception '{0}' occurred, Stack trace:\n{1}\r\n{2}",
+							ex.Message,
+							ex.StackTrace,
+						    "=> No Inner Exception");
+					}
 
                     if (checkpoints)
                         LogLastCheckpoints();
 
                     if (show)
                     {
-                        MessageBox.Show(
-                            String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}", ex.Message, ex.StackTrace),
-                            "vMerge Exception", MessageBoxButton.OK);
+						if (ex.InnerException == null) {
+							MessageBox.Show(
+								String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n=> No Inner Exception", ex.Message, ex.StackTrace),
+								"vMerge Exception", MessageBoxButton.OK);
+						} else {
+							MessageBox.Show(
+								String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n--- Inner ---\r\n{2}", ex.Message, ex.StackTrace, ex.InnerException.Message),
+								"vMerge Exception", MessageBoxButton.OK);
+						}
                     }
                 }
             }

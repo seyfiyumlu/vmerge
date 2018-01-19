@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TeamFoundation.VersionControl;
+using Microsoft.VisualStudio.TeamFoundation;
 using alexbegh.Utility.Commands;
 using alexbegh.Utility.Managers.View;
 using alexbegh.vMerge.Model;
@@ -26,6 +26,8 @@ using alexbegh.Utility.Helpers.WeakReference;
 using alexbegh.vMerge.View;
 using System.Windows.Forms;
 using alexbegh.Utility.Helpers.ViewModel;
+using Microsoft.VisualStudio.TeamFoundation.VersionControl;
+using qbusSRL.vMerge;
 
 namespace alexbegh.vMerge.StudioIntegration.Framework
 {
@@ -58,11 +60,11 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
     [ProvideAutoLoad("{e13eedef-b531-4afe-9725-28a69fa4f896}")]
     [ProvideOptionPage(typeof(vMergeOptionsPage), "vMerge", "Options", 113, 114, true)]
     [ProvideOptionPage(typeof(vMergeProfilesPage), "vMerge", "Profiles", 113, 115, true)]
-    [ProvideBindingPath]
     [Guid(GuidList.guidvMergePkgString)]
     public sealed class vMergePackage : Package, IVsSelectionEvents
     {
         private EnvDTE80.Events2 _events;
+        public const string PackageGuidString = "344ee7fd-376a-4835-aab8-70b3e98c2711";
 
         private static WeakReferenceList<ContentControl> _themedControls = new WeakReferenceList<ContentControl>();
 
@@ -149,7 +151,7 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
         {
             try
             {
-                using (var rk = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\VisualStudio\11.0\General", false))
+                using (var rk = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\VisualStudio\14.0\General", false))
                 {
                     if (rk != null)
                     {
@@ -161,22 +163,7 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
             }
             catch (Exception)
             {
-            }
-            try
-            {
-                using (var rk = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\VisualStudio\12.0\General", false))
-                {
-                    if (rk != null)
-                    {
-                        var val = Convert.ToUInt32(rk.GetValue("SuppressUppercaseConversion"));
-                        if (val != 0)
-                            return true;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
+            }            
             return false;
         }
 
@@ -191,8 +178,8 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
         {
             if (AreCapsDisabled())
             {
-                MahApps.Metro.Converters.ToUpperConverter.DisableCaps = true;
-                MahApps.Metro.Converters.ToLowerConverter.DisableLower = true;
+                //TODO MahApps.Metro.Converters.ToUpperConverter.DisableCaps = true;
+                //TODo MahApps.Metro.Converters.ToLowerConverter.DisableLower = true;
             }
 
             SimpleLogger.Init();
@@ -832,4 +819,9 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
         }
     }
 
+    /*public class MyAttribute : Microsoft.VisualStudio.Shell.RegistrationAttribute
+    {
+        
+    }*/
+   
 }

@@ -2,8 +2,8 @@
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TeamFoundation.VersionControl;
 using Microsoft.VisualStudio.TeamFoundation.WorkItemTracking;
+using Microsoft.VisualStudio.TeamFoundation.VersionControl;
 using alexbegh.Utility.Helpers.Logging;
 using alexbegh.vMerge.Model;
 using alexbegh.vMerge.Model.Interfaces;
@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Linq;
+using Microsoft.TeamFoundation.Client;
 
 namespace alexbegh.vMerge.StudioIntegration.Framework
 {
@@ -43,7 +44,9 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
             try
             {
                 DocumentService doc = Dte.GetObject("Microsoft.VisualStudio.TeamFoundation.WorkItemTracking.DocumentService") as DocumentService;
-                IWorkItemDocument wiDoc = doc.GetWorkItem(Repository.Instance.TfsBridgeProvider.TfsTeamProjectCollection, id, this);
+                /*IWorkItemDocument wiDoc = doc.GetWorkItem((TfsTeamProjectCollection)Repository.Instance.TfsBridgeProvider.TfsTeamProjectCollection, id, this);
+
+                
                 try
                 {
                     if (!wiDoc.IsLoaded)
@@ -53,10 +56,11 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
                 finally
                 {
                     wiDoc.Release(this);
-                }
+                }*/
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                SimpleLogger.Log(ex, true);
             }
         }
 
@@ -67,8 +71,9 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
                 var ext = Dte.GetObject("Microsoft.VisualStudio.TeamFoundation.VersionControl.VersionControlExt") as VersionControlExt;
                 ext.ViewChangesetDetails(id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                SimpleLogger.Log(ex, true);
             }
         }
 
@@ -79,8 +84,9 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
                 var ext = Dte.GetObject("Microsoft.VisualStudio.TeamFoundation.VersionControl.VersionControlExt") as VersionControlExt;
                 ext.BranchVisualizer.TrackWorkItem(id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                SimpleLogger.Log(ex, true);
             }
         }
 
@@ -91,8 +97,9 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
                 var ext = Dte.GetObject("Microsoft.VisualStudio.TeamFoundation.VersionControl.VersionControlExt") as VersionControlExt;
                 ext.BranchVisualizer.TrackChangeset(id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                SimpleLogger.Log(ex, true);
             }
         }
 

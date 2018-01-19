@@ -19,14 +19,14 @@
         <ResourceDictionary Source="..\MainResources.xaml" />
     </UserControl.Resources>
     <MetroControls:MetroContentControl>
-        <Grid>
+        <Grid Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid x:Name="MainGrid" Grid.Row="0" Grid.Column="0" IsEnabled="{Binding Path=Enabled}">
+            <Grid x:Name="MainGrid" Grid.Row="0" Grid.Column="0" IsEnabled="{Binding Path=Enabled}" Background="White">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -112,9 +112,9 @@
                         <Button Content="Focus Work Item view" Command="{Binding ShowWorkItemViewCommand}" Margin="3" />
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="1">
-                    <ContentControl>
-                        <LoadingProgress:LoadingProgressControl Progress="{Binding Path=ItemsLoading}">
+                <Grid Grid.Row="1" Background="White">
+                    <ContentControl Background="White">
+                        <LoadingProgress:LoadingProgressControl Progress="{Binding Path=ItemsLoading}" Background="White">
                             <FieldMapperGrid:FieldMapperGridControl 
                     ItemsSource="{Binding Path=ChangesetList}" 
                     MinHeight="200"
@@ -122,7 +122,7 @@
                     BackgroundPath="FontWeight">
                                 <FieldMapperGrid:FieldMapperGridControl.ItemTemplates>
                                     <DataTemplate x:Key="IsSelected">
-                                        <Grid>
+                                        <Grid Background="White">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="*" />

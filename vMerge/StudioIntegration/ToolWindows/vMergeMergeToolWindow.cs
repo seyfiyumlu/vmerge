@@ -12,6 +12,7 @@ using alexbegh.vMerge.ViewModel;
 using alexbegh.vMerge.ViewModel.Merge;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.Windows.Controls;
+using qbusSRL.vMerge;
 
 namespace alexbegh.vMerge.StudioIntegration
 {
