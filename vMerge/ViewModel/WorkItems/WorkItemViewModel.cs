@@ -16,6 +16,7 @@ using Microsoft.TeamFoundation.VersionControl.Client;
 using System.Diagnostics;
 using alexbegh.vMerge.ViewModel.Merge;
 using alexbegh.Utility.Helpers.ViewModel;
+using alexbegh.Utility.Helpers.Logging;
 
 namespace alexbegh.vMerge.ViewModel.WorkItems
 {
@@ -240,38 +241,45 @@ namespace alexbegh.vMerge.ViewModel.WorkItems
         public WorkItemViewModel(TfsItemCache tfsItemCache)
             : base("Work Item", typeof(WorkItemViewModel))
         {
-            Repository.Instance.VMergeUIProvider.MergeWindowVisibilityChanged += (o, a) => Enabled = !Repository.Instance.VMergeUIProvider.IsMergeWindowVisible();
-            Enabled = !Repository.Instance.VMergeUIProvider.IsMergeWindowVisible();
-            TfsItemCache = tfsItemCache;
-
-            ViewSelectionViewModel = new ViewSelectionViewModel();
-            WorkItems = new ObservableCollection<TfsWorkItemWrapper>();
-            WorkItemList =
-                new FieldMapperGridViewModel<TfsWorkItemWrapper>(
-                    new WorkItemPropertyAccessor(),
-                    WorkItems,
-                    Columns);
-            WorkItemList.ColumnSettingsChanged += (o, a) => DataWasModified();
-
-            ItemSelectedCommand = new RelayCommand((o) => ItemSelected(o));
-            ShowChangesetViewCommand = new RelayCommand((o) => ShowChangesetView());
-            SelectMarkedItemsCommand = new RelayCommand((o) => SelectMarkedItems());
-            ViewWorkItemCommand = new RelayCommand((o) => ViewWorkItem(o));
-            TrackWorkItemCommand = new RelayCommand((o) => TrackWorkItem(o));
-            MergeCommand = new RelayCommand((o) => Merge(o));
-            ShowMergeViewCommand = new RelayCommand((o) => ShowMergeView());
-            RefreshCommand = new RelayCommand((o) => Refresh(), (o) => Repository.Instance.TfsBridgeProvider.TfsTeamProjectCollection != null);
-
-            ViewSelectionViewModel.ViewSelectionChanged += OnViewSelectionChanged;
-
-            AttachToWorkItemCache();
-            AttachToProfileProvider();
-            Repository.Instance.TfsBridgeProvider.ActiveProjectSelected += (o, a) =>
+            try
             {
-                WorkItems.Clear();
-                if (Repository.Instance.TfsBridgeProvider.ActiveTeamProject != null)
-                    Repository.Instance.BackgroundTaskManager.DelayedPost(() => { ProfileProvider_DefaultProfileChanged(null, null); return true; });
-            };
+                Repository.Instance.VMergeUIProvider.MergeWindowVisibilityChanged += (o, a) => Enabled = !Repository.Instance.VMergeUIProvider.IsMergeWindowVisible();
+                Enabled = !Repository.Instance.VMergeUIProvider.IsMergeWindowVisible();
+                TfsItemCache = tfsItemCache;
+
+                ViewSelectionViewModel = new ViewSelectionViewModel();
+                WorkItems = new ObservableCollection<TfsWorkItemWrapper>();
+                WorkItemList =
+                    new FieldMapperGridViewModel<TfsWorkItemWrapper>(
+                        new WorkItemPropertyAccessor(),
+                        WorkItems,
+                        Columns);
+                WorkItemList.ColumnSettingsChanged += (o, a) => DataWasModified();
+
+                ItemSelectedCommand = new RelayCommand((o) => ItemSelected(o));
+                ShowChangesetViewCommand = new RelayCommand((o) => ShowChangesetView());
+                SelectMarkedItemsCommand = new RelayCommand((o) => SelectMarkedItems());
+                ViewWorkItemCommand = new RelayCommand((o) => ViewWorkItem(o));
+                TrackWorkItemCommand = new RelayCommand((o) => TrackWorkItem(o));
+                MergeCommand = new RelayCommand((o) => Merge(o));
+                ShowMergeViewCommand = new RelayCommand((o) => ShowMergeView());
+                RefreshCommand = new RelayCommand((o) => Refresh(), (o) => Repository.Instance.TfsBridgeProvider.TfsTeamProjectCollection != null);
+
+                ViewSelectionViewModel.ViewSelectionChanged += OnViewSelectionChanged;
+
+                AttachToWorkItemCache();
+                AttachToProfileProvider();
+                Repository.Instance.TfsBridgeProvider.ActiveProjectSelected += (o, a) =>
+                {
+                    WorkItems.Clear();
+                    if (Repository.Instance.TfsBridgeProvider.ActiveTeamProject != null)
+                        Repository.Instance.BackgroundTaskManager.DelayedPost(() => { ProfileProvider_DefaultProfileChanged(null, null); return true; });
+                };
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, false, false);
+                throw;
+            }
         }
         #endregion
 

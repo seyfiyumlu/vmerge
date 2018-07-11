@@ -69,19 +69,30 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
             try
             {
                 var dte = ServiceProvider.GlobalProvider.GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
-                TeamFoundationServerExt tfse = dte.GetObject("Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt") as TeamFoundationServerExt;
+                Object obj = dte.GetObject("Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt");
+                if (obj==null) SimpleLogger.Log(SimpleLogLevel.Error, "Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt not found");
+                Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt tfse = obj as TeamFoundationServerExt;
 
-                if (tfse != null &&
-                    tfse.ActiveProjectContext != null
-                    && tfse.ActiveProjectContext.DomainUri!=null
-                    && !String.IsNullOrEmpty(tfse.ActiveProjectContext.ProjectName))
+                if (tfse != null)
                 {
-                    Uri = new Uri(tfse.ActiveProjectContext.DomainUri);
-                    Project = Repository.Instance.TfsBridgeProvider.VersionControlServer.GetTeamProject(tfse.ActiveProjectContext.ProjectName);
+                    if (tfse.ActiveProjectContext != null
+                            && tfse.ActiveProjectContext.DomainUri != null
+                            && !String.IsNullOrEmpty(tfse.ActiveProjectContext.ProjectName))
+                    {
+                        Uri = new Uri(tfse.ActiveProjectContext.DomainUri);
+                        Project = Repository.Instance.TfsBridgeProvider.VersionControlServer.GetTeamProject(tfse.ActiveProjectContext.ProjectName);
+                    } else
+                    {
+                        SimpleLogger.Log(SimpleLogLevel.Error, "Unable to load Project Context Properties");
+                        if (tfse.ActiveProjectContext == null) SimpleLogger.Log(SimpleLogLevel.Error, "ActiveProjectContext null");
+                        if (tfse.ActiveProjectContext != null && tfse.ActiveProjectContext.DomainUri == null) SimpleLogger.Log(SimpleLogLevel.Error, "ActiveProjectContext.DomainUri null");
+                        if (tfse.ActiveProjectContext != null && tfse.ActiveProjectContext.ProjectName == null) SimpleLogger.Log(SimpleLogLevel.Error, "ProjectName null");
+                    }
                 }
                 else
                 {
                     SimpleLogger.Log(SimpleLogLevel.Error, "Unable to load Project Context Properties");
+                    if (obj != null) SimpleLogger.Log(SimpleLogLevel.Info, "was: " + obj.GetType().Namespace + "."+ obj.GetType().Name);
                     Uri = null;
                     Project = null;
                 }

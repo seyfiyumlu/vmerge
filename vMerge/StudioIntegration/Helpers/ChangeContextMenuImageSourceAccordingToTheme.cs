@@ -17,7 +17,7 @@ namespace alexbegh.vMerge.StudioIntegration.Helpers
                 if (menuItem != null)
                 {
                     Image itemImage = menuItem.Icon as Image;
-                    if (itemImage != null)
+                    if (itemImage != null &&itemImage.Source!=null)
                     {
                         string source = itemImage.Source.ToString();
                         if (source != null && source.EndsWith(".png"))

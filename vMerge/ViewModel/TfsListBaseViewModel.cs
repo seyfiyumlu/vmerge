@@ -8,6 +8,7 @@ using alexbegh.Utility.UserControls.LoadingProgress;
 using alexbegh.vMerge.Model;
 using alexbegh.vMerge.Model.Interfaces;
 using alexbegh.vMerge.ViewModel.Configuration;
+using alexbegh.Utility.Helpers.Logging;
 
 namespace alexbegh.vMerge.ViewModel
 {
@@ -111,14 +112,29 @@ namespace alexbegh.vMerge.ViewModel
         #region Private Event Handlers
         private void ConfigureColumns()
         {
-            var configurationViewModel = new ConfigureColumnsAndSortOrderViewModel(ConfigurationName, Columns);
+            try
+            {
+                var configurationViewModel = new ConfigureColumnsAndSortOrderViewModel(ConfigurationName, Columns);
 
-            Repository.Instance.ViewManager.ShowModal(configurationViewModel);
+                Repository.Instance.ViewManager.ShowModal(configurationViewModel);
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(SimpleLogLevel.Error, "Unable to configure colums for view, config name is '" + ConfigurationName + "'");
+                SimpleLogger.Log(ex, false, true);
+                throw;
+            }
         }
 
         protected virtual void Refresh()
         {
-            Repository.Instance.TfsBridgeProvider.Clear();
+            try
+            {
+                Repository.Instance.TfsBridgeProvider.Clear();
+            }
+            catch (Exception ex)
+            {                
+                SimpleLogger.Log(ex, true, true);
+            }
         }
 
         private void SaveProfile()
@@ -127,7 +143,14 @@ namespace alexbegh.vMerge.ViewModel
 
         private void LoadProfile(IProfileSettings profile)
         {
-            Repository.Instance.ProfileProvider.LoadProfile(null, profile.Name);
+            try { 
+                Repository.Instance.ProfileProvider.LoadProfile(null, profile.Name);
+                
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, true);
+            }
         }
 
         private void ReloadMergeProfiles()

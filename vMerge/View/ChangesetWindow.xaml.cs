@@ -1,4 +1,5 @@
-﻿using alexbegh.Utility.Helpers.WPFBindings;
+﻿using alexbegh.Utility.Helpers.Logging;
+using alexbegh.Utility.Helpers.WPFBindings;
 using alexbegh.Utility.Managers.View;
 using alexbegh.vMerge.Model;
 using alexbegh.vMerge.StudioIntegration.Helpers;
@@ -21,14 +22,22 @@ namespace alexbegh.vMerge.View
     {
         public ChangesetWindow()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, true);
+                throw;
+            }
             try
             {
                 Repository.Instance.Settings.LoadSettings(
                     System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "vMerge.settings"));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                SimpleLogger.Log(SimpleLogLevel.Warn, ex.GetType().Name + " in create Changeset Window: " + ex.Message);
             }
             this.GotFocus += OnControlGotFocus;
         }
@@ -40,14 +49,27 @@ namespace alexbegh.vMerge.View
 
         private void ShowLoadMergeProfilesMenu(object sender, RoutedEventArgs e)
         {
-            LoadProfilesMenu.PlacementTarget = this;
-            LoadProfilesMenu.DataContext = DataContext;
-            LoadProfilesMenu.IsOpen = true;
+            try
+            {
+                LoadProfilesMenu.PlacementTarget = this;
+                LoadProfilesMenu.DataContext = DataContext;
+                LoadProfilesMenu.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(SimpleLogLevel.Warn, ex.GetType().Name + " in ShowLoadMergeProfilesMenu: " + ex.Message);
+            }
         }
 
         private void ContextMenu_Opened(object sender, RoutedEventArgs e)
         {
-            ChangeContextMenuImageSourceAccordingToTheme.Process(sender as Microsoft.VisualStudio.PlatformUI.VsContextMenu);
+            try
+            {
+                ChangeContextMenuImageSourceAccordingToTheme.Process(sender as Microsoft.VisualStudio.PlatformUI.VsContextMenu);
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, true);
+            }
         }
     }
 }

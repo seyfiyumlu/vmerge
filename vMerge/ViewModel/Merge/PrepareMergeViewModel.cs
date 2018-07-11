@@ -89,88 +89,103 @@ namespace alexbegh.vMerge.ViewModel.Merge
         public PrepareMergeViewModel(TfsItemCache tfsItemCache, IEnumerable<ITfsWorkItem> workItems)
             : base(typeof(PrepareMergeViewModel))
         {
-            TfsItemCache = tfsItemCache;
+            try
+            {
+                TfsItemCache = tfsItemCache;
 
-            MergeSourcesLoading = new LoadingProgressViewModel();
-            MergeTargetsLoading = new LoadingProgressViewModel();
-            ChangesetsLoading = new LoadingProgressViewModel();
-            ChangesetsRefreshing = new LoadingProgressViewModel();
+                MergeSourcesLoading = new LoadingProgressViewModel();
+                MergeTargetsLoading = new LoadingProgressViewModel();
+                ChangesetsLoading = new LoadingProgressViewModel();
+                ChangesetsRefreshing = new LoadingProgressViewModel();
 
-            OpenChangesetCommand = new RelayCommand((o) => OpenChangeset((int)o));
-            FindOriginalChangesetCommand = new RelayCommand((o) => FindOriginalChangeset((int)o));
-            PerformMergeCommand = new RelayCommand((o) => PerformMerge(o as ChangesetListElement), (o) => o != null);
-            PickPathFilterCommand = new RelayCommand((o) => PickPathFilter());
-            AutoMergeCommand = new RelayCommand((o) => AutoMerge(), (o) => IsAnythingToMergeLeft());
-            OKCommand = new RelayCommand((o) => OK());
+                OpenChangesetCommand = new RelayCommand((o) => OpenChangeset((int)o));
+                FindOriginalChangesetCommand = new RelayCommand((o) => FindOriginalChangeset((int)o));
+                PerformMergeCommand = new RelayCommand((o) => PerformMerge(o as ChangesetListElement), (o) => o != null);
+                PickPathFilterCommand = new RelayCommand((o) => PickPathFilter());
+                AutoMergeCommand = new RelayCommand((o) => AutoMerge(), (o) => IsAnythingToMergeLeft());
+                OKCommand = new RelayCommand((o) => OK());
 
-            var potentialMergeSourceBranches = Enumerable.Empty<ITfsBranch>();
-            bool finished = Repository.Instance.BackgroundTaskManager.RunWithCancelDialog(
-                (progressParams) =>
-                {
-                    Changesets = new List<ITfsChangeset>();
-                    progressParams.TrackProgress.MaxProgress = workItems.Count();
-                    foreach (var workItem in workItems)
+                var potentialMergeSourceBranches = Enumerable.Empty<ITfsBranch>();
+                bool finished = Repository.Instance.BackgroundTaskManager.RunWithCancelDialog(
+                    (progressParams) =>
                     {
-                        progressParams.CancellationToken.ThrowIfCancellationRequested();
-                        foreach (var changeset in workItem.RelatedChangesets)
+                        Changesets = new List<ITfsChangeset>();
+                        progressParams.TrackProgress.MaxProgress = workItems.Count();
+                        foreach (var workItem in workItems)
                         {
                             progressParams.CancellationToken.ThrowIfCancellationRequested();
-                            Changesets.Add(changeset);
-                            potentialMergeSourceBranches = potentialMergeSourceBranches.Union(changeset.GetAffectedBranchesForActiveProject());
+                            foreach (var changeset in workItem.RelatedChangesets)
+                            {
+                                progressParams.CancellationToken.ThrowIfCancellationRequested();
+                                Changesets.Add(changeset);
+                                potentialMergeSourceBranches = potentialMergeSourceBranches.Union(changeset.GetAffectedBranchesForActiveProject());
+                            }
+                            progressParams.TrackProgress.Increment();
                         }
-                        progressParams.TrackProgress.Increment();
-                    }
-                    Changesets = Changesets
-                                    .GroupBy(changeset => changeset.Changeset.ChangesetId)
-                                    .Select(group => group.First())
-                                    .OrderBy(changeset => changeset.Changeset.ChangesetId).ToList();
-                });
-            if (!finished)
-                throw new OperationCanceledException();
-            if (!potentialMergeSourceBranches.Any())
-                throw new ArgumentException();
+                        Changesets = Changesets
+                                        .GroupBy(changeset => changeset.Changeset.ChangesetId)
+                                        .Select(group => group.First())
+                                        .OrderBy(changeset => changeset.Changeset.ChangesetId).ToList();
+                    });
+                if (!finished)
+                    throw new OperationCanceledException();
+                if (!potentialMergeSourceBranches.Any())
+                    throw new ArgumentException();
 
-            PossibleMergeSources = potentialMergeSourceBranches.ToList();
-            ListenToSettingsChanges();
+                PossibleMergeSources = potentialMergeSourceBranches.ToList();
+                ListenToSettingsChanges();
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, true);
+                throw;
+            }
         }
 
         public PrepareMergeViewModel(TfsItemCache tfsItemCache, IEnumerable<ITfsChangeset> changesets)
             : base(typeof(PrepareMergeViewModel))
         {
-            TfsItemCache = tfsItemCache;
-            Changesets = changesets.OrderBy(changeset => changeset.Changeset.ChangesetId).ToList();
+            try
+            {
+                TfsItemCache = tfsItemCache;
+                Changesets = changesets.OrderBy(changeset => changeset.Changeset.ChangesetId).ToList();
 
-            MergeSourcesLoading = new LoadingProgressViewModel();
-            MergeTargetsLoading = new LoadingProgressViewModel();
-            ChangesetsLoading = new LoadingProgressViewModel();
-            ChangesetsRefreshing = new LoadingProgressViewModel();
+                MergeSourcesLoading = new LoadingProgressViewModel();
+                MergeTargetsLoading = new LoadingProgressViewModel();
+                ChangesetsLoading = new LoadingProgressViewModel();
+                ChangesetsRefreshing = new LoadingProgressViewModel();
 
-            OpenChangesetCommand = new RelayCommand((o) => OpenChangeset((int)o));
-            FindOriginalChangesetCommand = new RelayCommand((o) => FindOriginalChangeset((int)o));
-            PerformMergeCommand = new RelayCommand((o) => PerformMerge(o as ChangesetListElement));
-            PickPathFilterCommand = new RelayCommand((o) => PickPathFilter());
-            AutoMergeCommand = new RelayCommand((o) => AutoMerge(), (o) => IsAnythingToMergeLeft());
-            OKCommand = new RelayCommand((o) => OK());
+                OpenChangesetCommand = new RelayCommand((o) => OpenChangeset((int)o));
+                FindOriginalChangesetCommand = new RelayCommand((o) => FindOriginalChangeset((int)o));
+                PerformMergeCommand = new RelayCommand((o) => PerformMerge(o as ChangesetListElement));
+                PickPathFilterCommand = new RelayCommand((o) => PickPathFilter());
+                AutoMergeCommand = new RelayCommand((o) => AutoMerge(), (o) => IsAnythingToMergeLeft());
+                OKCommand = new RelayCommand((o) => OK());
 
 
-            var potentialMergeSourceBranches = Enumerable.Empty<ITfsBranch>();
-            bool finished = Repository.Instance.BackgroundTaskManager.RunWithCancelDialog(
-                (progressParams) =>
-                {
-                    progressParams.TrackProgress.MaxProgress = Changesets.Count();
-                    foreach (var changeset in Changesets)
+                var potentialMergeSourceBranches = Enumerable.Empty<ITfsBranch>();
+                bool finished = Repository.Instance.BackgroundTaskManager.RunWithCancelDialog(
+                    (progressParams) =>
                     {
-                        progressParams.CancellationToken.ThrowIfCancellationRequested();
-                        var list = changeset.GetAffectedBranchesForActiveProject().ToArray();
-                        potentialMergeSourceBranches = potentialMergeSourceBranches.Union(list);
-                        progressParams.TrackProgress.Increment();
-                    }
-                });
-            if (!finished)
-                throw new OperationCanceledException();
+                        progressParams.TrackProgress.MaxProgress = Changesets.Count();
+                        foreach (var changeset in Changesets)
+                        {
+                            progressParams.CancellationToken.ThrowIfCancellationRequested();
+                            var list = changeset.GetAffectedBranchesForActiveProject().ToArray();
+                            potentialMergeSourceBranches = potentialMergeSourceBranches.Union(list);
+                            progressParams.TrackProgress.Increment();
+                        }
+                    });
+                if (!finished)
+                    throw new OperationCanceledException();
 
-            PossibleMergeSources = potentialMergeSourceBranches.ToList();
-            ListenToSettingsChanges();
+                PossibleMergeSources = potentialMergeSourceBranches.ToList();
+                ListenToSettingsChanges();
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, true);
+                throw;
+            }
         }
         #endregion
 
@@ -675,16 +690,24 @@ namespace alexbegh.vMerge.ViewModel.Merge
 
         void PickPathFilter()
         {
-            var result = Repository.Instance.TfsUIInteractionProvider.BrowseForTfsFolder(PathFilter);
-            if (result != null)
+            try
             {
-                PathFilter = result;
+                var result = Repository.Instance.TfsUIInteractionProvider.BrowseForTfsFolder(PathFilter);
+                if (result != null)
+                {
+                    PathFilter = result;
+                }
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, true);
             }
         }
 
         private void CommitMerge(CheckInSummaryViewModel vm, TrackProgressParameters externalProgress = null)
         {
-            var associatedWorkItems
+            try
+            {
+                var associatedWorkItems
                 = vm
                     .SourceChangesets
                     .SelectMany(changeset => changeset.RelatedWorkItems)
@@ -758,6 +781,12 @@ namespace alexbegh.vMerge.ViewModel.Merge
                 SelectNewRowAction();
 
             NothingToMergeLeft = !IsAnythingToMergeLeft();
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, true);
+                throw;
+            }
         }
 
         private bool IsAnythingToMergeLeft()

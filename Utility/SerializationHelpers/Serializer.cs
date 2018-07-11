@@ -134,12 +134,18 @@ namespace alexbegh.Utility.SerializationHelpers
         /// <returns>An XmlSerializer</returns>
         private static XmlSerializer GetSerializerFor(Type type)
         {
-            XmlSerializer result = null;
-            if (Serializers.TryGetValue(type, out result))
+            try
+            {
+                XmlSerializer result = null;
+                if (Serializers.TryGetValue(type, out result))
+                    return result;
+                result = new XmlSerializer(type, Types.ToArray());
+                Serializers[type] = result;
                 return result;
-            result = new XmlSerializer(type, Types.ToArray());
-            Serializers[type] = result;
-            return result;
+            } catch (Exception ex)
+            {
+                throw new Exception("Unable to serialize type '" + type.Namespace + "." + type.Name + "'", ex);
+            }
         }
 
         /// <summary>

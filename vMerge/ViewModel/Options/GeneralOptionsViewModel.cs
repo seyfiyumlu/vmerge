@@ -167,16 +167,25 @@ namespace alexbegh.vMerge.ViewModel.Options
         public GeneralOptionsViewModel()
             : base(typeof(GeneralOptionsViewModel))
         {
-            Repository.Instance.Settings.AddChangeListener(null, this);
-            LoadFromRepository();
-            PickTempWorkspaceBasePath = new RelayCommand((o) => PickTempWorkspacePath());
-            OpenLogFileFolderCommand = new RelayCommand((o) => OpenLogFileFolder());
-            AvailableThemes = new List<string>(MahApps.Metro.ThemeManager.Accents.Select(accent => accent.Name).OrderBy(item => item));
-            AvailableThemes.Insert(0, "<Choose automatically>");
-            SelectedTheme = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.SelectedThemeKey) ?? "<Choose automatically>";
-            Finished += (o,a) => StoreToRepository();
-            vMerge.StudioIntegration.Framework.vMergePackage.MergeToolWindowVisibilityChanged += (o, a) => UpdatePerformNonModalMergeChangeable();
-            UpdatePerformNonModalMergeChangeable();
+            try
+            {
+                Repository.Instance.Settings.AddChangeListener(null, this);
+                LoadFromRepository();
+                PickTempWorkspaceBasePath = new RelayCommand((o) => PickTempWorkspacePath());
+                OpenLogFileFolderCommand = new RelayCommand((o) => OpenLogFileFolder());
+                AvailableThemes = new List<string>(MahApps.Metro.ThemeManager.Accents.Select(accent => accent.Name).OrderBy(item => item));
+                AvailableThemes.Insert(0, "<Choose automatically>");
+                SelectedTheme = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.SelectedThemeKey) ?? "<Choose automatically>";
+                Finished += (o, a) => StoreToRepository();
+                vMerge.StudioIntegration.Framework.vMergePackage.MergeToolWindowVisibilityChanged += (o, a) => UpdatePerformNonModalMergeChangeable();
+                UpdatePerformNonModalMergeChangeable();
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, true);
+                throw;
+            }
+            
         }
 
         private void UpdatePerformNonModalMergeChangeable()
@@ -186,14 +195,22 @@ namespace alexbegh.vMerge.ViewModel.Options
         
         private void LoadFromRepository()
         {
-            if (_storing)
-                return;
-            AutoMergeDirectly = Repository.Instance.Settings.FetchSettings<bool>(Constants.Settings.AutoMergeDirectlyKey);
-            LinkMergeWithWorkItems = Repository.Instance.Settings.FetchSettings<bool>(Constants.Settings.LinkMergeWithWorkItemsKey);
-            TempWorkspaceBasePath = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.LocalWorkspaceBasePathKey) ?? Path.GetTempPath();
-            CheckInCommentTemplate = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.CheckInCommentTemplateKey);
-            HideSplashScreen = Repository.Instance.Settings.FetchSettings<bool>(Constants.Settings.HideSplashScreenKey);
-            PerformNonModalMerge = Repository.Instance.Settings.FetchSettings<bool>(Constants.Settings.PerformNonModalMergeKey);
+            try
+            {
+                if (_storing)
+                    return;
+                AutoMergeDirectly = Repository.Instance.Settings.FetchSettings<bool>(Constants.Settings.AutoMergeDirectlyKey);
+                LinkMergeWithWorkItems = Repository.Instance.Settings.FetchSettings<bool>(Constants.Settings.LinkMergeWithWorkItemsKey);
+                TempWorkspaceBasePath = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.LocalWorkspaceBasePathKey) ?? Path.GetTempPath();
+                CheckInCommentTemplate = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.CheckInCommentTemplateKey);
+                HideSplashScreen = Repository.Instance.Settings.FetchSettings<bool>(Constants.Settings.HideSplashScreenKey);
+                PerformNonModalMerge = Repository.Instance.Settings.FetchSettings<bool>(Constants.Settings.PerformNonModalMergeKey);
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, true);
+                throw;
+            }
         }
 
         private void StoreToRepository()
@@ -208,9 +225,13 @@ namespace alexbegh.vMerge.ViewModel.Options
                 Repository.Instance.Settings.SetSettings(Constants.Settings.SelectedThemeKey, SelectedTheme);
                 Repository.Instance.Settings.SetSettings(Constants.Settings.HideSplashScreenKey, HideSplashScreen);
                 Repository.Instance.Settings.SetSettings(Constants.Settings.PerformNonModalMergeKey, PerformNonModalMerge);
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, false, false);
             }
             finally
             {
+                
                 _storing = false;
             }
         }

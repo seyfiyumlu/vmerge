@@ -44,7 +44,8 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
             try
             {
                 DocumentService doc = Dte.GetObject("Microsoft.VisualStudio.TeamFoundation.WorkItemTracking.DocumentService") as DocumentService;
-                /*IWorkItemDocument wiDoc = doc.GetWorkItem((TfsTeamProjectCollection)Repository.Instance.TfsBridgeProvider.TfsTeamProjectCollection, id, this);
+                TfsTeamProjectCollection col = (TfsTeamProjectCollection)Repository.Instance.TfsBridgeProvider.TfsTeamProjectCollection;
+                IWorkItemDocument wiDoc = doc.GetWorkItem(col, id, this);
 
                 
                 try
@@ -56,7 +57,7 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
                 finally
                 {
                     wiDoc.Release(this);
-                }*/
+                }
             }
             catch (Exception ex)
             {

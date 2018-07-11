@@ -137,6 +137,7 @@
     <Style TargetType="Label" BasedOn="{StaticResource MetroLabel}" />
     <Style TargetType="TabItem" BasedOn="{StaticResource MetroTabItem}" />
     <Style TargetType="TabControl" BasedOn="{StaticResource MetroTabControl}" />
+    <!-- Next line is buggy/ Big scroll bars-->
     <Style TargetType="ScrollBar" BasedOn="{StaticResource MetroScrollBar}" />
     <Style TargetType="RadioButton" BasedOn="{StaticResource MetroRadioButton}" />
     <Style TargetType="ProgressBar" BasedOn="{StaticResource MetroProgressBar}" />
