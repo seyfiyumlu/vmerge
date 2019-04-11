@@ -9,7 +9,7 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="300"
+             d:DesignHeight="400" d:DesignWidth="500"
              IsEnabled="{Binding Path=Enabled}" Margin="0">
     <UserControl.Resources>
         <ResourceDictionary Source="..\..\MainResources.xaml" />
@@ -65,14 +65,24 @@
                         <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0"
                                 Visibility="{Binding IsSourceBranchVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Label Content="Pick _source branch:" />
-                            <LoadingProgress:LoadingProgressControl Progress="{Binding Path=AvailableSourceBranchesLoading}" IndicatorStyle="SmallIndicator" Margin="10,0,5,0">
-                                <ComboBox ItemsSource="{Binding Path=AvailableSourceBranches}" SelectedItem="{Binding Path=SourceBranch}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Path=Name}" />
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
+                            <LoadingProgress:LoadingProgressControl Progress="{Binding Path=AvailableSourceBranchesLoading}" IndicatorStyle="SmallIndicator" Margin="10,0,5,0" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ComboBox ItemsSource="{Binding Path=AvailableBranchNames}" SelectedItem="{Binding Path=SourceBranchFilter}" Margin="10,0" MinWidth="75">
                                 </ComboBox>
+
+                                    <ComboBox Grid.Column="1" ItemsSource="{Binding Path=FilteredSourceBranches}" SelectedItem="{Binding Path=SourceBranch}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=Name}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                
+                                </Grid>
                             </LoadingProgress:LoadingProgressControl>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1"

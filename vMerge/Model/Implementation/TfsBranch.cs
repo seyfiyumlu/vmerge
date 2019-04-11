@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace alexbegh.vMerge.Model.Implementation
 {
@@ -15,9 +16,11 @@ namespace alexbegh.vMerge.Model.Implementation
     [RegisterForSerialization]
     public class TfsBranch : ITfsBranch
     {
+        [JsonIgnore]
         [NonSerialized]
         private Microsoft.TeamFoundation.VersionControl.Client.VersionControlServer _vcs;
         [XmlIgnore]
+        [JsonIgnore]
         public Microsoft.TeamFoundation.VersionControl.Client.VersionControlServer Vcs
         {
             get
@@ -32,6 +35,7 @@ namespace alexbegh.vMerge.Model.Implementation
 
         [NonSerialized]
         private Microsoft.TeamFoundation.VersionControl.Client.BranchObject _branchObject;
+        [JsonIgnore]
         [XmlIgnore]
         public Microsoft.TeamFoundation.VersionControl.Client.BranchObject BranchObject
         {
@@ -55,6 +59,29 @@ namespace alexbegh.vMerge.Model.Implementation
         }
 
         public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (value != null && value.Equals(_name)) return;
+                _name = value;
+                CalcBranchName(_name);
+            }
+        }
+
+        private void CalcBranchName(string name)
+        {
+            var lastSlash = name.LastIndexOf("/");
+            if (lastSlash > 0)
+            {
+                BranchName = name.Substring(lastSlash + 1);
+            } else
+            {
+                BranchName = name;
+            }
+        }
+
+        public string BranchName
         {
             get;
             set;
@@ -91,7 +118,7 @@ namespace alexbegh.vMerge.Model.Implementation
                 {
                     _childBranchNames = BranchObject.ChildBranches.Select(cb => cb.Item).ToList();
                 }
-                else if (_childBranches==null && _vcs != null && IsSubBranch)
+                else if (_childBranches == null && _vcs != null && IsSubBranch)
                 {
                     _childBranchNames = ChildBranches != null ? ChildBranches.Select(br => br.ServerPath).ToList() : null;
                 }
@@ -104,8 +131,12 @@ namespace alexbegh.vMerge.Model.Implementation
         }
 
         [XmlIgnore]
+        [JsonIgnore]
         private List<ITfsBranch> _childBranches;
+        private string _name;
+
         [XmlIgnore]
+        [JsonIgnore]
         public List<ITfsBranch> ChildBranches
         {
             get

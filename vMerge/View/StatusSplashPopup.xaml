@@ -2,7 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
-        xmlns:MetroControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         AllowsTransparency="True"
         SizeToContent="WidthAndHeight" Height="Auto"
         ShowInTaskbar="False" ResizeMode="NoResize" WindowStyle="None" BorderBrush="Transparent" BorderThickness="0"

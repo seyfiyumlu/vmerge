@@ -17,6 +17,7 @@ using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.Framework.Common;
 using System.Security.Principal;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace alexbegh.vMerge.Model.Implementation
 {
@@ -113,6 +114,7 @@ namespace alexbegh.vMerge.Model.Implementation
         /// VersionControlServer
         /// </summary>
         private volatile VersionControlServer _versionControlServer;
+        [JsonIgnore]
         public VersionControlServer VersionControlServer
         {
             get
@@ -126,9 +128,16 @@ namespace alexbegh.vMerge.Model.Implementation
                     if (_versionControlServer != null)
                         return _versionControlServer;
                     if (pc == null)
+                    {
+                        SimpleLogger.Log(SimpleLogLevel.Error, "Unable to get VCS from TfsTeamProjectCollection is not set");
                         return null;
+                    }
 
                     _versionControlServer = pc.GetService<VersionControlServer>();
+                    if (_versionControlServer == null)
+                    {
+                        SimpleLogger.Log(SimpleLogLevel.Error, "Unable to get VCS from TfsTeamProjectCollection");
+                    }
                     Task.Run(
                         () =>
                         {
@@ -147,7 +156,11 @@ namespace alexbegh.vMerge.Model.Implementation
                                             var existing = Process.GetProcesses().FirstOrDefault(process => process.Id == pid);
                                             if (existing == null)
                                             {
+                                                SimpleLogger.Log(SimpleLogLevel.Info, "Delete Temp Workspace: " + workspace.Name);
                                                 DeleteTemporaryWorkspace(workspace, null);
+                                            }else
+                                            {
+                                                SimpleLogger.Log(SimpleLogLevel.Warn, "Znable to delete Temp Workspace: " + workspace.Name + " blocked by process:" + existing.ProcessName);
                                             }
                                         }
                                     }
@@ -161,6 +174,15 @@ namespace alexbegh.vMerge.Model.Implementation
             {
                 lock (_locker)
                 {
+                    
+                    if (value == null)
+                    {
+                        SimpleLogger.Log(_versionControlServer == null ? SimpleLogLevel.Info : SimpleLogLevel.Error, 
+                            "VCS set null");
+                    }else
+                    {
+                        SimpleLogger.Log( SimpleLogLevel.Info, "VCS set GUID: " + value.ServerGuid);
+                    }
                     _versionControlServer = value;
                 }
                 RaisePropertyChanged("VersionControlServer");

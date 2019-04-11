@@ -1,6 +1,7 @@
 ﻿using alexbegh.Utility.Helpers.ExtensionMethods;
 using alexbegh.Utility.Helpers.NotifyPropertyChanged;
 using alexbegh.Utility.SerializationHelpers;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -38,6 +39,7 @@ namespace alexbegh.Utility.UserControls.FieldMapperGrid
         /// The column header
         /// </summary>
         [XmlIgnore]
+        [JsonIgnore]
         public IFieldMapperGridViewModel Parent { get; set; }
 
         /// <summary>
@@ -113,6 +115,7 @@ namespace alexbegh.Utility.UserControls.FieldMapperGrid
         /// The type of the column's content
         /// </summary>
         [XmlIgnore]
+        [JsonIgnore]
         public Type Type
         {
             get { return _type; }

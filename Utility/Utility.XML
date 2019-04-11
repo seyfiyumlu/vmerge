@@ -2415,6 +2415,14 @@
             <param name="obj">The object to serialize</param>
             <param name="targetPath">The target path to serialize to</param>
         </member>
+        <member name="M:alexbegh.Utility.SerializationHelpers.Serializer.JsonSerialize``1(``0,System.String)">
+            <summary>
+            Serialize a given object to targetPath
+            </summary>
+            <typeparam name="T_Type">The type of obj</typeparam>
+            <param name="obj">The object to serialize</param>
+            <param name="targetPath">The target path to serialize to</param>
+        </member>
         <member name="M:alexbegh.Utility.SerializationHelpers.Serializer.XmlSerialize``1(``0,System.Xml.XmlWriter)">
             <summary>
             Serialize a given object to an XmlWriter
@@ -2424,6 +2432,14 @@
             <param name="writer">The XmlWriter</param>
         </member>
         <member name="M:alexbegh.Utility.SerializationHelpers.Serializer.XmlDeserialize``1(System.String,``0@)">
+            <summary>
+            Deserializes an object from a given targetPath
+            </summary>
+            <typeparam name="T_Type">The type of the object to deserialize</typeparam>
+            <param name="targetPath">The targetPath</param>
+            <param name="obj">The resulting object</param>
+        </member>
+        <member name="M:alexbegh.Utility.SerializationHelpers.Serializer.JSonDeserialize``1(System.String,``0@)">
             <summary>
             Deserializes an object from a given targetPath
             </summary>
@@ -3259,6 +3275,11 @@
         <member name="M:alexbegh.Utility.Windows.WaitForBackgroundActionDialog.InitializeComponent">
             <summary>
             InitializeComponent
+            </summary>
+        </member>
+        <member name="T:qbusSRL.Utility.SerializationHelpers.NullSerializer">
+            <summary>
+            
             </summary>
         </member>
     </members>

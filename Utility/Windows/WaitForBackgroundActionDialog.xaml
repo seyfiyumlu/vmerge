@@ -4,7 +4,6 @@
         xmlns:LoadingProgress="clr-namespace:alexbegh.Utility.UserControls.LoadingProgress.Control;assembly=Utility"
         Background="{DynamicResource VsBrush.Window}"
         Foreground="{DynamicResource VsBrush.WindowText}"
-        xmlns:MetroControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
         SizeToContent="Height" Height="Auto"
         Width="300" ShowInTaskbar="False" ResizeMode="NoResize" WindowStyle="None" BorderBrush="Beige" BorderThickness="2">

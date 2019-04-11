@@ -75,16 +75,28 @@ namespace alexbegh.vMerge.ViewModel.ViewSelection
             AvailableSourceBranchesLoading.IsLoading = !Repository.Instance.TfsBridgeProvider.IsCompleteBranchListLoaded();
             RootQueryLoading.IsLoading = !Repository.Instance.TfsBridgeProvider.IsRootQueryLoaded();
 
+            Repository.Instance.TfsBridgeProviderChanged += Instance_TfsBridgeProviderChanged;
+            CreateBrideEventListeners();
+
+            Repository.Instance.BackgroundTaskManager.DelayedPost(() =>
+            {
+                return CheckIsLoading();
+            });
+        }
+
+        private void Instance_TfsBridgeProviderChanged(object sender, EventArgs e)
+        {
+            CreateBrideEventListeners();
+            RaisePropertyChanged("Enabled");
+        }
+
+        private void CreateBrideEventListeners()
+        {
             Repository.Instance.TfsBridgeProvider.ActiveProjectSelected += OnActiveProjectSelected;
             Repository.Instance.TfsBridgeProvider.CompleteBranchListLoaded += OnCompleteBranchListLoaded;
             Repository.Instance.TfsBridgeProvider.RootQueryLoaded += OnRootQueryLoaded;
             Repository.Instance.TfsBridgeProvider.CompleteBranchListLoading += OnCompleteBranchListLoading;
             Repository.Instance.TfsBridgeProvider.RootQueryLoading += OnRootQueryLoading;
-
-            Repository.Instance.BackgroundTaskManager.DelayedPost(() =>
-                {
-                    return CheckIsLoading();
-                });
         }
         #endregion
 
@@ -154,7 +166,7 @@ namespace alexbegh.vMerge.ViewModel.ViewSelection
         {
             get
             {
-                Repository.ThrowIfNotUIThread();
+                
                 if (SourceBranch != null && SourceBranch.IsSubBranch)
                     return _availableSourceBranches.AsEnumerable().Concat(new[] { SourceBranch }).ToList().AsReadOnly();
                 else
@@ -162,7 +174,7 @@ namespace alexbegh.vMerge.ViewModel.ViewSelection
             }
             private set
             {
-                Repository.ThrowIfNotUIThread();
+               
                 var oldSourceBranch = _sourceBranch;
                 Set(ref _availableSourceBranches, value as List<ITfsBranch>,
                     () => 
@@ -173,6 +185,27 @@ namespace alexbegh.vMerge.ViewModel.ViewSelection
                                 _sourceBranch = value.FirstOrDefault(branch => branch.Name == oldSourceBranch.Name);
                         });
             }
+        }
+
+        public IReadOnlyList<ITfsBranch> FilteredSourceBranches
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_sourceBranchFilter) || "*".Equals(_sourceBranchFilter)) return AvailableSourceBranches;
+                return AvailableSourceBranches.Where(b => b.BranchName.Equals(_sourceBranchFilter, StringComparison.OrdinalIgnoreCase)).ToList();
+                
+            }            
+        }
+
+        public IReadOnlyList<String> AvailableBranchNames
+        {
+            get
+            {
+                var res = AvailableSourceBranches.GroupBy(branch => branch.BranchName).Select(group => group.First()).Select(b => b.BranchName).ToList();
+                res.Add("*");
+                res.Reverse();
+                return res;
+            }            
         }
 
         private List<ITfsBranch> _targetBranches;
@@ -240,6 +273,21 @@ namespace alexbegh.vMerge.ViewModel.ViewSelection
                     if (_sourceBranch.IsSubBranch || (oldBranch != null && _sourceBranch.IsSubBranch != oldBranch.IsSubBranch))
                         RaisePropertyChanged("AvailableSourceBranches");
                 }
+            }
+        }
+
+        public String SourceBranchFilter
+        {
+            get
+            {                
+                return _sourceBranchFilter;
+            }
+            set
+            {
+                if (value != null && value.Equals(_sourceBranchFilter)) return;
+                _sourceBranchFilter = value;
+                RaisePropertyChanged("SourceBranchFilter");
+                RaisePropertyChanged("FilteredSourceBranches");
             }
         }
 
@@ -336,6 +384,8 @@ namespace alexbegh.vMerge.ViewModel.ViewSelection
         }
 
         private RelayCommand _pickPathFilterCommand;
+        private string _sourceBranchFilter = "*";
+
         public RelayCommand PickPathFilterCommand
         {
             get { return _pickPathFilterCommand; }
@@ -409,6 +459,7 @@ namespace alexbegh.vMerge.ViewModel.ViewSelection
                 SelectedQuery = null;
                 RootQuery = null;
                 RaisePropertyChanged("Enabled");
+                SimpleLogger.Log(SimpleLogLevel.Info, "TfsBridgeProvider.ActiveTeamProject changed is null = " + Enabled);
             }
             catch (Exception ex)
             {

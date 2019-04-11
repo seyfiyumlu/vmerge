@@ -208,6 +208,11 @@ namespace alexbegh.Utility.Helpers.NotifyPropertyChanged
                 value = newValue;
                 additionalActions();
                 RaisePropertyChanged(propertyName);
+                if ("AvailableSourceBranches".Equals(propertyName))
+                {
+                    RaisePropertyChanged("AvailableBranchNames");
+                    RaisePropertyChanged("FilteredSourceBranches");
+                }
             }
         }
         #endregion

@@ -1,6 +1,8 @@
-﻿using alexbegh.Utility.Helpers.WeakReference;
+﻿using alexbegh.Utility.Helpers.Logging;
+using alexbegh.Utility.Helpers.WeakReference;
 using alexbegh.Utility.SerializationHelpers;
 using alexbegh.vMerge.Model.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -77,6 +79,7 @@ namespace alexbegh.vMerge.Model.Implementation
         /// List of change listeners
         /// </summary>
         [XmlIgnore]
+        [JsonIgnore]
         private Dictionary<string, WeakReferenceList<ISettingsChangeListener>> ChangeListeners
         {
             get;
@@ -94,6 +97,7 @@ namespace alexbegh.vMerge.Model.Implementation
         {
             lock (Lock)
             {
+                if (SerializedSettings == null) SerializedSettings = new SerializableDictionary<string, object>();
                 IsDirty = true;
                 SerializedSettings[key] = data;
             }
@@ -122,9 +126,21 @@ namespace alexbegh.vMerge.Model.Implementation
         {
             lock (Lock)
             {
-                if (!SerializedSettings.ContainsKey(key))
+                try
+                {
+                    if (SerializedSettings == null || !SerializedSettings.ContainsKey(key))
+                    {
+                        SimpleLogger.Log(SimpleLogLevel.Info, "Settings use default of: " + key);
+                        var res = default(T_Item);
+                        SerializedSettings.Add(key, res);
+                        return res;
+                    }
+                    return (T_Item)SerializedSettings[key];
+                } catch (Exception ex)
+                {
+                    SimpleLogger.Log(SimpleLogLevel.Warn, "Fail to fetch settings for: '" + key + "'  " + ex.Message);
                     return default(T_Item);
-                return (T_Item)SerializedSettings[key];
+                }
             }
         }
 
@@ -147,26 +163,36 @@ namespace alexbegh.vMerge.Model.Implementation
         /// <param name="source">Source file name</param>
         public void LoadSettings(string name)
         {
-            string path = Path.Combine(
+            /*string path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "vMerge",
                 name + ".qvmset");
-            
-            if (!File.Exists(path))
+
+            if (!File.Exists(path) || (new FileInfo(path)).Length == 0)
+            {
+                SerializedSettings = new SerializableDictionary<string, object>();
                 return;
+            }
 
             try
             {
                 lock (Lock)
-                {
+                {                    
                     SerializableDictionary<string, object> serializedSettings;
-                    Serializer.XmlDeserialize(path, out serializedSettings);
+                    Serializer.JSonDeserialize(path, out serializedSettings);
                     SerializedSettings = serializedSettings;
                 }
             }
             catch (FileNotFoundException)
             {
-            }
+                var message = "Failed to load Settings from '" + path + "': File not found";
+                SimpleLogger.Log(SimpleLogLevel.Warn, message);
+            } catch (Exception ex)
+            {
+                var message = "Failed to load Settings from '" + path + "': " + ex.Message;
+                SimpleLogger.Log(SimpleLogLevel.Error, message);
+                throw new Exception(message, ex);
+            }*/
         }
 
         /// <summary>
@@ -175,7 +201,7 @@ namespace alexbegh.vMerge.Model.Implementation
         /// <param name="destination">Destination path</param>
         public void SaveSettings(string name)
         {
-            string path = Path.Combine(
+            /*string path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "vMerge",
                 name + ".qvmset");
@@ -191,8 +217,8 @@ namespace alexbegh.vMerge.Model.Implementation
                 if (File.Exists(path))
                     File.Copy(path, pathBak, true);
 
-                Serializer.XmlSerialize(SerializedSettings, path);
-            }
+                Serializer.JsonSerialize(SerializedSettings, path);
+            }*/
         }
 
         /// <summary>
@@ -258,6 +284,7 @@ namespace alexbegh.vMerge.Model.Implementation
                                 }
                                 catch (Exception ex)
                                 {
+                                    SimpleLogger.Log(ex, false, false);
                                     Debug.WriteLine(ex.ToString());
                                 }
                             }

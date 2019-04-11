@@ -12,7 +12,7 @@
         <ScrollViewer>
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <Image VerticalAlignment="Top" Margin="0,7,0,0" Width="24" Height="24" Source="/vMerge;component/Resources/vMerge_small.png" />
+                    <!--<Image VerticalAlignment="Top" Margin="0,7,0,0" Width="24" Height="24" Source="/vMerge;component/Resources/vMerge_small.png" />-->
                     <StackPanel Orientation="Vertical" Margin="10,0,0,0">
                         <TextBlock FontWeight="Bold">
                             <TextBlock.Text>

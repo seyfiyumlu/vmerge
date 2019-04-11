@@ -8,17 +8,14 @@
              xmlns:LoadingProgress="clr-namespace:alexbegh.Utility.UserControls.LoadingProgress.Control;assembly=Utility"
              xmlns:ViewSelection="clr-namespace:alexbegh.vMerge.View.ViewSelection"
              xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:MetroControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             Background="{DynamicResource VsBrush.Window}"
-             Foreground="{DynamicResource VsBrush.WindowText}"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"         
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="755.518"
              Name="ChangesetToolWindow">
     <UserControl.Resources>
         <ResourceDictionary Source="..\MainResources.xaml" />
     </UserControl.Resources>
-    <MetroControls:MetroContentControl>
+    <Grid>
         <Grid Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -57,7 +54,7 @@
                         </Grid>
                     </Expander>
                 </StackPanel>
-                <Grid Grid.Row="2" Name="ButtonGrid" Background="{StaticResource AccentColorBrush}">
+                <Grid Grid.Row="2" Name="ButtonGrid"  Background="AliceBlue">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -71,24 +68,19 @@
                             </Button>
                             <Button Content="Load merge profile" Click="ShowLoadMergeProfilesMenu"  IsEnabled="{Binding Path=LoadMergeProfilesEnabled}" Margin="3"
                             Tag="{Binding Path=DataContext}">
-                                <Button.ContextMenu>
-                                    <vsi:VsContextMenu x:Name="LoadProfilesMenu" ItemsSource="{Binding Path=MergeProfiles}">
-                                        <vsi:VsContextMenu.ItemContainerStyle>
-                                            <Style>
-                                                <Setter Property="MenuItem.Header" Value="{Binding Name}" />
-                                                <Setter Property="MenuItem.Command" Value="{Binding Path=DataContext.LoadProfileCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
-                                                <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
-                                            </Style>
-                                        </vsi:VsContextMenu.ItemContainerStyle>
-                                    </vsi:VsContextMenu>
-                                </Button.ContextMenu>
+                                
                             </Button>
-                            <Button Content="Save merge profile" Command="{Binding SaveMergeProfileCommand}" Margin="3">
+                            <Button Content="Save merge profile" Command="{Binding SaveMergeProfileCommand}" Margin="3" IsEnabled="False">
                                 <Button.ToolTip>
-                                    <TextBlock Foreground="White">
-                                    Saves the current settings (selected query, filter etc.) as a profile.<LineBreak/>
-                                    This profile is available from the source control explorer context menu and by clicking the "Load merge profile" button.
-                                    </TextBlock>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Foreground="LightPink">
+                                        Sorry but this function is currently deactivated.
+                                        </TextBlock>
+                                        <TextBlock Foreground="White">
+                                        Saves the current settings (selected query, filter etc.) as a profile.<LineBreak/>
+                                        This profile is available from the source control explorer context menu and by clicking the "Load merge profile" button.
+                                        </TextBlock>
+                                    </StackPanel>
                                 </Button.ToolTip>
                             </Button>
                             <Button Content="Select marked items" Command="{Binding SelectMarkedItemsCommand}" Margin="3">
@@ -232,5 +224,5 @@
                 </StackPanel>
             </Grid>
         </Grid>
-    </MetroControls:MetroContentControl>
+    </Grid>
 </UserControl>

@@ -46,6 +46,7 @@ namespace alexbegh.Utility.Helpers.Logging
     {
         [ThreadStatic]
         private static List<string> _lastCheckpoints;
+        private static HashSet<string> _shownErrorMessages = new HashSet<string>();
 
         private static List<string> LastCheckpoints
         {
@@ -266,66 +267,78 @@ namespace alexbegh.Utility.Helpers.Logging
         /// <param name="checkpoints">Dump checkpoints also</param>
         public static void Log(Exception ex, bool show = true, bool checkpoints = true)
         {
-            if (ex is OperationCanceledException)
-                return;
+            try
+            {
+                if (ex is OperationCanceledException)
+                    return;
 
-            if (ex is AggregateException)
-            {
-                lock (_lock)
+                if (ex is AggregateException)
                 {
-                    Log(SimpleLogLevel.Error, "Multiple Exceptions occurred, listing each:");
-                    foreach (var item in (ex as AggregateException).InnerExceptions)
+                    lock (_lock)
                     {
-                        Log(item, show, false);
+                        Log(SimpleLogLevel.Error, "Multiple Exceptions occurred, listing each:");
+                        foreach (var item in (ex as AggregateException).InnerExceptions)
+                        {
+                            Log(item, show, false);
+                        }
+                        Log(SimpleLogLevel.Error, "Multiple Exception Logging finished");
+                        if (checkpoints)
+                            LogLastCheckpoints();
                     }
-                    Log(SimpleLogLevel.Error, "Multiple Exception Logging finished");
-                    if (checkpoints)
-                        LogLastCheckpoints();
                 }
-            }
-            else
-            {
-                lock (_lock)
+                else
                 {
-					if (ex.InnerException != null)
-					{
-					    String formatStr = "Exception '{0}' occurred, Stack trace:\n{1}\r\n";
-					    Exception innerEx = ex.InnerException;
-					    while (innerEx!=null)
-					    {
-					        formatStr += "--- Inner Exception ---\r\n" + innerEx.GetType().Namespace + "." + innerEx.GetType().Name +
-					                     ": " + innerEx.Message + "\r\n" + innerEx.StackTrace + "\r\n"; 
-					        innerEx = innerEx.InnerException;
+                    lock (_lock)
+                    {
+                        if (ex.InnerException != null)
+                        {
+                            String formatStr = "Exception '{0}' occurred, Stack trace:\n{1}\r\n";
+                            Exception innerEx = ex.InnerException;
+                            while (innerEx != null)
+                            {
+                                formatStr += "--- Inner Exception ---\r\n" + innerEx.GetType().Namespace + "." + innerEx.GetType().Name +
+                                             ": " + innerEx.Message + "\r\n" + innerEx.StackTrace + "\r\n";
+                                innerEx = innerEx.InnerException;
+                            }
+
+                            Log(SimpleLogLevel.Error,
+                                formatStr,
+                                ex.Message,
+                                ex.StackTrace);
+                        }
+                        else
+                        {
+                            Log(SimpleLogLevel.Error,
+                                "Exception '{0}' occurred, Stack trace:\n{1}\r\n{2}",
+                                ex.Message,
+                                ex.StackTrace,
+                                "=> No Inner Exception");
                         }
 
-                        Log(SimpleLogLevel.Error,
-                            formatStr,
-							ex.Message,
-							ex.StackTrace);						
-					} else {
-						Log(SimpleLogLevel.Error,
-                            "Exception '{0}' occurred, Stack trace:\n{1}\r\n{2}",
-							ex.Message,
-							ex.StackTrace,
-						    "=> No Inner Exception");
-					}
+                        if (checkpoints)
+                            LogLastCheckpoints();
 
-                    if (checkpoints)
-                        LogLastCheckpoints();
-
-                    if (show)
-                    {
-						if (ex.InnerException == null) {
-							MessageBox.Show(
-								String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n=> No Inner Exception", ex.Message, ex.StackTrace),
-								"vMerge Exception", MessageBoxButton.OK);
-						} else {
-							MessageBox.Show(
-								String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n--- Inner ---\r\n{2}", ex.Message, ex.StackTrace, ex.InnerException.Message),
-								"vMerge Exception", MessageBoxButton.OK);
-						}
+                        if (show && !_shownErrorMessages.Contains(ex.Message))
+                        {
+                            if (ex.InnerException == null)
+                            {
+                                MessageBox.Show(
+                                    String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n=> No Inner Exception", ex.Message, ex.StackTrace),
+                                    "vMerge Exception", MessageBoxButton.OK);
+                            }
+                            else
+                            {
+                                MessageBox.Show(
+                                    String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n--- Inner ---\r\n{2}", ex.Message, ex.StackTrace, ex.InnerException.Message),
+                                    "vMerge Exception", MessageBoxButton.OK);
+                            }
+                            _shownErrorMessages.Add(ex.Message);
+                        }
                     }
                 }
+            }catch 
+            {
+
             }
         }
 

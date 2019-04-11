@@ -536,7 +536,10 @@ namespace alexbegh.vMerge.ViewModel.Merge
                         if (iex is LocalPathTooLongException)
                             DisplayPathTooLongHelp();
                         else
+                        {
+                            SimpleLogger.Log(ex, false, false);
                             otherExceptions = true;
+                        }
                     }
                     if (otherExceptions)
                         SimpleLogger.Log(ex, true);
@@ -657,35 +660,42 @@ namespace alexbegh.vMerge.ViewModel.Merge
 
         private static bool ResolveConflicts(ITfsTemporaryWorkspace tempWorkspace, ref bool finished)
         {
-            bool hadConflicts = false;
-            while (tempWorkspace.Conflicts.Count != 0)
+            try
             {
-                hadConflicts = true;
-                int oldConflictsCount = tempWorkspace.Conflicts.Count;
-
-                SimpleLogger.Checkpoint("PerformMerge: Resolving conflict ({0} remaining)", oldConflictsCount);
-                //Repository.Instance.TfsUIInteractionProvider.ResolveConflictsInternally(tempWorkspace);
-                //return false;
-                Repository.Instance.TfsUIInteractionProvider.ResolveConflictsPerTF(tempWorkspace.MappedFolder);
-
-                SimpleLogger.Checkpoint("PerformMerge: Finished resolving conflict ({0} remaining)", oldConflictsCount);
-                tempWorkspace.RefreshConflicts();
-                if (tempWorkspace.Conflicts.Count == oldConflictsCount)
+                bool hadConflicts = false;
+                while (tempWorkspace.Conflicts.Count != 0)
                 {
-                    MessageBoxViewModel mbvm = new MessageBoxViewModel("Cancel merge?", "There are conflicts remaining to be resolved. Really cancel the merge?", MessageBoxViewModel.MessageBoxButtons.None);
-                    var yesButton = new MessageBoxViewModel.MessageBoxButton("_Yes");
-                    mbvm.ConfirmButtons.Add(yesButton);
-                    mbvm.ConfirmButtons.Add(new MessageBoxViewModel.MessageBoxButton("_No"));
-                    Repository.Instance.ViewManager.ShowModal(mbvm);
+                    hadConflicts = true;
+                    int oldConflictsCount = tempWorkspace.Conflicts.Count;
 
-                    if (yesButton.IsChecked)
+                    SimpleLogger.Checkpoint("PerformMerge: Resolving conflict ({0} remaining)", oldConflictsCount);
+                    //Repository.Instance.TfsUIInteractionProvider.ResolveConflictsInternally(tempWorkspace);
+                    //return false;
+                    Repository.Instance.TfsUIInteractionProvider.ResolveConflictsPerTF(tempWorkspace.MappedFolder);
+
+                    SimpleLogger.Checkpoint("PerformMerge: Finished resolving conflict ({0} remaining)", oldConflictsCount);
+                    tempWorkspace.RefreshConflicts();
+                    if (tempWorkspace.Conflicts.Count == oldConflictsCount)
                     {
-                        finished = false;
-                        break;
+                        MessageBoxViewModel mbvm = new MessageBoxViewModel("Cancel merge?", "There are conflicts remaining to be resolved. Really cancel the merge?", MessageBoxViewModel.MessageBoxButtons.None);
+                        var yesButton = new MessageBoxViewModel.MessageBoxButton("_Yes");
+                        mbvm.ConfirmButtons.Add(yesButton);
+                        mbvm.ConfirmButtons.Add(new MessageBoxViewModel.MessageBoxButton("_No"));
+                        Repository.Instance.ViewManager.ShowModal(mbvm);
+
+                        if (yesButton.IsChecked)
+                        {
+                            finished = false;
+                            break;
+                        }
                     }
                 }
+                return hadConflicts;
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, false, false);
+                throw;
             }
-            return hadConflicts;
         }
 
         void PickPathFilter()
@@ -818,6 +828,7 @@ namespace alexbegh.vMerge.ViewModel.Merge
                             var copy = progressParams.CloneWithoutIncrements();
                             if (!PerformMerge(changeset, copy))
                             {
+                                SimpleLogger.Log(SimpleLogLevel.Info, "Merge conflict in: " + changeset.SourceCheckinId + " " + changeset.SourceComment);
                                 conflictingChangeset = changeset;
                                 break;
                             }

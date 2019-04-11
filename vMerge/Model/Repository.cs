@@ -109,6 +109,7 @@ namespace alexbegh.vMerge.Model
                     if (_tfsBridgeProvider != null)
                         return _tfsBridgeProvider;
                     _tfsBridgeProvider = new TfsBridgeProvider();
+                    if (TfsBridgeProviderChanged != null) TfsBridgeProviderChanged(this, null);
                     return _tfsBridgeProvider;
                 }
             }
@@ -117,6 +118,7 @@ namespace alexbegh.vMerge.Model
                 lock (_staticLocker)
                 {
                     _tfsBridgeProvider = value;
+                    if (TfsBridgeProviderChanged != null) TfsBridgeProviderChanged(this, null);
                 }
             }
         }
@@ -203,5 +205,10 @@ namespace alexbegh.vMerge.Model
                 }
             }
         }
+
+        /// <summary>
+        /// The team project has been selected
+        /// </summary>
+        internal event EventHandler TfsBridgeProviderChanged;
     }
 }

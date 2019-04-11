@@ -73,7 +73,7 @@ namespace alexbegh.vMerge.ViewModel
 
         public event EventHandler<EventArgs> ItemsLoaded;
 
-        private ObservableCollection<IProfileSettings> _mergeProfiles;
+        private ObservableCollection<IProfileSettings> _mergeProfiles = new ObservableCollection<IProfileSettings>();
         public ObservableCollection<IProfileSettings> MergeProfiles
         {
             get { return _mergeProfiles; }

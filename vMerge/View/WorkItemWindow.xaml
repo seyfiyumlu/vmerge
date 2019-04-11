@@ -11,7 +11,6 @@
              xmlns:my="clr-namespace:alexbegh.vMerge"
              xmlns:m="clr-namespace:alexbegh.vMerge.Model.Implementation"
              xmlns:ViewSelection="clr-namespace:alexbegh.vMerge.View.ViewSelection"
-             xmlns:MetroControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
@@ -21,7 +20,7 @@
     <UserControl.Resources>
         <ResourceDictionary Source="..\MainResources.xaml" />
     </UserControl.Resources>
-    <MetroControls:MetroContentControl>
+    <Grid>
         <Grid Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -180,5 +179,5 @@
                 </StackPanel>
             </Grid>
         </Grid>
-    </MetroControls:MetroContentControl>
+    </Grid>
 </UserControl>

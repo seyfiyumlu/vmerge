@@ -249,4 +249,22 @@ paket-files/
 
 # JetBrains Rider
 .idea/
+.vshistory/
 *.sln.iml
+/vMerge.UnitTest/.vshistory/UnitTest1.cs
+/vMerge/ViewModel/Options/.vshistory/GeneralOptionsViewModel.cs
+/vMerge/View/.vshistory
+/vMerge/StudioIntegration/Framework/.vshistory
+/vMerge/Model/Implementation/.vshistory
+/vMerge/ViewModel/.vshistory/TfsListBaseViewModel.cs
+/Utility/SerializationHelpers/.vshistory
+/Utility/.vshistory/Utility.csproj
+/.vshistory/vMerge.sln
+/Utility/Helpers/Logging/.vshistory/SimpleLogger.cs
+/Utility/UserControls/LoadingProgress/Control/.vshistory/LoadingProgressControl.xaml
+/Utility/Windows/.vshistory/WaitForBackgroundActionDialog.xaml
+/vMerge/.vshistory
+/vMerge/StudioIntegration/ToolWindows/.vshistory/vMergeWorkItemsToolWindow.cs
+/vMerge/View/Dialog/.vshistory/ModalMergeDialogWindow.xaml
+/vMerge/View/Options/.vshistory/GeneralOptionsView.xaml
+/vMerge/View/ViewSelection/.vshistory/ViewSelectionUserControl.xaml

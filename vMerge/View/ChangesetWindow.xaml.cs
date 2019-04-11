@@ -51,9 +51,9 @@ namespace alexbegh.vMerge.View
         {
             try
             {
-                LoadProfilesMenu.PlacementTarget = this;
+                /*LoadProfilesMenu.PlacementTarget = this;
                 LoadProfilesMenu.DataContext = DataContext;
-                LoadProfilesMenu.IsOpen = true;
+                LoadProfilesMenu.IsOpen = true;*/
             }
             catch (Exception ex)
             {

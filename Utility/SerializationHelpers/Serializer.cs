@@ -1,7 +1,10 @@
-﻿using System;
+﻿using alexbegh.Utility.Helpers.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
@@ -76,6 +79,26 @@ namespace alexbegh.Utility.SerializationHelpers
         }
 
         /// <summary>
+        /// Serialize a given object to targetPath
+        /// </summary>
+        /// <typeparam name="T_Type">The type of obj</typeparam>
+        /// <param name="obj">The object to serialize</param>
+        /// <param name="targetPath">The target path to serialize to</param>
+        public static void JsonSerialize<T_Type>(T_Type obj, string targetPath)
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+            serializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+            using (StreamWriter sw = new StreamWriter(targetPath))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, obj);
+                // {"ExpiryDate":new Date(1230375600000),"Price":0}
+            }
+        }
+
+        /// <summary>
         /// Serialize a given object to an XmlWriter
         /// </summary>
         /// <typeparam name="T_Type">The type of obj</typeparam>
@@ -84,6 +107,7 @@ namespace alexbegh.Utility.SerializationHelpers
         public static void XmlSerialize<T_Type>(T_Type obj, XmlWriter writer)
         {
             var serializer = GetSerializerFor(obj.GetType());
+            if (serializer == null) return;
             serializer.Serialize(writer, obj);
         }
 
@@ -103,6 +127,21 @@ namespace alexbegh.Utility.SerializationHelpers
         }
 
         /// <summary>
+        /// Deserializes an object from a given targetPath
+        /// </summary>
+        /// <typeparam name="T_Type">The type of the object to deserialize</typeparam>
+        /// <param name="targetPath">The targetPath</param>
+        /// <param name="obj">The resulting object</param>
+        public static void JSonDeserialize<T_Type>(string targetPath, out T_Type obj)
+        {
+            using (StreamReader file = File.OpenText(targetPath))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                obj = (T_Type)serializer.Deserialize(file, typeof(T_Type));
+            }
+        }
+
+        /// <summary>
         /// Deserializes an object from an XmlReader
         /// </summary>
         /// <typeparam name="T_Type">The type of the object to deserialize</typeparam>
@@ -111,6 +150,10 @@ namespace alexbegh.Utility.SerializationHelpers
         public static void XmlDeserialize<T_Type>(XmlReader reader, out T_Type obj)
         {
             var serializer = GetSerializerFor(typeof(T_Type));
+            if (serializer == null)
+            {
+                throw new Exception("Error while XmlDeserialize.");
+            }
             obj = (T_Type)serializer.Deserialize(reader);
         }
 
@@ -124,6 +167,10 @@ namespace alexbegh.Utility.SerializationHelpers
         public static void XmlDeserialize<T_Type>(Type type, XmlReader reader, out T_Type obj)
         {
             var serializer = GetSerializerFor(type);
+            if (serializer == null)
+            {
+                throw new Exception("Error while XmlDeserialize.");
+            }
             obj = (T_Type)serializer.Deserialize(reader);
         }
 
@@ -144,7 +191,8 @@ namespace alexbegh.Utility.SerializationHelpers
                 return result;
             } catch (Exception ex)
             {
-                throw new Exception("Unable to serialize type '" + type.Namespace + "." + type.Name + "'", ex);
+                SimpleLogger.Log(SimpleLogLevel.Error, "Unable to serialize type '" + type.Namespace + "." + type.Name + "':" + ex.Message);
+                return null;
             }
         }
 

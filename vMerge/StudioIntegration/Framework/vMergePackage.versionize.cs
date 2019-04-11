@@ -114,18 +114,24 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
         private static ResourceDictionary _themeDic, _baseThemeDic;
         public static void ThemeWindow(ContentControl control)
         {
-            if (control.GetType().GetCustomAttributes(typeof(DoNotStyleAttribute), false).Any())
+            try
             {
-                return;
+                if (control.GetType().GetCustomAttributes(typeof(DoNotStyleAttribute), false).Any())
+                {
+                    return;
+                }
+                _themedControls.Compact();
+                _themedControls.Add(control);
+                if (_themeDic == null)
+                    SetTheme();
+                if (!control.Resources.MergedDictionaries.Contains(_themeDic))
+                    control.Resources.MergedDictionaries.Add(_themeDic);
+                if (!control.Resources.MergedDictionaries.Contains(_baseThemeDic))
+                    control.Resources.MergedDictionaries.Add(_baseThemeDic);
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(SimpleLogLevel.Info, "Theme Controles init failed: " + ex.Message);
             }
-            _themedControls.Compact();
-            _themedControls.Add(control);
-            if (_themeDic == null)
-                SetTheme();
-            if (!control.Resources.MergedDictionaries.Contains(_themeDic))
-                control.Resources.MergedDictionaries.Add(_themeDic);
-            if (!control.Resources.MergedDictionaries.Contains(_baseThemeDic))
-                control.Resources.MergedDictionaries.Add(_baseThemeDic);
         }
 
         private static System.Windows.Forms.Screen GetScreen(Window window)
@@ -251,9 +257,16 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
                     {
                         Repository.Instance.Settings.LoadSettings(targetPath);
                     }
-                    catch (Exception)
+                    catch (Exception ex1)
                     {
-                        Repository.Instance.Settings.LoadSettings(targetPath + ".bak");
+                        try
+                        {
+                            Repository.Instance.Settings.LoadSettings(targetPath + ".bak");
+                        } catch (Exception ex)
+                        {
+                            SimpleLogger.Log(SimpleLogLevel.Error, "Failed to load setting: " + ex1.Message + "\r\n" + ex1.StackTrace);
+                            SimpleLogger.Log(SimpleLogLevel.Error, "Failed to load backup setting: " + ex.Message + "\r\n" + ex.StackTrace);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -297,52 +310,7 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
 
         public static void SetTheme(string chosen = null)
         {
-            try
-            {
-                if (chosen == null)
-                    chosen = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.SelectedThemeKey);
-                var oldTheme = _themeDic;
-                var oldBaseTheme = _baseThemeDic;
-                IVsUIShell2 uiShell = _package.GetService(typeof(SVsUIShell)) as IVsUIShell2;
-                uint rgb;
-                uiShell.GetVSSysColorEx((int)__VSSYSCOLOREX.VSCOLOR_TOOLWINDOW_BACKGROUND, out rgb);
-                var col = System.Drawing.ColorTranslator.FromWin32((int)rgb);
-
-                if (col.GetBrightness() < 0.5)
-                {
-                    IsDarkTheme = true;
-                    _themeDic = new System.Windows.ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml") };
-                    _baseThemeDic = new System.Windows.ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml") };
-                }
-                else
-                {
-                    IsDarkTheme = false;
-                    _themeDic = new System.Windows.ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml") };
-                    _baseThemeDic = new System.Windows.ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml") };
-                }
-
-                if (chosen != null && MahApps.Metro.ThemeManager.Accents.Any(accent => accent.Name == chosen))
-                {
-                    _themeDic = new System.Windows.ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Accents/" + chosen + ".xaml") };
-                }
-
-                foreach (var control in _themedControls)
-                {
-                    if (control.Resources.MergedDictionaries.Contains(oldTheme))
-                        control.Resources.MergedDictionaries.Remove(oldTheme);
-                    if (control.Resources.MergedDictionaries.Contains(oldBaseTheme))
-                        control.Resources.MergedDictionaries.Remove(oldBaseTheme);
-                    if (!control.Resources.MergedDictionaries.Contains(_themeDic))
-                        control.Resources.MergedDictionaries.Add(_themeDic);
-                    if (!control.Resources.MergedDictionaries.Contains(_baseThemeDic))
-                        control.Resources.MergedDictionaries.Add(_baseThemeDic);
-                    control.UpdateDefaultStyle();
-                }
-            }
-            catch (Exception ex)
-            {
-                SimpleLogger.Log(ex);
-            }
+            
         }
 
         public void ShowWorkItemView()
@@ -420,17 +388,25 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
         /// </summary>
         private void ShowChangesetsToolWindow(object sender, EventArgs e)
         {
-            // Get the instance number 0 of this tool window. This window is single instance so this instance
-            // is actually the only one.
-            // The last flag is set to true so that if the tool window does not exists it will be created.
-            ToolWindowPane window = this.FindToolWindow(typeof(vMergeChangesetsToolWindow), 0, true);
-            if ((null == window) || (null == window.Frame))
+            try
             {
-                throw new NotSupportedException(Resources.CanNotCreateWindow);
+                // Get the instance number 0 of this tool window. This window is single instance so this instance
+                // is actually the only one.
+                // The last flag is set to true so that if the tool window does not exists it will be created.
+                ToolWindowPane window = this.FindToolWindow(typeof(vMergeChangesetsToolWindow), 0, true);
+                if ((null == window) || (null == window.Frame))
+                {
+                    throw new NotSupportedException(Resources.CanNotCreateWindow);
+                }
+                IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
+                Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, false);
             }
-            IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
-            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
+
+        
 
         /// <summary>
         /// This function is called when the user clicks the menu item that shows the 

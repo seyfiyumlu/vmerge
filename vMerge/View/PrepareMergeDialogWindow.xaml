@@ -8,7 +8,6 @@
         xmlns:LoadingProgress="clr-namespace:alexbegh.Utility.UserControls.LoadingProgress.Control;assembly=Utility"
         xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         xmlns:Converters="clr-namespace:alexbegh.vMerge.View.Converters"
-        xmlns:MetroControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:controls="clr-namespace:alexbegh.vMerge.View.Controls"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         Background="{DynamicResource VsBrush.Window}"

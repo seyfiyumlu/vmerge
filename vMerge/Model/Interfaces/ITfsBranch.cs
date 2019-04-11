@@ -19,6 +19,11 @@ namespace alexbegh.vMerge.Model.Interfaces
             get;
         }
 
+        string BranchName
+        {
+            get;
+        }
+
         List<string> ChildBranchNames
         {
             get;

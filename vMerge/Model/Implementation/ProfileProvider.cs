@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using alexbegh.Utility.Helpers.Logging;
 using alexbegh.Utility.SerializationHelpers;
 using alexbegh.vMerge.Model.Interfaces;
 
@@ -31,7 +32,10 @@ namespace alexbegh.vMerge.Model.Implementation
                 {
                     _profiles = Repository.Instance.Settings.FetchSettings<SerializableDictionary<string, SerializableDictionary<string, ProfileSettings>>>(Constants.Settings.ProfileKey);
                     if (_profiles == null)
+                    {
+                        SimpleLogger.Log(SimpleLogLevel.Warn, "Profiles not found in settings");
                         _profiles = new SerializableDictionary<string, SerializableDictionary<string, ProfileSettings>>();
+                    }
                 }
 
                 return _profiles;
@@ -104,6 +108,7 @@ namespace alexbegh.vMerge.Model.Implementation
 
         public bool SaveProfileAs(Uri teamProjectUri, string profileName, bool overwrite)
         {
+            SimpleLogger.Log(SimpleLogLevel.Info, "Save Profile: " + profileName);
             if (teamProjectUri == null)
                 teamProjectUri = Repository.Instance.TfsBridgeProvider.ActiveTeamProject.ArtifactUri;
 
@@ -126,7 +131,7 @@ namespace alexbegh.vMerge.Model.Implementation
                 ActiveProjectProfileListChanged(this, EventArgs.Empty);
             if (ProfilesChanged != null)
                 ProfilesChanged(this, EventArgs.Empty);
-            _activeProfile = result[profileName];
+            _activeProfile = result[profileName];            
             return true;
         }
 
