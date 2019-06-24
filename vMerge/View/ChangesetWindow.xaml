@@ -70,7 +70,7 @@
                             Tag="{Binding Path=DataContext}">
                                 
                             </Button>
-                            <Button Content="Save merge profile" Command="{Binding SaveMergeProfileCommand}" Margin="3" IsEnabled="False">
+                            <Button Content="Save merge profile" Command="{Binding SaveMergeProfileCommand}" Margin="3" >
                                 <Button.ToolTip>
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Foreground="LightPink">

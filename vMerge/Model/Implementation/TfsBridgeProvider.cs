@@ -12,7 +12,6 @@ using System.IO;
 using alexbegh.Utility.Helpers.InOrderSetter;
 using alexbegh.Utility.Helpers.Logging;
 using Microsoft.TeamFoundation;
-using Microsoft.TeamFoundation.Server;
 using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.Framework.Common;
 using System.Security.Principal;
