@@ -1,4 +1,5 @@
 ﻿using alexbegh.Utility.Commands;
+using alexbegh.Utility.Helpers.Logging;
 using alexbegh.Utility.Helpers.ViewModel;
 using alexbegh.Utility.Managers.View;
 using alexbegh.vMerge.Model;
@@ -168,15 +169,22 @@ namespace alexbegh.vMerge.ViewModel.Merge
 
         private void DiffToPreviousTarget(PendingChangeWithConflict pc)
         {
-            if (pc == null)
-                return;
-            if (!Repository.Instance.TfsUIInteractionProvider.ShowDifferencesPerTF(
-                TemporaryWorkspace.MappedFolder,
-                pc.Change.PendingChange.ServerItem + ";" + pc.Change.PendingChange.SourceVersionFrom.ToString(),
-                pc.Change.PendingChange.ServerItem + ";" + (pc.Change.PendingChange.SourceVersionFrom-1).ToString()))
+            try
             {
-                var mbvm = new MessageBoxViewModel("Cannot show difference", "No differences can be shown.", MessageBoxViewModel.MessageBoxButtons.OK);
-                Repository.Instance.ViewManager.ShowModal(mbvm);
+                if (pc == null)
+                    return;
+                if (!Repository.Instance.TfsUIInteractionProvider.ShowDifferencesPerTF(
+                    TemporaryWorkspace.MappedFolder,
+                    pc.Change.PendingChange.ServerItem + ";" + pc.Change.PendingChange.SourceVersionFrom.ToString(),
+                    pc.Change.PendingChange.ServerItem + ";" + (pc.Change.PendingChange.SourceVersionFrom - 1).ToString()))
+                {
+                    var mbvm = new MessageBoxViewModel("Cannot show difference", "No differences can be shown.", MessageBoxViewModel.MessageBoxButtons.OK);
+                    Repository.Instance.ViewManager.ShowModal(mbvm);
+                }
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, false, false);
+                throw;
             }
         }
 
@@ -191,6 +199,7 @@ namespace alexbegh.vMerge.ViewModel.Merge
 
         private void DiffSourceToTarget(PendingChangeWithConflict pc)
         {
+            try { 
             if (pc == null)
                 return;
             string exactSource = null;
@@ -216,6 +225,12 @@ namespace alexbegh.vMerge.ViewModel.Merge
                     exactSource,
                     pc.Change.PendingChange.LocalItem);
             }
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, false, false);
+                throw;
+            }
         }
 
         private bool CanDiffSourceToTarget(PendingChangeWithConflict pc)
@@ -229,6 +244,7 @@ namespace alexbegh.vMerge.ViewModel.Merge
 
         private void DiffToPreviousSource(PendingChangeWithConflict pc)
         {
+            try { 
             if (pc == null)
                 return;
             string exactSource = null;
@@ -253,6 +269,12 @@ namespace alexbegh.vMerge.ViewModel.Merge
                     TemporaryWorkspace.MappedFolder,
                     exactSource + ";" + (fullMatch.Change.Item.ChangesetId - 1).ToString(),
                     exactSource + ";" + fullMatch.Change.Item.ChangesetId.ToString());
+            }
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, false, false);
+                throw;
             }
         }
 
