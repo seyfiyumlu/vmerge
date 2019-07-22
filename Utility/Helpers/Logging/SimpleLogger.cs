@@ -322,15 +322,13 @@ namespace alexbegh.Utility.Helpers.Logging
                         {
                             if (ex.InnerException == null)
                             {
-                                MessageBox.Show(
-                                    String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n=> No Inner Exception", ex.Message, ex.StackTrace),
-                                    "vMerge Exception", MessageBoxButton.OK);
+                                ShowErrorWindow(
+                                    String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n=> No Inner Exception", ex.Message, ex.StackTrace));
                             }
                             else
                             {
-                                MessageBox.Show(
-                                    String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n--- Inner ---\r\n{2}", ex.Message, ex.StackTrace, ex.InnerException.Message),
-                                    "vMerge Exception", MessageBoxButton.OK);
+                                ShowErrorWindow(
+                                    String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n--- Inner ---\r\n{2}", ex.Message, ex.StackTrace, ex.InnerException.Message));
                             }
                             _shownErrorMessages.Add(ex.Message);
                         }
@@ -376,6 +374,16 @@ namespace alexbegh.Utility.Helpers.Logging
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
+        public static void ShowErrorWindow(String message)
+        {
+            //TODO show Window with Message and Content of LogFilePath
+            MessageBox.Show(message, "vMerge Exception", MessageBoxButton.OK);
         }
     }
 }

@@ -138,7 +138,7 @@ namespace alexbegh.vMerge.Model
                     _settings = new Settings();
                     return _settings;
                 }
-            }
+            }            
         }
 
         private volatile BackgroundTaskManager _backgroundTaskManager;

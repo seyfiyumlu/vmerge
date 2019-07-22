@@ -1,4 +1,6 @@
-﻿using System;
+﻿using alexbegh.Utility.SerializationHelpers;
+using alexbegh.vMerge.Model.Implementation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,5 +27,7 @@ namespace alexbegh.vMerge.Model.Interfaces
 
         void SetDirty();
         void SetAutoSave(string path, int milliseconds);
+
+        IProfilesProvider ProfilesSettings { get; }
     }
 }

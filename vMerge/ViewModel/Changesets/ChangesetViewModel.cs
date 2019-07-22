@@ -362,11 +362,16 @@ namespace alexbegh.vMerge.ViewModel.Changesets
 
         void ProfileProvider_DefaultProfileChanged(object sender, DefaultProfileChangedEventArgs e)
         {
+            SimpleLogger.Log(SimpleLogLevel.Info, "ProfileProvider_DefaultProfileChanged");
+
             var defaultProfile = Repository.Instance.ProfileProvider.GetDefaultProfile();
 
             if (defaultProfile == null)
             {
-                Repository.Instance.BackgroundTaskManager.DelayedPost(() => { ProfileProvider_DefaultProfileChanged(sender, e); return false; });
+                if (Repository.Instance.TfsBridgeProvider.ActiveTeamProject != null)
+                {
+                    Repository.Instance.BackgroundTaskManager.DelayedPost(() => { ProfileProvider_DefaultProfileChanged(sender, e); return false; });
+                }
                 return;
             }
                 
@@ -488,6 +493,7 @@ namespace alexbegh.vMerge.ViewModel.Changesets
         {
             get
             {
+                
                 return Enabled && MergeProfiles != null && MergeProfiles.Any();
             }
         }
@@ -681,6 +687,7 @@ namespace alexbegh.vMerge.ViewModel.Changesets
 
         void SaveMergeProfile()
         {
+            SimpleLogger.Log(SimpleLogLevel.Info, "Start save profiles");
             var vm = new SaveProfileAsViewModel();
             var dlg = Repository.Instance.ViewManager.ShowModal(vm);
         }
@@ -763,6 +770,7 @@ namespace alexbegh.vMerge.ViewModel.Changesets
 
         void ApplyFilter()
         {
+            SimpleLogger.Log(SimpleLogLevel.Info, "Start apply changeset filters");
             Regex reInc = null, reExc = null;
             if (IncludeCommentFilterActive)
             {
@@ -821,6 +829,7 @@ namespace alexbegh.vMerge.ViewModel.Changesets
 
         void PerformApplyFilter()
         {
+            SimpleLogger.Log(SimpleLogLevel.Info, "Start perform apply changeset filters");
             _applyFilterTimer.Stop();
             _applyFilterTimer.IsEnabled = false;
             var defaultProfile = Repository.Instance.ProfileProvider.GetDefaultProfile();

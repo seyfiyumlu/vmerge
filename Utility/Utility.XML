@@ -1050,6 +1050,12 @@
             </summary>
             <returns>Log file contents</returns>
         </member>
+        <member name="M:alexbegh.Utility.Helpers.Logging.SimpleLogger.ShowErrorWindow(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+        </member>
         <member name="T:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl">
             <summary>
             <para>This class helps implementing the INotifyPropertyChanged interface.</para>

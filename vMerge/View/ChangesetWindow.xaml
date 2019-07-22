@@ -66,10 +66,21 @@
                                     Opens the merge window with the selected changesets. Does not directly start merging.
                                 </Button.ToolTip>
                             </Button>
-                            <Button Content="Load merge profile" Click="ShowLoadMergeProfilesMenu"  IsEnabled="{Binding Path=LoadMergeProfilesEnabled}" Margin="3"
-                            Tag="{Binding Path=DataContext}">
-                                
+                            
+                            <Button Content="Load merge profile" Click="ShowLoadMergeProfilesMenu" IsEnabled="{Binding Path=LoadMergeProfilesEnabled}" Margin="3" Tag="{Binding Path=DataContext}">
+                                <Button.ContextMenu>
+                                    <vsi:VsContextMenu x:Name="LoadProfilesMenu" ItemsSource="{Binding Path=MergeProfiles}">
+                                        <ContextMenu.ItemContainerStyle>
+                                            <Style>
+                                                <Setter Property="MenuItem.Header" Value="{Binding Name}" />
+                                                <Setter Property="MenuItem.Command" Value="{Binding Path=DataContext.LoadProfileCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
+                                                <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+                                            </Style>
+                                        </ContextMenu.ItemContainerStyle>
+                                    </vsi:VsContextMenu>
+                                </Button.ContextMenu>
                             </Button>
+                            
                             <Button Content="Save merge profile" Command="{Binding SaveMergeProfileCommand}" Margin="3" >
                                 <Button.ToolTip>
                                     <StackPanel Orientation="Vertical">
@@ -83,6 +94,7 @@
                                     </StackPanel>
                                 </Button.ToolTip>
                             </Button>
+                            
                             <Button Content="Select marked items" Command="{Binding SelectMarkedItemsCommand}" Margin="3">
                                 <Button.ToolTip>
                                     Checks all changesets which are highlighted.

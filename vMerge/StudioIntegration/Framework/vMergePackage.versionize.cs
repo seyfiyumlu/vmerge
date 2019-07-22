@@ -193,10 +193,7 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
             _package = this;
 
-            string targetPath =
-                Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    "qbus.vMerge.settings");
+            string targetPath = "qbus.vMerge.settings";
             try
             {
                 Repository.Initialize(
@@ -275,7 +272,7 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
                 }
                 SetDefaultSettings();
                 Repository.Instance.ProfileProvider.ReloadFromSettings();
-                Repository.Instance.Settings.SetAutoSave(targetPath, 500);
+                Repository.Instance.Settings.SetAutoSave(targetPath, 2000);
             }
             catch (Exception ex)
             {

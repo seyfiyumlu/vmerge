@@ -20,6 +20,8 @@ namespace alexbegh.vMerge.Model.Implementation
     [Serializable]
     public class Settings : ISettings
     {
+        private IProfilesProvider _profileProvider;
+
         #region Constructor
         /// <summary>
         /// Constructs an instance
@@ -55,10 +57,22 @@ namespace alexbegh.vMerge.Model.Implementation
         /// <summary>
         /// The serialized settings
         /// </summary>
-        private SerializableDictionary<string, object> SerializedSettings
+        internal SerializableDictionary<string, object> SerializedSettings
         {
             get;
             set;
+        }
+
+        public IProfilesProvider ProfilesSettings
+        {
+            get
+            {
+                if (_profileProvider == null)
+                {
+                    _profileProvider = new ProfilesProvider();                    
+                }
+                return _profileProvider;
+            }            
         }
 
         /// <summary>
@@ -136,7 +150,8 @@ namespace alexbegh.vMerge.Model.Implementation
                         return res;
                     }
                     return (T_Item)SerializedSettings[key];
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     SimpleLogger.Log(SimpleLogLevel.Warn, "Fail to fetch settings for: '" + key + "'  " + ex.Message);
                     return default(T_Item);
@@ -163,13 +178,44 @@ namespace alexbegh.vMerge.Model.Implementation
         /// <param name="source">Source file name</param>
         public void LoadSettings(string name)
         {
-            /*string path = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "vMerge",
-                name + ".qvmset");
+            // TR: nur Test
+            SimpleLogger.Log(SimpleLogLevel.Info, "start load settings");
 
-            if (!File.Exists(path) || (new FileInfo(path)).Length == 0)
+            // TR: für Test durch Pfad darunter ersetzt
+            //string path = Path.Combine(
+            //    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            //    "vMerge",
+            //    name + ".qvmset");
+
+            string path = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "vMerge"+ name + ".qvmset");
+
+            SimpleLogger.Log(SimpleLogLevel.Info, "Load settings from: " + path);
+
+            // TR: für Test auskommentiert
+            //if (!File.Exists(path) || (new FileInfo(path)).Length == 0)
+            //{
+            //    // TR: nur Test
+            //    SimpleLogger.Log(SimpleLogLevel.Info, "DATEI NICHT VORHANDEN ODER LEER.");
+
+            //    SerializedSettings = new SerializableDictionary<string, object>();
+            //    return;
+            //}
+
+            if (!File.Exists(path))
             {
+                
+
+                SerializedSettings = new SerializableDictionary<string, object>();
+                return;
+            }
+
+            if (new FileInfo(path).Length == 0)
+            {
+                // TR: nur Test
+                SimpleLogger.Log(SimpleLogLevel.Info, "settings file is empty.");
+
                 SerializedSettings = new SerializableDictionary<string, object>();
                 return;
             }
@@ -177,22 +223,28 @@ namespace alexbegh.vMerge.Model.Implementation
             try
             {
                 lock (Lock)
-                {                    
-                    SerializableDictionary<string, object> serializedSettings;
-                    Serializer.JSonDeserialize(path, out serializedSettings);
-                    SerializedSettings = serializedSettings;
+                {
+                    // TR: nur Test
+                    SimpleLogger.Log(SimpleLogLevel.Info, "settings file found.");
+
+                    //SerializableDictionary<string, object> tempSerializedSettings;
+                    //Serializer.JSonDeserialize(path, out tempSerializedSettings);
+                    //SerializedSettings = tempSerializedSettings;
+                    
+                    this.ProfilesSettings.LoadAsJson(path);
                 }
             }
             catch (FileNotFoundException)
             {
                 var message = "Failed to load Settings from '" + path + "': File not found";
                 SimpleLogger.Log(SimpleLogLevel.Warn, message);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 var message = "Failed to load Settings from '" + path + "': " + ex.Message;
                 SimpleLogger.Log(SimpleLogLevel.Error, message);
                 throw new Exception(message, ex);
-            }*/
+            }
         }
 
         /// <summary>
@@ -201,14 +253,17 @@ namespace alexbegh.vMerge.Model.Implementation
         /// <param name="destination">Destination path</param>
         public void SaveSettings(string name)
         {
-            /*string path = Path.Combine(
+            // TR: nur Test
+            SimpleLogger.Log(SimpleLogLevel.Info, "start save settings");
+
+            // das dem ProfileProvider übergeben
+            string path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "vMerge",
-                name + ".qvmset");
+                "vMerge" + name + ".qvmset");
             string pathBak = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "vMerge",
-                name + ".bak.qvmset");
+                "vMerge" +  name + ".bak.qvmset");
+
             lock (Lock)
             {
                 if (SerializedSettings == null)
@@ -217,8 +272,14 @@ namespace alexbegh.vMerge.Model.Implementation
                 if (File.Exists(path))
                     File.Copy(path, pathBak, true);
 
-                Serializer.JsonSerialize(SerializedSettings, path);
-            }*/
+                // TR: nur Test
+
+                SimpleLogger.Log(SimpleLogLevel.Info, "Serialize to: " + path);
+                //Serializer.JsonSerialize(SerializedSettings, path);
+                
+                this.ProfilesSettings.SaveAsJson(path);
+
+            }
         }
 
         /// <summary>
@@ -264,6 +325,7 @@ namespace alexbegh.vMerge.Model.Implementation
         /// <param name="milliseconds">The delay in milliseconds</param>
         public void SetAutoSave(string name, int milliseconds)
         {
+
             if (AutoSaveTimer != null)
             {
                 AutoSaveTimer.Dispose();
@@ -271,6 +333,7 @@ namespace alexbegh.vMerge.Model.Implementation
             AutoSaveTimer = new Timer(
                 (o) =>
                 {
+                    SimpleLogger.Log(SimpleLogLevel.Info, "AutoSave timer event triggered");
                     if (Interlocked.CompareExchange(ref TimerIsExecuting, 1, 0) == 0)
                     {
                         try
@@ -297,6 +360,7 @@ namespace alexbegh.vMerge.Model.Implementation
                 }, null,
                     TimeSpan.FromMilliseconds(0),
                     TimeSpan.FromMilliseconds(milliseconds));
+                    
         }
         #endregion
     }

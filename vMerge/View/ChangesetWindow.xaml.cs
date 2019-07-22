@@ -22,18 +22,20 @@ namespace alexbegh.vMerge.View
     {
         public ChangesetWindow()
         {
+            
+
             try
             {
                 InitializeComponent();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 SimpleLogger.Log(ex, true, true);
                 throw;
             }
             try
             {
-                Repository.Instance.Settings.LoadSettings(
-                    System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "vMerge.settings"));
+                Repository.Instance.Settings.LoadSettings("qbus.vMerge.settings");
             }
             catch (Exception ex)
             {
@@ -49,14 +51,24 @@ namespace alexbegh.vMerge.View
 
         private void ShowLoadMergeProfilesMenu(object sender, RoutedEventArgs e)
         {
+            // TR: nur Test
+            SimpleLogger.Log(SimpleLogLevel.Info, "start ShowLoadMergeProfilesMenu.");
+
             try
             {
-                /*LoadProfilesMenu.PlacementTarget = this;
+                LoadProfilesMenu.PlacementTarget = this;
                 LoadProfilesMenu.DataContext = DataContext;
-                LoadProfilesMenu.IsOpen = true;*/
+                LoadProfilesMenu.IsOpen = true;
+
+                //var versuch = new ChangesetWindow();
+
+               
+
             }
             catch (Exception ex)
             {
+                
+
                 SimpleLogger.Log(SimpleLogLevel.Warn, ex.GetType().Name + " in ShowLoadMergeProfilesMenu: " + ex.Message);
             }
         }
