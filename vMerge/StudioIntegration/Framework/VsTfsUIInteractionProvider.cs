@@ -223,7 +223,11 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
             try
             {
                 _attachedFrames.Clear();
-                string pathToTools = Environment.GetEnvironmentVariable("VS120COMNTOOLS");
+                string pathToTools = Environment.GetEnvironmentVariable("VS140COMNTOOLS");
+                if (String.IsNullOrEmpty(pathToTools)) pathToTools = Environment.GetEnvironmentVariable("VS150COMNTOOLS");
+                if (String.IsNullOrEmpty(pathToTools)) pathToTools = Environment.GetEnvironmentVariable("VS130COMNTOOLS");
+                if (String.IsNullOrEmpty(pathToTools)) pathToTools = Environment.GetEnvironmentVariable("VS100COMNTOOLS");
+                if (String.IsNullOrEmpty(pathToTools)) throw new Exception("VS1X0COMNTOOLS not found");
                 string pathToTF = Path.GetFullPath(Path.Combine(pathToTools, "..\\IDE\\TF.exe"));
 
                 ProcessStartInfo psi = new ProcessStartInfo();

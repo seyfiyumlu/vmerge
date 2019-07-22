@@ -694,17 +694,23 @@ namespace alexbegh.vMerge.ViewModel.Changesets
 
         protected override void Refresh()
         {
-            SimpleLogger.Log(SimpleLogLevel.Info, "Reload called (Changeset)");
-            base.Refresh();
-            ItemsLoading.IsLoading = true;
-            ItemsLoading.ProgressInfo = "Reloading projects, branches and changesets ... please wait";
-            ResetChangesets();
-            SetContent(new ObservableCollection<TfsChangesetWrapper>());
-            SimpleLogger.Log(SimpleLogLevel.Info, "Reload clear list (Changeset)");
-            TfsItemCache.Clear();
-            SimpleLogger.Log(SimpleLogLevel.Info, "Reload call TFS Bridge (Changeset)");
-            Repository.Instance.TfsBridgeProvider.Refresh();
-            SimpleLogger.Log(SimpleLogLevel.Info, "Reload finished (Changeset)");
+            try
+            {
+                SimpleLogger.Log(SimpleLogLevel.Info, "Reload called (Changeset)");
+                base.Refresh();
+                ItemsLoading.IsLoading = true;
+                ItemsLoading.ProgressInfo = "Reloading projects, branches and changesets ... please wait";
+                ResetChangesets();
+                SetContent(new ObservableCollection<TfsChangesetWrapper>());
+                SimpleLogger.Log(SimpleLogLevel.Info, "Reload clear list (Changeset)");
+                TfsItemCache.Clear();
+                SimpleLogger.Log(SimpleLogLevel.Info, "Reload call TFS Bridge (Changeset)");
+                Repository.Instance.TfsBridgeProvider.Refresh();
+                SimpleLogger.Log(SimpleLogLevel.Info, "Reload finished (Changeset)");
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, false);
+            }
         }
 
         void SelectMarkedItems()
@@ -938,13 +944,19 @@ namespace alexbegh.vMerge.ViewModel.Changesets
             }
             catch (Exception ex)
             {
-                SimpleLogger.Log(ex, false);
+                SimpleLogger.Log(ex, true);
             }
         }
 
         void ShowMergeView()
         {
-            Repository.Instance.VMergeUIProvider.FocusMergeWindow();
+            try
+            {
+                Repository.Instance.VMergeUIProvider.FocusMergeWindow();
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, false);
+            }
         }
         #endregion
 

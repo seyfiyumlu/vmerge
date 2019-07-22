@@ -806,44 +806,50 @@ namespace alexbegh.vMerge.ViewModel.Merge
 
         private void AutoMerge()
         {
-            var confirm = new MessageBoxViewModel("vMerge: AutoMerge all changesets", "All changesets will be merged silently as long as no conflict arises. Are you really sure to proceed?", MessageBoxViewModel.MessageBoxButtons.None);
-            var goOn = new MessageBoxViewModel.MessageBoxButton("Merge silently");
-            var cancel = new MessageBoxViewModel.MessageBoxButton("Cancel");
-
-            confirm.ConfirmButtons.Add(goOn);
-            confirm.ConfirmButtons.Add(cancel);
-            Repository.Instance.ViewManager.ShowModal(confirm);
-            if (goOn.IsChecked)
+            try
             {
-                ChangesetListElement conflictingChangeset = null;
-                Repository.Instance.BackgroundTaskManager.RunWithCancelDialog(
-                    (progressParams) =>
-                    {
-                        progressParams.TrackProgress.MaxProgress = ChangesetList.Where(item => item.CanBeMerged).Count();
-                        foreach (var changeset in ChangesetList.Where(item => item.CanBeMerged).OrderBy(item => item.SourceCheckinId))
-                        {
-                            progressParams.TrackProgress.Increment();
-                            progressParams.CancellationToken.ThrowIfCancellationRequested();
+                var confirm = new MessageBoxViewModel("vMerge: AutoMerge all changesets", "All changesets will be merged silently as long as no conflict arises. Are you really sure to proceed?", MessageBoxViewModel.MessageBoxButtons.None);
+                var goOn = new MessageBoxViewModel.MessageBoxButton("Merge silently");
+                var cancel = new MessageBoxViewModel.MessageBoxButton("Cancel");
 
-                            var copy = progressParams.CloneWithoutIncrements();
-                            if (!PerformMerge(changeset, copy))
-                            {
-                                SimpleLogger.Log(SimpleLogLevel.Info, "Merge conflict in: " + changeset.SourceCheckinId + " " + changeset.SourceComment);
-                                conflictingChangeset = changeset;
-                                break;
-                            }
-                        }
-                    }, "Merging changesets ...");
-
-                if (conflictingChangeset != null)
+                confirm.ConfirmButtons.Add(goOn);
+                confirm.ConfirmButtons.Add(cancel);
+                Repository.Instance.ViewManager.ShowModal(confirm);
+                if (goOn.IsChecked)
                 {
-                    var comment = conflictingChangeset.SourceComment;
-                    if (comment.Length > 80) comment = comment.Substring(0, 77) + "...";
-                    var cancelled = new MessageBoxViewModel("vMerge: AutoMerge all changesets", String.Format("AutoMerge has stopped due to a conflict caused by changeset #{0} (comment: \"{1}\").\r\nPlease merge the remaining changesets manually.", conflictingChangeset.SourceCheckinId, comment), MessageBoxViewModel.MessageBoxButtons.OK);
-                    Repository.Instance.ViewManager.ShowModal(cancelled);
-                }
+                    ChangesetListElement conflictingChangeset = null;
+                    Repository.Instance.BackgroundTaskManager.RunWithCancelDialog(
+                        (progressParams) =>
+                        {
+                            progressParams.TrackProgress.MaxProgress = ChangesetList.Where(item => item.CanBeMerged).Count();
+                            foreach (var changeset in ChangesetList.Where(item => item.CanBeMerged).OrderBy(item => item.SourceCheckinId))
+                            {
+                                progressParams.TrackProgress.Increment();
+                                progressParams.CancellationToken.ThrowIfCancellationRequested();
 
-                LoadAllAssociatedChangesetsIncludingMerges(true);
+                                var copy = progressParams.CloneWithoutIncrements();
+                                if (!PerformMerge(changeset, copy))
+                                {
+                                    SimpleLogger.Log(SimpleLogLevel.Info, "Merge conflict in: " + changeset.SourceCheckinId + " " + changeset.SourceComment);
+                                    conflictingChangeset = changeset;
+                                    break;
+                                }
+                            }
+                        }, "Merging changesets ...");
+
+                    if (conflictingChangeset != null)
+                    {
+                        var comment = conflictingChangeset.SourceComment;
+                        if (comment.Length > 80) comment = comment.Substring(0, 77) + "...";
+                        var cancelled = new MessageBoxViewModel("vMerge: AutoMerge all changesets", String.Format("AutoMerge has stopped due to a conflict caused by changeset #{0} (comment: \"{1}\").\r\nPlease merge the remaining changesets manually.", conflictingChangeset.SourceCheckinId, comment), MessageBoxViewModel.MessageBoxButtons.OK);
+                        Repository.Instance.ViewManager.ShowModal(cancelled);
+                    }
+
+                    LoadAllAssociatedChangesetsIncludingMerges(true);
+                }
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, false);
             }
         }
 
@@ -1112,8 +1118,15 @@ namespace alexbegh.vMerge.ViewModel.Merge
 
         public void RaiseFinished(bool success)
         {
-            if (Finished != null)
-                Finished(this, new ViewModelFinishedEventArgs(success));
+            try
+            {
+                if (Finished != null)
+                    Finished(this, new ViewModelFinishedEventArgs(success));
+            } catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, false);
+                throw;
+            }
         }
         private void RaisePropertyChanged<TArg>(System.Linq.Expressions.Expression<Func<PrepareMergeViewModel, TArg>> propAccess)
         {
