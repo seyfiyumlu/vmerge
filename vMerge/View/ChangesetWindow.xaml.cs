@@ -22,8 +22,6 @@ namespace alexbegh.vMerge.View
     {
         public ChangesetWindow()
         {
-            
-
             try
             {
                 InitializeComponent();
@@ -51,24 +49,16 @@ namespace alexbegh.vMerge.View
 
         private void ShowLoadMergeProfilesMenu(object sender, RoutedEventArgs e)
         {
-            // TR: nur Test
-            SimpleLogger.Log(SimpleLogLevel.Info, "start ShowLoadMergeProfilesMenu.");
+            SimpleLogger.Log(SimpleLogLevel.Info, "Start ShowLoadMergeProfilesMenu.");
 
             try
             {
                 LoadProfilesMenu.PlacementTarget = this;
                 LoadProfilesMenu.DataContext = DataContext;
                 LoadProfilesMenu.IsOpen = true;
-
-                //var versuch = new ChangesetWindow();
-
-               
-
             }
             catch (Exception ex)
             {
-                
-
                 SimpleLogger.Log(SimpleLogLevel.Warn, ex.GetType().Name + " in ShowLoadMergeProfilesMenu: " + ex.Message);
             }
         }

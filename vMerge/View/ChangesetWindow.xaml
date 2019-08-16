@@ -8,7 +8,7 @@
              xmlns:LoadingProgress="clr-namespace:alexbegh.Utility.UserControls.LoadingProgress.Control;assembly=Utility"
              xmlns:ViewSelection="clr-namespace:alexbegh.vMerge.View.ViewSelection"
              xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"         
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="755.518"
              Name="ChangesetToolWindow">
@@ -113,6 +113,7 @@
                         </WrapPanel>
                     </StackPanel>
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Name="RightButtonPanel">
+                        <Button Content="Show log file" Command="{Binding ShowLogFileWindowCommand}" Margin="3" />
                         <Button Content="Focus Work Item view" Command="{Binding ShowWorkItemViewCommand}" Margin="3" />
                     </StackPanel>
                 </Grid>

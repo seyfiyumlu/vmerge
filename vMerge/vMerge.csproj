@@ -440,6 +440,7 @@
     <Compile Include="ViewModel\BugReportViewModel.cs" />
     <Compile Include="ViewModel\Configuration\ColumnConfigurationViewModel.cs" />
     <Compile Include="ViewModel\Configuration\ConfigureColumnsAndSortOrderViewModel.cs" />
+    <Compile Include="ViewModel\Logfile\LogfileViewModel.cs" />
     <Compile Include="ViewModel\Merge\CheckInSummaryViewModel.cs" />
     <Compile Include="ViewModel\Merge\PrepareMergeViewModel.cs" />
     <Compile Include="ViewModel\MultiLineString.cs" />
@@ -488,6 +489,9 @@
       <DependentUpon>ViewProfileDialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DoNotStyleAttribute.cs" />
+    <Compile Include="View\LogfileWindow.xaml.cs">
+      <DependentUpon>LogfileWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Options\ProfilesView.xaml.cs">
       <DependentUpon>ProfilesView.xaml</DependentUpon>
     </Compile>
@@ -654,6 +658,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Dialog\ViewProfileDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LogfileWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

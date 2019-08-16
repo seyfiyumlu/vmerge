@@ -10,6 +10,8 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Win32;
+using qbusSRL.Utility.Helpers.Messenger;
 
 namespace alexbegh.Utility.Helpers.Logging
 {
@@ -60,8 +62,18 @@ namespace alexbegh.Utility.Helpers.Logging
 
         private static object _lock = new object();
 
+        /// <summary>
+        /// Exception Message
+        /// </summary>
+        public static string ExceptionMessage
+        {
+            get;
+            set;
+        }
+
         static SimpleLogger()
         {
+            string exMessage = ExceptionMessage;            
         }
 
         /// <summary>
@@ -74,10 +86,12 @@ namespace alexbegh.Utility.Helpers.Logging
             {
                 logName = Assembly.GetCallingAssembly().FullName;
             }
-            
+
             var basePath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData, Environment.SpecialFolderOption.Create),
                 Assembly.GetCallingAssembly().GetName().Name);
+
+            RollateLog(basePath, logName);
 
             try
             {
@@ -89,18 +103,55 @@ namespace alexbegh.Utility.Helpers.Logging
                     dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
                     dInfo.SetAccessControl(dSecurity);
                 }
-                catch(Exception)
+                catch (Exception ex)
                 {
+                    if (ex.InnerException == null)
+                    {
+                        ExceptionMessage = String.Format("An exception occurred in vMerge.\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n=> No Inner Exception", ex.Message, ex.StackTrace);
+                        string exceptionText = GetExceptions(ExceptionMessage);
+                    }
+                    else
+                    {
+                        ExceptionMessage = String.Format("An exception occurred in vMerge.\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n--- Inner ---\r\n{2}", ex.Message, ex.StackTrace, ex.InnerException.Message);
+                        string exceptionText = GetExceptions(ExceptionMessage);
+                    }
+                    Messenger.Default.Send<OpenLogMessage>(new OpenLogMessage());
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogFilePath = null;
                 SimpleLogger.Log(ex);
+                if (ex.InnerException == null)
+                {
+                    ExceptionMessage = String.Format("An exception occurred in vMerge.\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n=> No Inner Exception", ex.Message, ex.StackTrace);
+                    string exceptionText = GetExceptions(ExceptionMessage);
+                }
+                else
+                {
+                    ExceptionMessage = String.Format("An exception occurred in vMerge.\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n--- Inner ---\r\n{2}", ex.Message, ex.StackTrace, ex.InnerException.Message);
+                    string exceptionText = GetExceptions(ExceptionMessage);
+                }
+                Messenger.Default.Send<OpenLogMessage>(new OpenLogMessage());
                 return;
             }
 
             LogFilePath = Path.Combine(basePath, logName + ".log");
+        }
+
+        private static void RollateLog(string basePath, string logName)
+        {
+            try
+            {
+                if (File.Exists(Path.Combine(basePath, logName + ".log")) &&
+                    !File.Exists(Path.Combine(basePath, logName + "." + DateTime.Now.AddDays(-1).ToString("yyyyMMdd") + ".log")))
+                {
+                    File.Move(Path.Combine(basePath, logName + ".log"), Path.Combine(basePath, logName + "." + DateTime.Now.AddDays(-1).ToString("yyyyMMdd") + ".log"));
+                }
+            }catch
+            {
+
+            }
         }
 
         /// <summary>
@@ -136,13 +187,23 @@ namespace alexbegh.Utility.Helpers.Logging
                     catch (Exception fEx)
                     {
                         ex = fEx;
+                        if (ex.InnerException == null)
+                        {
+                            ExceptionMessage = String.Format("An exception occurred in vMerge.\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n=> No Inner Exception", ex.Message, ex.StackTrace);
+                            string exceptionText = GetExceptions(ExceptionMessage);
+                        }
+                        else
+                        {
+                            ExceptionMessage = String.Format("An exception occurred in vMerge.\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n--- Inner ---\r\n{2}", ex.Message, ex.StackTrace, ex.InnerException.Message);
+                            string exceptionText = GetExceptions(ExceptionMessage);
+                        }
+                        Messenger.Default.Send<OpenLogMessage>(new OpenLogMessage());
                     }
 
-                    if (_logWriter==null)
+                    if (_logWriter == null)
                     {
                         LogFilePath = null;
-                        _logWriter = new StreamWriter(new MemoryStream());
-                        Log(ex);
+                        _logWriter = new StreamWriter(new MemoryStream());                       
                     }
                 }
                 return _logWriter;
@@ -196,11 +257,11 @@ namespace alexbegh.Utility.Helpers.Logging
         {
             lock (_lock)
             {
-                if (count==0)
+                if (count == 0)
                     count = LastCheckpoints.Count;
                 foreach (var checkpoint in LastCheckpoints)
                 {
-                    if ((--count)<0)
+                    if ((--count) < 0)
                         break;
                     Log(SimpleLogLevel.Checkpoint, checkpoint);
                 }
@@ -305,6 +366,7 @@ namespace alexbegh.Utility.Helpers.Logging
                                 formatStr,
                                 ex.Message,
                                 ex.StackTrace);
+                            GetExceptions(String.Format("An exception occurred in vMerge.\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n--- Inner ---\r\n{2}", ex.Message, ex.StackTrace, ex.InnerException.Message));
                         }
                         else
                         {
@@ -313,8 +375,11 @@ namespace alexbegh.Utility.Helpers.Logging
                                 ex.Message,
                                 ex.StackTrace,
                                 "=> No Inner Exception");
+                            {
+                                ExceptionMessage = String.Format("An exception occurred in vMerge.\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n=> No Inner Exception", ex.Message, ex.StackTrace);
+                                string exceptionText = GetExceptions(ExceptionMessage);
+                            }
                         }
-
                         if (checkpoints)
                             LogLastCheckpoints();
 
@@ -322,21 +387,27 @@ namespace alexbegh.Utility.Helpers.Logging
                         {
                             if (ex.InnerException == null)
                             {
-                                ShowErrorWindow(
-                                    String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n=> No Inner Exception", ex.Message, ex.StackTrace));
+                                ExceptionMessage = String.Format("An exception occurred in vMerge.\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n=> No Inner Exception", ex.Message, ex.StackTrace);
+                                string exceptionText = GetExceptions(ExceptionMessage);
                             }
                             else
                             {
-                                ShowErrorWindow(
-                                    String.Format("An exception occurred in vMerge\n\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n--- Inner ---\r\n{2}", ex.Message, ex.StackTrace, ex.InnerException.Message));
+                                ExceptionMessage = String.Format("An exception occurred in vMerge.\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n--- Inner ---\r\n{2}", ex.Message, ex.StackTrace, ex.InnerException.Message);
+                                string exceptionText = GetExceptions(ExceptionMessage);
                             }
                             _shownErrorMessages.Add(ex.Message);
                         }
                     }
                 }
-            }catch 
+            }
+            catch (Exception exOnLog)
             {
-
+                ExceptionMessage = String.Format("An exception occurred in vMerge.\nDetail:\nException '{0}' occurred, Stacktrace:\n{1}\r\n=> No Inner Exception", exOnLog.Message, exOnLog.StackTrace);
+                Messenger.Default.Send<OpenLogMessage>(new OpenLogMessage());
+            }
+            if (show)
+            {                
+                Messenger.Default.Send<OpenLogMessage>(new OpenLogMessage());
             }
         }
 
@@ -377,13 +448,39 @@ namespace alexbegh.Utility.Helpers.Logging
         }
 
         /// <summary>
-        /// 
+        /// Get Content of Logfile
         /// </summary>
-        /// <param name="message"></param>
-        public static void ShowErrorWindow(String message)
+        /// <param name="LogFilePath"></param>
+        public static string GetLogFileContent(string LogFilePath)
         {
-            //TODO show Window with Message and Content of LogFilePath
-            MessageBox.Show(message, "vMerge Exception", MessageBoxButton.OK);
+            if (LogFilePath == null || !File.Exists(LogFilePath)) return "N/A";
+
+            string text = "";
+
+            using (FileStream fileStream = new FileStream(LogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (StreamReader streamReader = new StreamReader(fileStream))
+                {
+                    string line;
+                    while (!streamReader.EndOfStream)
+                    {
+                        line = streamReader.ReadLine();
+                        text += line + "\n";
+                    }
+                }
+            }
+            return text;
+        }
+
+        /// <summary>
+        /// Show Window with Exeption-Message
+        /// </summary>
+        /// <param name="ExceptionMessage"></param>
+        public static string GetExceptions(string ExceptionMessage)
+        {
+            string text = "";
+            text += ExceptionMessage + "\n";
+            return text;
         }
     }
 }

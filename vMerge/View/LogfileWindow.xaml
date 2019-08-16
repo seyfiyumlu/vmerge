@@ -1,0 +1,29 @@
+﻿<Window x:Class="alexbegh.vMerge.View.LogfileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:alexbegh.vMerge.View"
+        xmlns:local1="clr-namespace:alexbegh.vMerge.ViewModel.Logfile"
+        mc:Ignorable="d"
+        Title="Exception and Logfile" Height="450" Width="800">
+    <Window.DataContext>
+        <local1:LogfileViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Margin="8,8,8,1" Text="Exception" FontWeight="Bold" VerticalAlignment="Bottom"/>
+        <ScrollViewer Grid.Row="1" Margin="12,12,12,16">
+            <TextBlock Name="ExceptionTextblock" Text= "{Binding ExceptionSL}"/>
+        </ScrollViewer>
+        <TextBlock Grid.Row="2" Margin="8,8,8,1" Text="LogFile" FontWeight="Bold" VerticalAlignment="Bottom"/>
+        <ScrollViewer Grid.Row="3" Margin="12,12,12,16">
+            <TextBlock Name="LogfileTextblock" Text = "{Binding LogSL}"/>
+        </ScrollViewer>
+    </Grid>
+</Window>

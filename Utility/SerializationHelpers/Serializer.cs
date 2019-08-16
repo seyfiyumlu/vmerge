@@ -87,9 +87,7 @@ namespace alexbegh.Utility.SerializationHelpers
         /// <param name="targetPath">The target path to serialize to</param>
         public static void JsonSerialize<T_Type>(T_Type obj, string targetPath)
         {
-            // TR: nur Test           
             SimpleLogger.Log(SimpleLogLevel.Info, "Serialize to: " +  targetPath);
-
             JsonSerializer serializer = new JsonSerializer();
             serializer.NullValueHandling = NullValueHandling.Ignore;
             serializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -98,8 +96,6 @@ namespace alexbegh.Utility.SerializationHelpers
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, obj);
-                // {"ExpiryDate":new Date(1230375600000),"Price":0}
-
             }
         }
 
@@ -139,32 +135,13 @@ namespace alexbegh.Utility.SerializationHelpers
         /// <param name="obj">The resulting object</param>
         public static void JSonDeserialize<T_Type>(string targetPath, out T_Type obj)
         {
-            // TR: nur Test
             SimpleLogger.Log(SimpleLogLevel.Info, "Do Json-deserialize.");
-
-            // TR: auskommentiert, um Test darunter zu verwenden
-            //using (StreamReader file = File.OpenText(targetPath))
-            //{
-            //    JsonSerializer serializer = new JsonSerializer();
-            //    obj = (T_Type)serializer.Deserialize(file, typeof(T_Type));
-            //}
 
             using (StreamReader file = File.OpenText(targetPath))
             {
                 JsonSerializer deserializer = new JsonSerializer();
                 obj = (T_Type)deserializer.Deserialize(file, typeof(T_Type));
             }
-
-            // TR: Dictionary mit deserialisierten Objekten wieder serialisieren, um es in Datei speichern zu können
-            JsonSerializer serializer = new JsonSerializer();
-
-            using (StreamWriter sw = new StreamWriter(@"C:/Users/RoederT/Desktop/ergebnis.txt"))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, obj);
-            }
-
-            SimpleLogger.Log(SimpleLogLevel.Info, "ERNEUTE SERIALISIERUNG nach ergebnis.txt geschrieben.");
         }
 
         /// <summary>

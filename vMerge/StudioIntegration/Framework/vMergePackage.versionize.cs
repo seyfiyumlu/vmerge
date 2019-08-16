@@ -28,6 +28,7 @@ using System.Windows.Forms;
 using alexbegh.Utility.Helpers.ViewModel;
 using Microsoft.VisualStudio.TeamFoundation.VersionControl;
 using qbusSRL.vMerge;
+using qbusSRL.Utility.Helpers.Messenger;
 
 namespace alexbegh.vMerge.StudioIntegration.Framework
 {
@@ -187,7 +188,7 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
                 //TODO MahApps.Metro.Converters.ToUpperConverter.DisableCaps = true;
                 //TODo MahApps.Metro.Converters.ToLowerConverter.DisableLower = true;
             }
-
+            Messenger.Default.Register<OpenLogMessage>(this, ShowLogFileWindow);
             SimpleLogger.Init();
             SimpleLogger.Log(SimpleLogLevel.Info, "------------------------------------------------------------------------------\nSession starting");
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
@@ -280,6 +281,16 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
             }
         }
 
+        /// <summary>
+        /// Show LogFileWindow
+        /// </summary>
+        /// <param name="o"></param>
+        private static void ShowLogFileWindow(OpenLogMessage o)
+        {
+            LogfileWindow lfWindow = new LogfileWindow();
+            lfWindow.Show();
+        }
+
         private static void SetDefaultSettings()
         {
             if (Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.CheckInCommentTemplateKey) == null)
@@ -358,7 +369,14 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
             // Get the instance number 0 of this tool window. This window is single instance so this instance
             // is actually the only one.
             // The last flag is set to true so that if the tool window does not exists it will be created.
-            ToolWindowPane window = this.FindToolWindow(typeof(vMergeWorkItemsToolWindow), 0, true);
+            ToolWindowPane window = null;
+            try
+            {
+                window = this.FindToolWindow(typeof(vMergeWorkItemsToolWindow), 0, true);
+            } catch (Exception ex)
+            {
+                throw new NotSupportedException(Resources.CanNotCreateWindow, ex);
+            }
             if ((null == window) || (null == window.Frame))
             {
                 throw new NotSupportedException(Resources.CanNotCreateWindow);

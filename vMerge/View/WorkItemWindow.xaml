@@ -37,7 +37,7 @@
                 <StackPanel Grid.Row="0" Orientation="Vertical" Margin="3">
                     <ViewSelection:ViewSelectionUserControl DataContext="{Binding Path=ViewSelectionViewModel}" />
                 </StackPanel>
-                <Grid Grid.Row="2" Name="ButtonGrid" Background="{StaticResource AccentColorBrush}">
+                <Grid Grid.Row="2" Name="ButtonGrid" Background="AccentColorBrush">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />

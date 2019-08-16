@@ -22,6 +22,10 @@ using alexbegh.vMerge.ViewModel.Profile;
 using alexbegh.Utility.Helpers.Logging;
 using System.Windows.Threading;
 using alexbegh.vMerge.StudioIntegration;
+using System.Windows;
+using alexbegh.vMerge.View;
+using alexbegh.vMerge.ViewModel.Logfile;
+using qbusSRL.Utility.Helpers.Messenger;
 
 namespace alexbegh.vMerge.ViewModel.Changesets
 {
@@ -278,6 +282,7 @@ namespace alexbegh.vMerge.ViewModel.Changesets
             SelectAllCommand = new RelayCommand((o) => SelectAll(), (o) => Repository.Instance.TfsBridgeProvider.TfsTeamProjectCollection != null);
             SaveMergeProfileCommand = new RelayCommand((o) => SaveMergeProfile(), (o) => Repository.Instance.TfsBridgeProvider.TfsTeamProjectCollection != null);
             RefreshCommand = new RelayCommand((o) => Refresh(), (o) => Repository.Instance.TfsBridgeProvider.TfsTeamProjectCollection != null);
+            ShowLogFileWindowCommand = new RelayCommand((o) => ShowLogFileWindow(o), (o) => Repository.Instance.TfsBridgeProvider.TfsTeamProjectCollection != null);
 
             AttachToChangesetCache();
             AttachToProfileProvider();
@@ -493,7 +498,6 @@ namespace alexbegh.vMerge.ViewModel.Changesets
         {
             get
             {
-                
                 return Enabled && MergeProfiles != null && MergeProfiles.Any();
             }
         }
@@ -670,6 +674,13 @@ namespace alexbegh.vMerge.ViewModel.Changesets
             get { return _saveMergeProfileCommand; }
             set { Set(ref _saveMergeProfileCommand, value); }
         }
+
+        private RelayCommand _showLogFileWindowCommand;
+        public RelayCommand ShowLogFileWindowCommand
+        {
+            get { return _showLogFileWindowCommand; }
+            set { Set(ref _showLogFileWindowCommand, value); }
+        }
         #endregion
 
         #region Command Handlers
@@ -711,6 +722,15 @@ namespace alexbegh.vMerge.ViewModel.Changesets
             {
                 SimpleLogger.Log(ex, true, false);
             }
+        }
+
+        /// <summary>
+        /// Show LogFileWindow
+        /// </summary>
+        /// <param name="o"></param>
+        void ShowLogFileWindow(object o)
+        {
+            Messenger.Default.Send<OpenLogMessage>(new OpenLogMessage());
         }
 
         void SelectMarkedItems()

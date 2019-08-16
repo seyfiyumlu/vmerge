@@ -185,6 +185,8 @@
     <Compile Include="Helpers\ExtensionMethods\TypeExtensions.cs" />
     <Compile Include="Helpers\InOrderSetter\SetInOrder.cs" />
     <Compile Include="Helpers\Logging\SimpleLogger.cs" />
+    <Compile Include="Helpers\Messenger\Messenger.cs" />
+    <Compile Include="Helpers\Messenger\OpenLogMessage.cs" />
     <Compile Include="Helpers\NotifyPropertyChanged\NotifyPropertyChangedImpl.cs" />
     <Compile Include="Helpers\ViewModel\BaseViewModel.cs" />
     <Compile Include="Helpers\ViewModel\MessageBoxViewModel.cs" />

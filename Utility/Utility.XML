@@ -974,6 +974,11 @@
             Simple logger class
             </summary>
         </member>
+        <member name="P:alexbegh.Utility.Helpers.Logging.SimpleLogger.ExceptionMessage">
+            <summary>
+            Exception Message
+            </summary>
+        </member>
         <member name="M:alexbegh.Utility.Helpers.Logging.SimpleLogger.Init(System.String)">
             <summary>
             Initialize Logger, defaulting to calling assemblies' name
@@ -1050,11 +1055,17 @@
             </summary>
             <returns>Log file contents</returns>
         </member>
-        <member name="M:alexbegh.Utility.Helpers.Logging.SimpleLogger.ShowErrorWindow(System.String)">
+        <member name="M:alexbegh.Utility.Helpers.Logging.SimpleLogger.GetLogFileContent(System.String)">
             <summary>
-            
+            Get Content of Logfile
             </summary>
-            <param name="message"></param>
+            <param name="LogFilePath"></param>
+        </member>
+        <member name="M:alexbegh.Utility.Helpers.Logging.SimpleLogger.GetExceptions(System.String)">
+            <summary>
+            Show Window with Exeption-Message
+            </summary>
+            <param name="ExceptionMessage"></param>
         </member>
         <member name="T:alexbegh.Utility.Helpers.NotifyPropertyChanged.NotifyPropertyChangedImpl">
             <summary>
@@ -3283,9 +3294,155 @@
             InitializeComponent
             </summary>
         </member>
+        <member name="T:qbusSRL.Utility.Helpers.Messenger.Messenger">
+            <summary>
+            Sending Messages between different ViewModels for coupling without reference. 
+            Sample how to use can be found in project: $/LexLabs/WPF Samples/09 Practical Mvvm/CoffeeWPFSample
+            for more information see
+            http://stackoverflow.com/questions/23798425/wpf-mvvm-communication-between-view-model
+            </summary>
+        </member>
+        <member name="P:qbusSRL.Utility.Helpers.Messenger.Messenger.Default">
+            <summary>
+            Gets the single instance of the Messenger.
+            </summary>
+        </member>
+        <member name="M:qbusSRL.Utility.Helpers.Messenger.Messenger.#ctor">
+            <summary>
+            Initializes a new instance of the Messenger class.
+            </summary>
+        </member>
+        <member name="M:qbusSRL.Utility.Helpers.Messenger.Messenger.Register``1(System.Object,System.Action{``0})">
+            <summary>
+            Registers a recipient for a type of message T. The action parameter will be executed
+            when a corresponding message is sent.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="recipient"></param>
+            <param name="action"></param>
+        </member>
+        <member name="M:qbusSRL.Utility.Helpers.Messenger.Messenger.Register``1(System.Object,System.Action{``0},System.Object)">
+            <summary>
+            Registers a recipient for a type of message T and a matching context. The action parameter will be executed
+            when a corresponding message is sent.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="recipient"></param>
+            <param name="action"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:qbusSRL.Utility.Helpers.Messenger.Messenger.Unregister(System.Object)">
+            <summary>
+            Unregisters a messenger recipient completely. After this method is executed, the recipient will
+            no longer receive any messages.
+            </summary>
+            <param name="recipient"></param>
+        </member>
+        <member name="M:qbusSRL.Utility.Helpers.Messenger.Messenger.Unregister(System.Object,System.Object)">
+            <summary>
+            Unregisters a messenger recipient with a matching context completely. After this method is executed, the recipient will
+            no longer receive any messages.
+            </summary>
+            <param name="recipient"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:qbusSRL.Utility.Helpers.Messenger.Messenger.Send``1(``0)">
+            <summary>
+            Sends a message to registered recipients. The message will reach all recipients that are
+            registered for this message type.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="message"></param>
+        </member>
+        <member name="M:qbusSRL.Utility.Helpers.Messenger.Messenger.Send``1(``0,System.Object)">
+            <summary>
+            Sends a message to registered recipients. The message will reach all recipients that are
+            registered for this message type and matching context.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="message"></param>
+            <param name="context"></param>
+        </member>
+        <member name="T:qbusSRL.Utility.Helpers.Messenger.Messenger.MessengerKey">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:qbusSRL.Utility.Helpers.Messenger.Messenger.MessengerKey.Recipient">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:qbusSRL.Utility.Helpers.Messenger.Messenger.MessengerKey.Context">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:qbusSRL.Utility.Helpers.Messenger.Messenger.MessengerKey.#ctor(System.Object,System.Object)">
+            <summary>
+            Initializes a new instance of the MessengerKey class.
+            </summary>
+            <param name="recipient"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:qbusSRL.Utility.Helpers.Messenger.Messenger.MessengerKey.Equals(qbusSRL.Utility.Helpers.Messenger.Messenger.MessengerKey)">
+            <summary>
+            Determines whether the specified MessengerKey is equal to the current MessengerKey.
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:qbusSRL.Utility.Helpers.Messenger.Messenger.MessengerKey.Equals(System.Object)">
+            <summary>
+            Determines whether the specified MessengerKey is equal to the current MessengerKey.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:qbusSRL.Utility.Helpers.Messenger.Messenger.MessengerKey.GetHashCode">
+            <summary>
+            Serves as a hash function for a particular type. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:qbusSRL.Utility.Helpers.Messenger.OpenLogMessage">
+            <summary>
+            Object just to call Message to open the LogView
+            </summary>
+        </member>
         <member name="T:qbusSRL.Utility.SerializationHelpers.NullSerializer">
             <summary>
             
+            </summary>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
             </summary>
         </member>
     </members>

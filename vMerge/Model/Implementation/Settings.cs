@@ -178,44 +178,21 @@ namespace alexbegh.vMerge.Model.Implementation
         /// <param name="source">Source file name</param>
         public void LoadSettings(string name)
         {
-            // TR: nur Test
-            SimpleLogger.Log(SimpleLogLevel.Info, "start load settings");
-
-            // TR: für Test durch Pfad darunter ersetzt
-            //string path = Path.Combine(
-            //    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            //    "vMerge",
-            //    name + ".qvmset");
-
+            SimpleLogger.Log(SimpleLogLevel.Info, "Start load settings");
             string path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "vMerge"+ name + ".qvmset");
-
+                "vMerge", name + ".qvmset");
             SimpleLogger.Log(SimpleLogLevel.Info, "Load settings from: " + path);
-
-            // TR: für Test auskommentiert
-            //if (!File.Exists(path) || (new FileInfo(path)).Length == 0)
-            //{
-            //    // TR: nur Test
-            //    SimpleLogger.Log(SimpleLogLevel.Info, "DATEI NICHT VORHANDEN ODER LEER.");
-
-            //    SerializedSettings = new SerializableDictionary<string, object>();
-            //    return;
-            //}
 
             if (!File.Exists(path))
             {
-                
-
                 SerializedSettings = new SerializableDictionary<string, object>();
                 return;
             }
 
             if (new FileInfo(path).Length == 0)
             {
-                // TR: nur Test
-                SimpleLogger.Log(SimpleLogLevel.Info, "settings file is empty.");
-
+                SimpleLogger.Log(SimpleLogLevel.Info, "Settings file is empty.");
                 SerializedSettings = new SerializableDictionary<string, object>();
                 return;
             }
@@ -224,13 +201,7 @@ namespace alexbegh.vMerge.Model.Implementation
             {
                 lock (Lock)
                 {
-                    // TR: nur Test
-                    SimpleLogger.Log(SimpleLogLevel.Info, "settings file found.");
-
-                    //SerializableDictionary<string, object> tempSerializedSettings;
-                    //Serializer.JSonDeserialize(path, out tempSerializedSettings);
-                    //SerializedSettings = tempSerializedSettings;
-                    
+                    SimpleLogger.Log(SimpleLogLevel.Info, "Settings file found.");
                     this.ProfilesSettings.LoadAsJson(path);
                 }
             }
@@ -253,10 +224,8 @@ namespace alexbegh.vMerge.Model.Implementation
         /// <param name="destination">Destination path</param>
         public void SaveSettings(string name)
         {
-            // TR: nur Test
-            SimpleLogger.Log(SimpleLogLevel.Info, "start save settings");
+            SimpleLogger.Log(SimpleLogLevel.Info, "Start save settings");
 
-            // das dem ProfileProvider übergeben
             string path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "vMerge" + name + ".qvmset");
@@ -272,13 +241,8 @@ namespace alexbegh.vMerge.Model.Implementation
                 if (File.Exists(path))
                     File.Copy(path, pathBak, true);
 
-                // TR: nur Test
-
                 SimpleLogger.Log(SimpleLogLevel.Info, "Serialize to: " + path);
-                //Serializer.JsonSerialize(SerializedSettings, path);
-                
                 this.ProfilesSettings.SaveAsJson(path);
-
             }
         }
 
