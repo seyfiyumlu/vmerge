@@ -6,24 +6,36 @@
         xmlns:local="clr-namespace:alexbegh.vMerge.View"
         xmlns:local1="clr-namespace:alexbegh.vMerge.ViewModel.Logfile"
         mc:Ignorable="d"
-        Title="Exception and Logfile" Height="450" Width="800">
+        Title="Exceptions and log file" Height="450" Width="800">
     <Window.DataContext>
         <local1:LogfileViewModel/>
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="0.65*" />
             <RowDefinition Height="35" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Margin="8,8,8,1" Text="Exception" FontWeight="Bold" VerticalAlignment="Bottom"/>
-        <ScrollViewer Grid.Row="1" Margin="12,12,12,16">
-            <TextBlock Name="ExceptionTextblock" Text= "{Binding ExceptionSL}"/>
+
+        <TextBlock Grid.Row="0" Margin="8,8,8,1" Text="Latest exception:" FontWeight="Bold" VerticalAlignment="Bottom"/>
+
+        <Border Grid.Row="1"  Margin="12,12,12,16" BorderThickness="0.3" BorderBrush="Gray">
+            <ScrollViewer>
+            <TextBlock Name="ExceptionTextblock" Text= "{Binding ExceptionSL}" Margin="4,3"/>
         </ScrollViewer>
-        <TextBlock Grid.Row="2" Margin="8,8,8,1" Text="LogFile" FontWeight="Bold" VerticalAlignment="Bottom"/>
-        <ScrollViewer Grid.Row="3" Margin="12,12,12,16">
-            <TextBlock Name="LogfileTextblock" Text = "{Binding LogSL}"/>
-        </ScrollViewer>
+        </Border>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <TextBlock Margin="8,8,8,1" Text="Log file:" FontWeight="Bold" VerticalAlignment="Bottom"/>
+            <CheckBox Margin="8,8,8,1" VerticalAlignment="Bottom" Content="Show errors only" IsChecked="{Binding ShowErrorsOnly}" FontSize="9" VerticalContentAlignment="Center"/>
+        </StackPanel>
+
+        <Border Grid.Row="3" Margin="12,12,12,16" BorderThickness="0.3" BorderBrush="Gray">
+            <ScrollViewer>
+                <TextBlock Name="LogfileTextblock" Text="{Binding LogSL}" Margin="4,3"/>
+            </ScrollViewer>
+        </Border>
+
     </Grid>
 </Window>

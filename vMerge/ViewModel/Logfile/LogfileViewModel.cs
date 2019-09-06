@@ -1,4 +1,5 @@
-﻿using alexbegh.Utility.Helpers.Logging;
+﻿using alexbegh.Utility.Commands;
+using alexbegh.Utility.Helpers.Logging;
 using alexbegh.vMerge.View;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace alexbegh.vMerge.ViewModel.Logfile
 {
@@ -55,6 +57,33 @@ namespace alexbegh.vMerge.ViewModel.Logfile
             }
         }
 
+        private bool _showErrorsOnly;
+        public bool ShowErrorsOnly
+        {
+            get
+            {
+                return _showErrorsOnly;
+            }
+            set
+            {
+                if (_showErrorsOnly == true)
+                {
+                    LogSL = SimpleLogger.ShowLogFileContent(LogFilePath);
+                    //LogSL = SimpleLogger.GetLogFileContent(LogFilePath);
+                    _showErrorsOnly = value;
+                    NotifyPropertyChanged("ShowErrorsOnly");
+                    NotifyPropertyChanged("LogSL");
+                }
+                else
+                {
+                    LogSL = SimpleLogger.ShowLogFileErrors(LogFilePath);
+                    _showErrorsOnly = value;
+                    NotifyPropertyChanged("ShowErrorsOnly");
+                    NotifyPropertyChanged("LogSL");
+                }
+            }
+        }
+
         // This method is called by the Set accessor of each property.
         // The CallerMemberName attribute that is applied to the optional propertyName
         // parameter causes the property name of the caller to be substituted as an argument.
@@ -68,11 +97,12 @@ namespace alexbegh.vMerge.ViewModel.Logfile
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+
         public LogfileViewModel()
         {
             try
             {
-                string logFile = SimpleLogger.GetLogFileContent(SimpleLogger.LogFilePath);
+                string logFile = SimpleLogger.ShowLogFileContent(SimpleLogger.LogFilePath);
                 LogSL = logFile;
 
                 string exceptions = SimpleLogger.GetExceptions(SimpleLogger.ExceptionMessage);

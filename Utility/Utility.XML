@@ -1055,9 +1055,15 @@
             </summary>
             <returns>Log file contents</returns>
         </member>
-        <member name="M:alexbegh.Utility.Helpers.Logging.SimpleLogger.GetLogFileContent(System.String)">
+        <member name="M:alexbegh.Utility.Helpers.Logging.SimpleLogger.ShowLogFileContent(System.String)">
             <summary>
-            Get Content of Logfile
+            Show content of logfile
+            </summary>
+            <param name="LogFilePath"></param>
+        </member>
+        <member name="M:alexbegh.Utility.Helpers.Logging.SimpleLogger.ShowLogFileErrors(System.String)">
+            <summary>
+            Show errors of logfile
             </summary>
             <param name="LogFilePath"></param>
         </member>

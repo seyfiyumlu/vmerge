@@ -73,7 +73,7 @@ namespace alexbegh.Utility.Helpers.Logging
 
         static SimpleLogger()
         {
-            string exMessage = ExceptionMessage;            
+            string exMessage = ExceptionMessage;
         }
 
         /// <summary>
@@ -148,7 +148,8 @@ namespace alexbegh.Utility.Helpers.Logging
                 {
                     File.Move(Path.Combine(basePath, logName + ".log"), Path.Combine(basePath, logName + "." + DateTime.Now.AddDays(-1).ToString("yyyyMMdd") + ".log"));
                 }
-            }catch
+            }
+            catch
             {
 
             }
@@ -203,7 +204,7 @@ namespace alexbegh.Utility.Helpers.Logging
                     if (_logWriter == null)
                     {
                         LogFilePath = null;
-                        _logWriter = new StreamWriter(new MemoryStream());                       
+                        _logWriter = new StreamWriter(new MemoryStream());
                     }
                 }
                 return _logWriter;
@@ -406,7 +407,7 @@ namespace alexbegh.Utility.Helpers.Logging
                 Messenger.Default.Send<OpenLogMessage>(new OpenLogMessage());
             }
             if (show)
-            {                
+            {
                 Messenger.Default.Send<OpenLogMessage>(new OpenLogMessage());
             }
         }
@@ -448,10 +449,10 @@ namespace alexbegh.Utility.Helpers.Logging
         }
 
         /// <summary>
-        /// Get Content of Logfile
+        /// Show content of logfile
         /// </summary>
         /// <param name="LogFilePath"></param>
-        public static string GetLogFileContent(string LogFilePath)
+        public static string ShowLogFileContent(string LogFilePath)
         {
             if (LogFilePath == null || !File.Exists(LogFilePath)) return "N/A";
 
@@ -466,6 +467,35 @@ namespace alexbegh.Utility.Helpers.Logging
                     {
                         line = streamReader.ReadLine();
                         text += line + "\n";
+                    }
+                }
+            }
+            return text;
+        }
+
+        /// <summary>
+        /// Show errors of logfile
+        /// </summary>
+        /// <param name="LogFilePath"></param>
+        public static string ShowLogFileErrors(string LogFilePath)
+        {
+            if (LogFilePath == null || !File.Exists(LogFilePath)) return "N/A";
+
+            string text = "";
+
+            using (FileStream fileStream = new FileStream(LogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (StreamReader streamReader = new StreamReader(fileStream))
+                {
+                    string line;
+                    while (!streamReader.EndOfStream)
+                    {
+                        line = streamReader.ReadLine();
+
+                        if (line.Contains("ERROR"))
+                        {
+                            text += line + "\n";
+                        }
                     }
                 }
             }
