@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Windows.Controls;
 using System.Linq;
 using System;
+using alexbegh.Utility.Helpers.Logging;
 
 namespace alexbegh.Utility.SerializationHelpers
 {
@@ -68,46 +69,75 @@ namespace alexbegh.Utility.SerializationHelpers
 
         private static void DeserializeElement(DependencyObject obj, XmlElement item, bool withWindowPosition)
         {
-            var elem = obj;
-            if (item.Name == "window" && withWindowPosition)
+            try
             {
-                var wnd = Find<Window>(obj, item.GetAttribute("name"));
-                if (wnd != null)
+                var elem = obj;
+                if (item.Name == "window" && withWindowPosition)
                 {
-                    if (!String.IsNullOrWhiteSpace(item.GetAttribute("posx")))
+                    var wnd = Find<Window>(obj, item.GetAttribute("name"));
+                    if (wnd != null)
                     {
-                        wnd.Left = double.Parse(item.GetAttribute("posx"), CultureInfo.InvariantCulture);
-                        wnd.Top = double.Parse(item.GetAttribute("posy"), CultureInfo.InvariantCulture);
-                    }
-                    wnd.Width = int.Parse(item.GetAttribute("width"), CultureInfo.InvariantCulture);
-                    wnd.Height = int.Parse(item.GetAttribute("height"), CultureInfo.InvariantCulture);
-                    wnd.WindowState = (WindowState)Enum.Parse(typeof(WindowState), item.GetAttribute("state"));
-                    obj = wnd;
-                }
-            }
-            else if (item.Name == "datagrid")
-            {
-                var datagrid = Find<DataGrid>(obj, item.GetAttribute("name"));
-                if (datagrid == null && System.Diagnostics.Debugger.IsAttached)
-                    System.Diagnostics.Debugger.Break();
-                if (datagrid != null && datagrid.Columns != null)
-                {
-                    foreach (var col in datagrid.Columns)
-                    {
-                        var colElem = item.SelectSingleNode("column[@idx=" + col.DisplayIndex + "]") as XmlElement;
-                        if (colElem != null)
+                        if (!String.IsNullOrWhiteSpace(item.GetAttribute("posx")))
                         {
-                            col.Width = int.Parse(colElem.GetAttribute("width"), CultureInfo.InvariantCulture);
-                            col.Visibility = (Visibility)Enum.Parse(typeof(Visibility), colElem.GetAttribute("visibility"));
+                            double left = 0.0;
+                            double top = 0.0;
+                            if (double.TryParse(item.GetAttribute("posx"), out left)
+                                &&
+                                double.TryParse(item.GetAttribute("posy"), out top)) {
+
+                                wnd.Left = left;
+                                wnd.Top = top;
+                            }
+                        }
+
+                        int width = 0;
+                        int height = 0;
+                        if (int.TryParse(item.GetAttribute("width"), out width)
+                            &&
+                            int.TryParse(item.GetAttribute("height"), out height))
+                        {
+
+                            wnd.Width = width;
+                            wnd.Height = height;
+                            wnd.WindowState = (WindowState) Enum.Parse(typeof(WindowState), item.GetAttribute("state"));
+                        }
+
+                        obj = wnd;
+                    }
+                }
+                else if (item.Name == "datagrid")
+                {
+                    var datagrid = Find<DataGrid>(obj, item.GetAttribute("name"));
+                    if (datagrid == null && System.Diagnostics.Debugger.IsAttached)
+                        System.Diagnostics.Debugger.Break();
+                    if (datagrid != null && datagrid.Columns != null)
+                    {
+                        foreach (var col in datagrid.Columns)
+                        {
+                            var colElem = item.SelectSingleNode("column[@idx=" + col.DisplayIndex + "]") as XmlElement;
+                            if (colElem != null)
+                            {
+                                int width = 0;
+                                if (int.TryParse(colElem.GetAttribute("width"), out width)) {
+                                    col.Width = width;
+                                    col.Visibility = (Visibility) Enum.Parse(typeof(Visibility),
+                                        colElem.GetAttribute("visibility"));
+                                }
+                            }
                         }
                     }
-                }
-                return;
-            }
 
-            foreach (var childElem in item.ChildNodes.OfType<XmlElement>())
+                    return;
+                }
+
+                foreach (var childElem in item.ChildNodes.OfType<XmlElement>())
+                {
+                    DeserializeElement(elem, childElem, withWindowPosition);
+                }
+            }
+            catch (Exception ex)
             {
-                DeserializeElement(elem, childElem, withWindowPosition);
+                SimpleLogger.Log(ex, true, false);
             }
         }
 

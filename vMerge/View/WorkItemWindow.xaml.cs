@@ -34,7 +34,7 @@ namespace alexbegh.vMerge.View
 
         private void ContextMenu_Opened(object sender, RoutedEventArgs e)
         {
-            ChangeContextMenuImageSourceAccordingToTheme.Process(sender as Microsoft.VisualStudio.PlatformUI.VsContextMenu);
+            ChangeContextMenuImageSourceAccordingToTheme.Process(sender);
         }
     }
 }

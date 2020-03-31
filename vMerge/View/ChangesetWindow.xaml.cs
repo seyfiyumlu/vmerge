@@ -67,7 +67,7 @@ namespace alexbegh.vMerge.View
         {
             try
             {
-                ChangeContextMenuImageSourceAccordingToTheme.Process(sender as Microsoft.VisualStudio.PlatformUI.VsContextMenu);
+                ChangeContextMenuImageSourceAccordingToTheme.Process(sender);
             } catch (Exception ex)
             {
                 SimpleLogger.Log(ex, true, true);

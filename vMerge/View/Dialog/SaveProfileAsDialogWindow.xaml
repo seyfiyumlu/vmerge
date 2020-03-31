@@ -1,7 +1,7 @@
 ﻿<ui:DialogWindow x:Class="alexbegh.vMerge.View.Dialog.SaveProfileAsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
+        xmlns:ui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
         xmlns:uc="clr-namespace:alexbegh.vMerge.View.Controls"
         Title="vMerge - Save Current Profile" Height="415" Width="532"
         ShowActivated="True" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" HasMaximizeButton="False">

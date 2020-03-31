@@ -37,7 +37,7 @@
                 <StackPanel Grid.Row="0" Orientation="Vertical" Margin="3">
                     <ViewSelection:ViewSelectionUserControl DataContext="{Binding Path=ViewSelectionViewModel}" />
                 </StackPanel>
-                <Grid Grid.Row="2" Name="ButtonGrid" Background="AccentColorBrush">
+                <Grid Grid.Row="2" Name="ButtonGrid" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -131,11 +131,11 @@
                                     </DataTemplate>
                                 </FieldMapperGrid:FieldMapperGridControl.ItemTemplates>
                                 <FieldMapperGrid:FieldMapperGridControl.ContextMenu>
-                                    <vsi:VsContextMenu Opened="ContextMenu_Opened">
+                                    <ContextMenu Opened="ContextMenu_Opened">
                                         <MenuItem Header="Choose columns"  
                                           Command="{Binding PlacementTarget.Tag.ConfigureColumnsCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <Image Source="/vMerge;component/Resources/SelectColumn_361.png" />
+                                                <Image Source="/Resources/SelectColumn_361.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator />
@@ -143,14 +143,14 @@
                                               Command="{Binding PlacementTarget.Tag.ViewWorkItemCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}" 
                                               CommandParameter="{Binding PlacementTarget.SelectedItem,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <Image Source="/vMerge;component/Resources/WorkItem_16xLG.png" />
+                                                <Image Source="/Resources/WorkItem_16xLG.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <MenuItem Header="Track work item ..." 
                                               Command="{Binding PlacementTarget.Tag.TrackWorkItemCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}" 
                                               CommandParameter="{Binding PlacementTarget.SelectedItem,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <Image Source="/vMerge;component/Resources/HierarchyTracking_13282.png" />
+                                                <Image Source="/Resources/HierarchyTracking_13282.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator />
@@ -158,10 +158,10 @@
                                               Command="{Binding PlacementTarget.Tag.RefreshCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}" 
                                               CommandParameter="{Binding PlacementTarget.SelectedItem,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <Image Source="/vMerge;component/Resources/refresh_16xLG.png" />
+                                                <Image Source="/Resources/refresh_16xLG.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                    </vsi:VsContextMenu>
+                                    </ContextMenu>
                                 </FieldMapperGrid:FieldMapperGridControl.ContextMenu>
                             </FieldMapperGrid:FieldMapperGridControl>
                         </LoadingProgress:LoadingProgressControl>

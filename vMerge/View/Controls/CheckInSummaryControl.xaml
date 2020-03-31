@@ -110,17 +110,17 @@
                           Name="ChangesGrid"
                           Tag="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}">
                     <DataGrid.ContextMenu>
-                        <vsi:VsContextMenu Tag="{Binding PlacementTarget.Tag,RelativeSource={RelativeSource Self}}">
+                        <ContextMenu Tag="{Binding PlacementTarget.Tag,RelativeSource={RelativeSource Self}}">
                             <MenuItem Header="Diff to previous version in target branch"
                                       Command="{Binding DiffToPreviousTargetCommand}" 
-                                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vsi:VsContextMenu}}}" />
+                                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}" />
                             <MenuItem Header="Diff to previous version in source branch"
                                       Command="{Binding DiffToPreviousSourceCommand}" 
-                                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vsi:VsContextMenu}}}" />
+                                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}" />
                             <MenuItem Header="Diff source version to target version"
                                       Command="{Binding DiffSourceToTargetCommand}" 
-                                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type vsi:VsContextMenu}}}" />
-                        </vsi:VsContextMenu>
+                                      CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}" />
+                        </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="File" SortMemberPath="Change.ServerPath" Width="*" MinWidth="200">

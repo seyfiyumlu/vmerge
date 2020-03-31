@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:vsi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.UI.Internal"
+             
              xmlns:FieldMapperGrid="clr-namespace:alexbegh.Utility.UserControls.FieldMapperGrid.Control;assembly=Utility"
              xmlns:LoadingProgress="clr-namespace:alexbegh.Utility.UserControls.LoadingProgress.Control;assembly=Utility"
              xmlns:ViewSelection="clr-namespace:alexbegh.vMerge.View.ViewSelection"
@@ -69,7 +69,7 @@
                             
                             <Button Content="Load merge profile" Click="ShowLoadMergeProfilesMenu" IsEnabled="{Binding Path=LoadMergeProfilesEnabled}" Margin="3" Tag="{Binding Path=DataContext}">
                                 <Button.ContextMenu>
-                                    <vsi:VsContextMenu x:Name="LoadProfilesMenu" ItemsSource="{Binding Path=MergeProfiles}">
+                                    <ContextMenu x:Name="LoadProfilesMenu" ItemsSource="{Binding Path=MergeProfiles}">
                                         <ContextMenu.ItemContainerStyle>
                                             <Style>
                                                 <Setter Property="MenuItem.Header" Value="{Binding Name}" />
@@ -77,7 +77,7 @@
                                                 <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
                                             </Style>
                                         </ContextMenu.ItemContainerStyle>
-                                    </vsi:VsContextMenu>
+                                    </ContextMenu>
                                 </Button.ContextMenu>
                             </Button>
                             
@@ -190,11 +190,11 @@
                                     </DataTemplate>
                                 </FieldMapperGrid:FieldMapperGridControl.ItemTemplates>
                                 <FieldMapperGrid:FieldMapperGridControl.ContextMenu>
-                                    <vsi:VsContextMenu Opened="ContextMenu_Opened">
+                                    <ContextMenu Opened="ContextMenu_Opened">
                                         <MenuItem Header="Choose columns"
                                         Command="{Binding PlacementTarget.Tag.ConfigureColumnsCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <Image Source="/vMerge;component/Resources/SelectColumn_361.png" />
+                                                <Image Source="/Resources/SelectColumn_361.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator />
@@ -202,24 +202,24 @@
                                               Command="{Binding PlacementTarget.Tag.ViewChangesetCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}" 
                                               CommandParameter="{Binding PlacementTarget.SelectedItem,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <Image Source="/vMerge;component/Resources/ViewChangesetDetails_13274.png" />
+                                                <Image Source="/Resources/ViewChangesetDetails_13274.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <MenuItem Header="Track changeset ..." 
                                               Command="{Binding PlacementTarget.Tag.TrackChangesetCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}" 
                                               CommandParameter="{Binding PlacementTarget.SelectedItem,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <Image Source="/vMerge;component/Resources/HierarchyTracking_13282.png" />
+                                                <Image Source="/Resources/HierarchyTracking_13282.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator />
                                         <MenuItem Header="Refresh"
                                               Command="{Binding PlacementTarget.Tag.RefreshCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <Image Source="/vMerge;component/Resources/refresh_16xLG.png" />
+                                                <Image Source="/Resources/refresh_16xLG.png" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                    </vsi:VsContextMenu>
+                                    </ContextMenu>
                                 </FieldMapperGrid:FieldMapperGridControl.ContextMenu>
                             </FieldMapperGrid:FieldMapperGridControl>
                         </LoadingProgress:LoadingProgressControl>

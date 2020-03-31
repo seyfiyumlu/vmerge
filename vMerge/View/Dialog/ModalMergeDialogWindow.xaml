@@ -1,7 +1,7 @@
 ﻿<ui:DialogWindow x:Class="alexbegh.vMerge.View.Dialog.ModalMergeDialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0"
+        xmlns:ui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
         xmlns:view="clr-namespace:alexbegh.vMerge.View"
         Background="{DynamicResource VsBrush.Window}"
         Foreground="{DynamicResource VsBrush.WindowText}"
@@ -9,6 +9,6 @@
     <ui:DialogWindow.Resources>
         <ResourceDictionary Source="..\..\MainResources.xaml" />
     </ui:DialogWindow.Resources>
-    <ui:DialogWindow.Icon>/vMerge;component/Resources/vMerge_small_16.png</ui:DialogWindow.Icon>
+    <ui:DialogWindow.Icon>/Resources/vMerge_small_16.png</ui:DialogWindow.Icon>
     <view:PrepareMergeWindow x:Name="prepareMergeWindow"  Grid.Column="0" Grid.Row="0" />
 </ui:DialogWindow>
