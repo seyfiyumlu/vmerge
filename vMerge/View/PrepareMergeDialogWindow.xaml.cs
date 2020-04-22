@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using alexbegh.Utility.Helpers.Logging;
 
 namespace alexbegh.vMerge.View
 {
@@ -19,23 +20,36 @@ namespace alexbegh.vMerge.View
     {
         public PrepareMergeWindow()
         {
-            InitializeComponent();
-            if (DesignerProperties.GetIsInDesignMode(this))
-                return;
+            try
+            {
+                InitializeComponent();
+                if (DesignerProperties.GetIsInDesignMode(this))
+                    return;
 
-            Loaded += (s, e) =>
+                Loaded += (s, e) =>
                 {
-                    var data = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.PrepareMergeDialogWindowViewSettingsKey);
+                    var data = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings
+                        .PrepareMergeDialogWindowViewSettingsKey);
                     this.DeserializeFromString(data, false);
                     Window.GetWindow(this).Closing += PrepareMergeWindow_Closing;
                     var vm = (DataContext as PrepareMergeViewModel);
-                    vm.SelectNewRowAction = () => Repository.Instance.BackgroundTaskManager.Send(() => { SelectNextRow(); return true; });
+                    vm.SelectNewRowAction = () => Repository.Instance.BackgroundTaskManager.Send(() =>
+                    {
+                        SelectNextRow();
+                        return true;
+                    });
                 };
-            Unloaded += (s,e) =>
+                Unloaded += (s, e) =>
                 {
                     var data = this.SerializeToString();
-                    Repository.Instance.Settings.SetSettings(Constants.Settings.PrepareMergeDialogWindowViewSettingsKey, data);
+                    Repository.Instance.Settings.SetSettings(Constants.Settings.PrepareMergeDialogWindowViewSettingsKey,
+                        data);
                 };
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, false);
+            }
         }
 
         void PrepareMergeWindow_Closing(object sender, EventArgs e)
@@ -46,8 +60,15 @@ namespace alexbegh.vMerge.View
 
         protected override void OnInitialized(EventArgs e)
         {
-            base.OnInitialized(e);
-            FocusManager.SetFocusedElement(this, ChangesetsTableLoader);
+            try
+            {
+                base.OnInitialized(e);
+                FocusManager.SetFocusedElement(this, ChangesetsTableLoader);
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, false);
+            }
         }
 
         private void ChangesetsTable_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -74,45 +95,59 @@ namespace alexbegh.vMerge.View
 
         private void ChangesetsGridLoaded(object sender, RoutedEventArgs e)
         {
-            if (DesignerProperties.GetIsInDesignMode(this))
-                return;
+            try
+            {
+                if (DesignerProperties.GetIsInDesignMode(this))
+                    return;
 
-            ChangesetsGrid = sender as DataGrid;
-            var vm = DataContext as PrepareMergeViewModel;
-            BindToChangesetChanges();
+                ChangesetsGrid = sender as DataGrid;
+                var vm = DataContext as PrepareMergeViewModel;
+                BindToChangesetChanges();
 
-            vm.PropertyChanged +=
-                (o, a) =>
-                {
-                    if (a.PropertyName == "ChangesetList")
+                vm.PropertyChanged +=
+                    (o, a) =>
                     {
-                        BindToChangesetChanges();
-                    }
-                };
+                        if (a.PropertyName == "ChangesetList")
+                        {
+                            BindToChangesetChanges();
+                        }
+                    };
+                    
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, false);
+            }
         }
 
         private void BindToChangesetChanges()
         {
-            var vm = DataContext as PrepareMergeViewModel;
-            if (vm.ChangesetList != null)
-            {
-                foreach (var item in vm.ChangesetList)
+            try { 
+                var vm = DataContext as PrepareMergeViewModel;
+                if (vm.ChangesetList != null)
                 {
-                    item.PropertyChanged +=
-                        (o, a) =>
-                        {
-                            if (a.PropertyName == "TargetCheckinId")
+                    foreach (var item in vm.ChangesetList)
+                    {
+                        item.PropertyChanged +=
+                            (o, a) =>
                             {
-                                Repository.Instance.BackgroundTaskManager.Post(
-                                    () =>
-                                    {
-                                        ChangesetsGrid.ScrollIntoView(o as PrepareMergeViewModel.ChangesetListElement, ChangesetsGrid.Columns.Where(col => col.SortMemberPath == "TargetCheckinId").FirstOrDefault());
-                                        return true;
-                                    }
-                                );
-                            }
-                        };
+                                if (a.PropertyName == "TargetCheckinId")
+                                {
+                                    Repository.Instance.BackgroundTaskManager.Post(
+                                        () =>
+                                        {
+                                            ChangesetsGrid.ScrollIntoView(o as PrepareMergeViewModel.ChangesetListElement, ChangesetsGrid.Columns.Where(col => col.SortMemberPath == "TargetCheckinId").FirstOrDefault());
+                                            return true;
+                                        }
+                                    );
+                                }
+                            };
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, false);
             }
         }
 

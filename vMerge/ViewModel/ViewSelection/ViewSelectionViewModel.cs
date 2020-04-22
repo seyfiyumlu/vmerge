@@ -202,10 +202,38 @@ namespace alexbegh.vMerge.ViewModel.ViewSelection
             get
             {
                 var res = AvailableSourceBranches.GroupBy(branch => branch.BranchName).Select(group => group.First()).Select(b => b.BranchName).ToList();
+                res.Sort(CompareBanchByName);
                 res.Add("*");
                 res.Reverse();
                 return res;
             }            
+        }
+
+        private static int CompareBanchByName(string x, string y)
+        {
+            if (x == null)
+            {
+                if (y == null)
+                {
+                    // If x is null and y is null, they're
+                    // equal. 
+                    return 0;
+                }
+                else
+                {
+                    // If x is null and y is not null, y
+                    // is greater. 
+                    return -1;
+                }
+            }
+
+            if (x.Equals("dev", StringComparison.OrdinalIgnoreCase) && !y.Equals("dev", StringComparison.OrdinalIgnoreCase)) return 1;
+            if (!x.Equals("dev", StringComparison.OrdinalIgnoreCase) && y.Equals("dev", StringComparison.OrdinalIgnoreCase)) return -1;
+            if (x.Equals("current", StringComparison.OrdinalIgnoreCase) && !y.Equals("current", StringComparison.OrdinalIgnoreCase)) return 1;
+            if (!x.Equals("current", StringComparison.OrdinalIgnoreCase) && y.Equals("current", StringComparison.OrdinalIgnoreCase)) return -1;
+            if (x.Equals("release", StringComparison.OrdinalIgnoreCase) && !y.Equals("release", StringComparison.OrdinalIgnoreCase)) return 1;
+            if (!x.Equals("release", StringComparison.OrdinalIgnoreCase) && y.Equals("release", StringComparison.OrdinalIgnoreCase)) return -1;
+            return x.CompareTo(y);
         }
 
         private List<ITfsBranch> _targetBranches;

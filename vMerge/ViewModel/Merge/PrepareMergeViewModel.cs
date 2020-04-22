@@ -261,7 +261,14 @@ namespace alexbegh.vMerge.ViewModel.Merge
         {
             get
             {
-                return Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.CheckInCommentTemplateKey);
+                var res = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.CheckInCommentTemplateKey);
+                if (res == null)
+                {
+                    SimpleLogger.Log(SimpleLogLevel.Error, "Missing Setting for "+ Constants.Settings.CheckInCommentTemplateKey);
+                    return "{SourceComment}\n(vMerge {SourceId} from {SourceBranch})";
+                }
+
+                return res;
             }
             set
             {

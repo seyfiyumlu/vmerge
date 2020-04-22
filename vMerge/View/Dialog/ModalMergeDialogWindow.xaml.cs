@@ -1,10 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Microsoft.VisualStudio.PlatformUI;
 using alexbegh.Utility.Managers.View;
 using alexbegh.Utility.SerializationHelpers;
 using alexbegh.vMerge.Model;
 using alexbegh.vMerge.ViewModel.Merge;
 using System.ComponentModel;
+using alexbegh.Utility.Helpers.Logging;
 
 namespace alexbegh.vMerge.View.Dialog
 {
@@ -16,16 +18,24 @@ namespace alexbegh.vMerge.View.Dialog
     {
         public ModalMergeDialogWindow()
         {
-            InitializeComponent();
-
-            if (DesignerProperties.GetIsInDesignMode(this))
-                return;
-
-            this.Initialized += (o, a) =>
+            try
             {
-                var data = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.ModalMergeDialogWindowSettingsKey);
-                Window.GetWindow(this).DeserializeFromString(data);
-            };
+                InitializeComponent();
+
+                if (DesignerProperties.GetIsInDesignMode(this))
+                    return;
+
+                this.Initialized += (o, a) =>
+                {
+                    var data = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings
+                        .ModalMergeDialogWindowSettingsKey);
+                    Window.GetWindow(this).DeserializeFromString(data);
+                };
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex, true, false);
+            }
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)

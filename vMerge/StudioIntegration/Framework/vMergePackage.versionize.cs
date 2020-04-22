@@ -125,6 +125,7 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
                 _themedControls.Add(control);
                 if (_themeDic == null)
                     SetTheme();
+                if (_themeDic == null) return;
                 if (!control.Resources.MergedDictionaries.Contains(_themeDic))
                     control.Resources.MergedDictionaries.Add(_themeDic);
                 if (!control.Resources.MergedDictionaries.Contains(_baseThemeDic))
@@ -271,9 +272,18 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
                 {
                     SimpleLogger.Log(ex);
                 }
+                
+            }
+            catch (Exception ex)
+            {
+                SimpleLogger.Log(ex);
+            }
+
+            try
+            {
                 SetDefaultSettings();
                 Repository.Instance.ProfileProvider.ReloadFromSettings();
-                Repository.Instance.Settings.SetAutoSave(targetPath, 2000);
+                Repository.Instance.Settings.SetAutoSave(targetPath, 10000);
             }
             catch (Exception ex)
             {
