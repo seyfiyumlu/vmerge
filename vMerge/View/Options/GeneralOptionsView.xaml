@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="300">
+             d:DesignHeight="420" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary Source="..\..\MainResources.xaml" />
     </UserControl.Resources>
@@ -22,7 +22,8 @@
                             </TextBlock.Text>
                         </TextBlock>
                         <TextBlock>
-                            (c) 2017 Alexander Berthold, <Hyperlink Name="qbusLink" NavigateUri="https://github.com/alexbegh/vmerge">(on github)</Hyperlink>
+                            (c) 2017 Alexander Berthold, <Hyperlink Name="qbusLink" NavigateUri="https://github.com/alexbegh/vmerge">(on github)</Hyperlink><LineBreak />
+                            Adapted to VS  2017 by Daniel Wehrle <Hyperlink Name="qbusLink2" NavigateUri="https://github.com/DanielHWe/vmerge">(on github)</Hyperlink> 
                         </TextBlock>
                     </StackPanel>
                 </StackPanel>
