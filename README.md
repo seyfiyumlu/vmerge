@@ -4,17 +4,15 @@ VMerge can be used to Merge Changsets in TFS version control (TFVC), it is optim
 ## this adaption
 
 Original vmerge was created as Visual Studio plugin by Alexander Berthold for VS 2012 and VS 2013.
-
 This is the adaption for Visual Studio 2017.
-
-There is also a other adaption for Visual Studio 2019. [https://github.com/Tralgieba/vmerge](https://github.com/Tralgieba/vmerge)
+There is also a other adaption for Visual Studio 2019.
 
 # usage
 you should find the tool in the Tool toolbar of visual studio after install the plugin.
 
-Tools / vMerge / "Show Changeset view" - is the best point to get started. Here you can select the Branches you want to merge, and then select the changesets you want to merge. Before a merge is done a dialog is shown were you can decide how to merge.
+Tools / vMerge / Show Changeset view is the best point to get started. Here you can select the Branches you want to merge, and then select the changesets you want to merge. Before a merge is done a dialog is shown were you can decide how to merge.
 
-![How to use vMerge Changeset View](https://raw.githubusercontent.com/DanielHWe/vmerge/master/vMerge.png)
+
 
 # error reporting
 The plugin logs to folder C:\ProgramData\vMerge2017, feel free to create issus on this project.

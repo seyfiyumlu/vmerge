@@ -72,24 +72,32 @@ namespace alexbegh.vMerge.Model.Implementation
 
     public class TfsQuery : ITfsQuery
     {
+        [Obsolete]
         internal TfsQuery(WorkItemStore workItemStore, Project p)
         {
             _workItemStore = workItemStore;
             _project = p;
         }
 
+        [Obsolete]
         private WorkItemStore _workItemStore;
+
+        [Obsolete]
         public WorkItemStore WorkItemStore
         {
             get { return _workItemStore; }
         }
 
+        [Obsolete]
         private Project _project;
+
+        [Obsolete]
         public Project Project
         {
             get { return _project; }
         }
 
+        [Obsolete]
         public QueryDefinition QueryDefinition
         {
             get;
@@ -129,6 +137,7 @@ namespace alexbegh.vMerge.Model.Implementation
             set;
         }
 
+        [Obsolete]
         public IEnumerable<ITfsWorkItem> GetResults()
         {
             var variables = new Dictionary<string, string>();

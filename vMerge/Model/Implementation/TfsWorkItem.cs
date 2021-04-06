@@ -10,6 +10,7 @@ namespace alexbegh.vMerge.Model.Implementation
 {
     class TfsWorkItem : ITfsWorkItem
     {
+        [Obsolete]
         public WorkItem WorkItem
         {
             get;
@@ -99,6 +100,7 @@ namespace alexbegh.vMerge.Model.Implementation
                     yield return change;
         }
 
+        [Obsolete]
         internal TfsWorkItem(WorkItem source)
         {
             WorkItem = source;

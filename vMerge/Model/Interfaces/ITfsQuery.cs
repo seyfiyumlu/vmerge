@@ -20,6 +20,7 @@ namespace alexbegh.vMerge.Model.Interfaces
 
     public interface ITfsQuery : ITfsQueryItem
     {
+        [Obsolete]
         QueryDefinition QueryDefinition { get; }
         IEnumerable<ITfsWorkItem> GetResults();
     }

@@ -16,7 +16,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Linq;
-using Microsoft.TeamFoundation.Client;
+
 
 namespace alexbegh.vMerge.StudioIntegration.Framework
 {
@@ -39,12 +39,13 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
             Dte = dte;
         }
 
+        [Obsolete]
         public void ShowWorkItem(int id)
         {
             try
             {
                 DocumentService doc = Dte.GetObject("Microsoft.VisualStudio.TeamFoundation.WorkItemTracking.DocumentService") as DocumentService;
-                TfsTeamProjectCollection col = (TfsTeamProjectCollection)Repository.Instance.TfsBridgeProvider.TfsTeamProjectCollection;
+                Microsoft.TeamFoundation.Client.TfsTeamProjectCollection col = (Microsoft.TeamFoundation.Client.TfsTeamProjectCollection)Repository.Instance.TfsBridgeProvider.TfsTeamProjectCollection;
                 IWorkItemDocument wiDoc = doc.GetWorkItem(col, id, this);
 
                 

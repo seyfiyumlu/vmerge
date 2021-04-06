@@ -1,9 +1,7 @@
 ﻿using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TeamFoundation;
 using alexbegh.Utility.Commands;
-using alexbegh.Utility.Managers.View;
 using alexbegh.vMerge.Model;
 using alexbegh.vMerge.Model.Interfaces;
 using alexbegh.vMerge.StudioIntegration.Options;

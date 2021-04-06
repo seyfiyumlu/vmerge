@@ -9,6 +9,7 @@ namespace alexbegh.vMerge.Model.Interfaces
 {
     public interface ITfsWorkItem
     {
+        [Obsolete]
         WorkItem WorkItem
         {
             get;

@@ -72,7 +72,10 @@ namespace alexbegh.vMerge.Model.Implementation
         /// <summary>
         /// WorkItemStore
         /// </summary>
+        [Obsolete]
         private volatile WorkItemStore _tfsWorkItemStore;
+
+        [Obsolete]
         public WorkItemStore TfsWorkItemStore
         {
             get
@@ -863,6 +866,7 @@ namespace alexbegh.vMerge.Model.Implementation
         /// <param name="q">The current queryfolder</param>
         /// <param name="qi">The internal wrapper for the current queryfolder</param>
         /// <param name="level">The recursion depth</param>
+        [Obsolete]
         private void ProcessQueryHierarchy(Project project, QueryFolder q, TfsQueryFolder qi, int level)
         {
             foreach (QueryItem item in q)
@@ -898,6 +902,7 @@ namespace alexbegh.vMerge.Model.Implementation
         /// Entry point method for fetching all queries for a given project (the active one)
         /// </summary>
         /// <returns>The root query folder for the active project</returns>
+        [Obsolete]
         private ITfsQueryFolder GetAllQueries()
         {
             try

@@ -8,7 +8,6 @@ using alexbegh.vMerge.Model;
 using vMergeUnitTests2;
 using System;
 using System.Linq;
-using DevExpress.Entity.Model;
 
 namespace vMergeUnitTest
 {

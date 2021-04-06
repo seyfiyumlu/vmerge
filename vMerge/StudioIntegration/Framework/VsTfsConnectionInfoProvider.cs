@@ -25,8 +25,8 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
                 }
                 else
                 {
-                    Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt tfse =
-                        obj as Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt;
+                    TeamFoundationServerExt tfse =
+                        obj as TeamFoundationServerExt;
                     if (tfse != null)
                     {
                         tfse.ProjectContextChanged += VsTfsProjectContextChanged;
@@ -39,7 +39,7 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
                             obj.GetType().AssemblyQualifiedName);
                         try
                         {
-                            ((Microsoft.VisualStudio.TeamFoundation.TeamFoundationServerExt)obj)
+                            ((TeamFoundationServerExt)obj)
                                 .ProjectContextChanged += VsTfsProjectContextChanged;
                         }
                         catch (Exception ex)
