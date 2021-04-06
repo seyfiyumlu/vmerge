@@ -228,10 +228,10 @@ namespace alexbegh.vMerge.Model.Implementation
 
             string path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "vMerge" + name + ".qvmset");
+                "vMerge" , name + ".qvmset");
             string pathBak = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "vMerge" +  name + ".bak.qvmset");
+                "vMerge" ,  name + ".bak.qvmset");
 
             lock (Lock)
             {

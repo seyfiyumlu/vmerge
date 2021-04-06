@@ -174,7 +174,8 @@ namespace alexbegh.vMerge.ViewModel.Options
                 PickTempWorkspaceBasePath = new RelayCommand((o) => PickTempWorkspacePath());
                 OpenLogFileFolderCommand = new RelayCommand((o) => OpenLogFileFolder());
                 //AvailableThemes = new List<string>(MahApps.Metro.ThemeManager.Accents.Select(accent => accent.Name).OrderBy(item => item));
-                //AvailableThemes.Insert(0, "<Choose automatically>");
+                AvailableThemes = new List<string>();
+                AvailableThemes.Insert(0, "<Choose automatically>");
                 SelectedTheme = Repository.Instance.Settings.FetchSettings<string>(Constants.Settings.SelectedThemeKey) ?? "<Choose automatically>";
                 Finished += (o, a) => StoreToRepository();
                 vMerge.StudioIntegration.Framework.vMergePackage.MergeToolWindowVisibilityChanged += (o, a) => UpdatePerformNonModalMergeChangeable();

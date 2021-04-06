@@ -24,7 +24,8 @@ namespace vMergeUnitTests2
         [TestCleanup]
         public void TearDown()
         {
-            File.Delete(_file);
+            if (!string.IsNullOrEmpty(_file))
+                File.Delete(_file);
         }
 
         [TestMethod]

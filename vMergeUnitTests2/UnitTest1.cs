@@ -32,6 +32,7 @@ namespace vMergeUnitTest
         public void TearDown()
         {
             File.Delete(_file);
+
         }
 
 
@@ -67,12 +68,12 @@ namespace vMergeUnitTest
         //}
 
 
-        
+
 
         [TestMethod]
         public void TestSaveProfile()
-        {           
-            var test = Repository.Instance.Settings;            
+        {
+            var test = Repository.Instance.Settings;
 
             Assert.IsTrue(Repository.Instance.ProfileProvider.SaveProfileAs(new System.Uri(_testUri), _profileName, false));
             AssertProfileIsInSettings(_profileName, _testUri);
@@ -90,8 +91,8 @@ namespace vMergeUnitTest
         [TestMethod]
         public void TestSaveProfileWhileProfilesInDict()
         {
-            
-            
+
+
             var test = Repository.Instance.Settings;
             var testDict = new SerializableDictionary<string, object>();
             var profiles = new SerializableDictionary<string, SerializableDictionary<string, ProfileSettings>>();

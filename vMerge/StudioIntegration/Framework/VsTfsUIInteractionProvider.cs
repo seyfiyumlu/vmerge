@@ -157,8 +157,10 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
             try
             {
                 _attachedFrames.Clear();
-                string pathToTools = Environment.GetEnvironmentVariable("VS120COMNTOOLS");
-                string pathToTF = Path.GetFullPath(Path.Combine(pathToTools, "..\\IDE\\TF.exe"));
+                string pathToTools = Environment.GetEnvironmentVariable("VSAPPIDDIR");
+                if (String.IsNullOrEmpty(pathToTools)) throw new Exception("tf.exe not found");
+                string pathToTF = Path.GetFullPath(Path.Combine(pathToTools, "..\\IDE\\CommonExtensions\\Microsoft\\TeamFoundation\\Team Explorer\\TF.exe"));
+
 
                 ProcessStartInfo psi = new ProcessStartInfo();
                 psi.WorkingDirectory = rootPath;
@@ -224,12 +226,9 @@ namespace alexbegh.vMerge.StudioIntegration.Framework
             try
             {
                 _attachedFrames.Clear();
-                string pathToTools = Environment.GetEnvironmentVariable("VS140COMNTOOLS");
-                if (String.IsNullOrEmpty(pathToTools)) pathToTools = Environment.GetEnvironmentVariable("VS150COMNTOOLS");
-                if (String.IsNullOrEmpty(pathToTools)) pathToTools = Environment.GetEnvironmentVariable("VS130COMNTOOLS");
-                if (String.IsNullOrEmpty(pathToTools)) pathToTools = Environment.GetEnvironmentVariable("VS100COMNTOOLS");
-                if (String.IsNullOrEmpty(pathToTools)) throw new Exception("VS1X0COMNTOOLS not found");
-                string pathToTF = Path.GetFullPath(Path.Combine(pathToTools, "..\\IDE\\TF.exe"));
+                string pathToTools = Environment.GetEnvironmentVariable("VSAPPIDDIR");
+                if (String.IsNullOrEmpty(pathToTools)) throw new Exception("tf.exe not found");
+                string pathToTF = Path.GetFullPath(Path.Combine(pathToTools, "..\\IDE\\CommonExtensions\\Microsoft\\TeamFoundation\\Team Explorer\\TF.exe"));
 
                 ProcessStartInfo psi = new ProcessStartInfo();
                 psi.WorkingDirectory = rootPath;
